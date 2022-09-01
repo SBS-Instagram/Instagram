@@ -47,6 +47,7 @@ function App() {
       // {
       //   a = 5 ? console.log("a=5입니다") : console.log("a=5가 아닙니다.");
       // }
+      // auto_increment 하는 유저 번호가 필요할까??
       setLogined(data.data.authenticated);
       onLoginToggle();
       console.log(logined);
@@ -118,6 +119,7 @@ function App() {
 }
 
 export default App;
+
 // Git 작업순서
 // 1.git init (git 폴더생성. 초기화?)
 // 2.git remote -v  -> https://github.com/byunghoonyoon/???  아마 다르게 나올거임.
