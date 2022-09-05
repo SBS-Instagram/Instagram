@@ -27,7 +27,6 @@ const Image = ({ images, setImages, logined, setLogined, user }) => {
       .post("http://localhost:3002/upload", formData)
       .then((res) => {
         const { fileName } = res.data;
-
         setUploadedImg({ fileName });
         alert("The file is successfully uploaded");
       })

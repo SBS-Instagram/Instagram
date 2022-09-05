@@ -78,21 +78,23 @@ function LoginedProfile({ logined, setLogined, user }) {
         )}
         <div className="flex justify-center items-center w-1/3 ">
           <div className="avatar">
-            <div className="w-40 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+            <div className="w-40 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 img-box">
               <button
                 className="addImage"
                 onClick={() => {
                   onImageToggle();
                 }}
               >
-                <img
-                  src={
-                    user.imgSrc != null
-                      ? user.imgSrc
-                      : "https://i.picsum.photos/id/1043/5184/3456.jpg?hmac=wsz2e0aFKEI0ij7mauIr2nFz2pzC8xNlgDHWHYi9qbc"
-                  }
-                  alt=""
-                />
+                <a href="#">
+                  <img
+                    src={
+                      user.imgSrc != null
+                        ? user.imgSrc
+                        : "https://i.picsum.photos/id/1043/5184/3456.jpg?hmac=wsz2e0aFKEI0ij7mauIr2nFz2pzC8xNlgDHWHYi9qbc"
+                    }
+                    alt=""
+                  />
+                </a>
               </button>
             </div>
           </div>
