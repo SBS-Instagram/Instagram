@@ -1,6 +1,23 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/LoginedHead.css";
-const Head = ({ setLoginToggle, onLoginToggle, logined, setLogined }) => {
+import {
+  FaRegComment,
+  FaSearch,
+  FaHome,
+  FaUserAlt,
+  FaPlusSquare,
+} from "react-icons/fa";
+const UnLoginedHead = ({
+  setLoginToggle,
+  onLoginToggle,
+  logined,
+  setLogined,
+  onSearch,
+}) => {
+  const [searchValue, setSearchValue] = useState("");
+  const onSearchChange = (e) => {
+    setSearchValue(e.targete.value);
+  };
   return (
     <div className="Topbar">
       <div className="navbar bg-base-100 Topbar_logo">
@@ -12,11 +29,27 @@ const Head = ({ setLoginToggle, onLoginToggle, logined, setLogined }) => {
             instargram
           </a>
         </div>
-        <div className="flex-none gap-2">
-          <a href="#">HOME</a>
-
-          <a href="#">ADD</a>
-
+        <div className="flex-none gap-5">
+          <div className="search">
+            <input
+              type="text"
+              placeholder="검색"
+              onChange={onSearchChange}
+              value={searchValue}
+              onSubmit={() => {
+                onSearch(searchValue);
+              }}
+            />
+            <button>
+              <img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png"></img>
+            </button>
+          </div>
+          <a href="#">
+            <FaHome style={{ fontSize: "25px" }} />
+          </a>
+          <a href="#">
+            <FaPlusSquare style={{ fontSize: "25px" }} />
+          </a>
           <button
             onClick={() => {
               onLoginToggle();
@@ -24,13 +57,6 @@ const Head = ({ setLoginToggle, onLoginToggle, logined, setLogined }) => {
           >
             <a href="#">Login</a>
           </button>
-          <div className="form-control">
-            <input
-              type="text"
-              placeholder="검색"
-              className="input input-bordered"
-            />
-          </div>
           <div className="dropdown dropdown-end">
             <label tabIndex="0" className="btn btn-ghost btn-circle avatar">
               <div className="w-10 rounded-full">
@@ -67,4 +93,4 @@ const Head = ({ setLoginToggle, onLoginToggle, logined, setLogined }) => {
   );
 };
 
-export default Head;
+export default UnLoginedHead;

@@ -57,6 +57,8 @@ function App() {
   };
   //https://velog.io/@jjhstoday/AWS-EC2%EC%97%90-React-Node.js-%EC%95%B1-%EB%B0%B0%ED%8F%AC%ED%95%98%EA%B8%B0-1-AWS-EC2-instance-%EC%83%9D%EC%84%B1
   // AWS React 연결 블로그
+
+  const onSearch = async (searchValue) => {};
   return (
     <div>
       {logined ? (
@@ -74,6 +76,7 @@ function App() {
                   logined={logined}
                   setLogined={setLogined}
                   user={user}
+                  onSearch={onSearch}
                 />
               }
             />
@@ -101,6 +104,7 @@ function App() {
                   onLogin={onLogin}
                   logined={logined}
                   setLogined={setLogined}
+                  onSearch={onSearch}
                 />
               }
             />
@@ -137,3 +141,11 @@ export default App;
 // 10. git push origin master
 // https://wiken.io/b/8222/9066 상세하게 나와있음.
 // 네명이서 작업을 같이 하며 병합,다운,업로드 할때 에러가 날수도 있음.
+
+// 09.05 img_table 수정. (테이블삭제 후 밑 쿼리로 다시 생성하세요)
+// CREATE TABLE img_table (
+//   id VARCHAR(100) PRIMARY KEY,
+//   imgSrc VARCHAR(255),
+//   imgLike INT DEFAULT 0,
+//   imgReply INT DEFAULT 0
+//   );

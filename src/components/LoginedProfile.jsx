@@ -3,7 +3,7 @@ import "../styles/Loginedprofile.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
-function Profile({ logined, setLogined, user }) {
+function LoginedProfile({ logined, setLogined, user }) {
   return (
     <div
       className="flex-col flex  h-128 Profi
@@ -129,4 +129,4 @@ function Profile({ logined, setLogined, user }) {
   );
 }
 
-export default Profile;
+export default LoginedProfile;

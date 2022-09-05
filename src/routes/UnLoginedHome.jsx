@@ -12,13 +12,14 @@ import LoginedProfile from "../components/LoginedProfile";
 import UnLoginedProfile from "../components/UnLoginedProfile";
 import Layout from "../layouts/Layout";
 
-const Home = ({
+const UnLoginedHome = ({
   onLoginToggle,
   setLoginToggle,
   loginToggle,
   onLogin,
   logined,
   setLogined,
+  onSearch,
 }) => {
   return (
     <div>
@@ -27,6 +28,7 @@ const Home = ({
         setLoginToggle={setLoginToggle}
         logined={logined}
         setLogined={setLogined}
+        onSearch={onSearch}
       />
       <Layout>
         <UnLoginedProfile logined={logined} setLogined={setLogined} />
@@ -46,4 +48,4 @@ const Home = ({
   );
 };
 
-export default Home;
+export default UnLoginedHome;
