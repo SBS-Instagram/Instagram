@@ -1,0 +1,110 @@
+@font-face {
+  font-family: "GangwonEdu_OTFBoldA";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/GangwonEdu_OTFBoldA.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+.Login * {
+  font-family: "GangwonEdu_OTFBoldA";
+}
+body {
+  display: block;
+  background: ghostwhite;
+  height: 100vh;
+}
+@media (min-width: 700px) {
+  .Login {
+    left: 35%;
+    top: 20%;
+    position: absolute;
+    background-color: white;
+    width: 400px;
+    height: 450px;
+    margin: 0 auto;
+    border: 1px rgb(196, 196, 196) solid;
+    z-index: 998;
+  }
+}
+@media (min-width: 1200px) {
+  .Login {
+    left: 40%;
+    top: 20%;
+    position: absolute;
+    background-color: white;
+    width: 400px;
+    height: 450px;
+    margin: 0 auto;
+    border: 1px rgb(196, 196, 196) solid;
+    z-index: 998;
+  }
+}
+@media (max-width: 900px) {
+  .Login {
+    left: 30%;
+    top: 20%;
+    position: absolute;
+    background-color: white;
+    width: 400px;
+    height: 450px;
+    margin: 0 auto;
+    border: 1px rgb(196, 196, 196) solid;
+    z-index: 998;
+  }
+}
+.loginCloseBtn {
+  top: 1%;
+  right: 2%;
+  font-size: 2rem;
+  color: rgb(201, 201, 201);
+  position: inherit;
+}
+.Logo {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  width: 200px;
+}
+.input1 {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  width: 280px;
+  justify-content: center;
+  flex-direction: column;
+}
+.input1 > input {
+  text-align: center;
+  outline: none;
+  border: 1px rgb(196, 196, 196) solid;
+  padding: 4px;
+}
+.LoginButton {
+  background-color: rgba(30, 168, 228, 0.5);
+  margin-bottom: 6px;
+  width: 280px;
+  color: white;
+  padding: 4px;
+}
+div .UserButton {
+  width: 280px;
+  background-color: rgba(30, 168, 228, 0.5);
+  color: white;
+  padding: 4px;
+}
+
+.Button {
+  position: absolute;
+  top: 70%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  width: 280px;
+  justify-content: center;
+  flex-direction: column;
+}
