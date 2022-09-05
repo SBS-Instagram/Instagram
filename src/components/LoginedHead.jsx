@@ -7,6 +7,7 @@ import {
   FaUserAlt,
   FaPlusSquare,
 } from "react-icons/fa";
+import axios from "axios";
 const LoginedHead = ({
   setLoginToggle,
   onLoginToggle,
@@ -16,9 +17,11 @@ const LoginedHead = ({
   user,
 }) => {
   const [searchValue, setSearchValue] = useState("");
+
   const onSearchChange = (e) => {
     setSearchValue(e.targete.value);
   };
+
   return (
     <div className="Topbar">
       <div className="navbar bg-base-100 Topbar_logo">
@@ -91,7 +94,7 @@ const LoginedHead = ({
                 <a>설정</a>
               </li>
               <li>
-                <a>계정변환</a>
+                <a>계정 변환</a>
               </li>
             </ul>
           </div>

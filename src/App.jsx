@@ -22,6 +22,7 @@ function App() {
   const [loginToggle, setLoginToggle] = useState(false);
   const [error, setError] = useState(null);
   const [user, setUser] = useState("");
+
   const onLoginToggle = () => {
     setLoginToggle(!loginToggle);
   };
@@ -59,6 +60,7 @@ function App() {
   // AWS React 연결 블로그
 
   const onSearch = async (searchValue) => {};
+
   return (
     <div>
       {logined ? (

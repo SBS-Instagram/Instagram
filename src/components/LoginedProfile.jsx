@@ -1,23 +1,99 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "../styles/Loginedprofile.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { useRecoilBridgeAcrossReactRoots_UNSTABLE } from "recoil";
 
 function LoginedProfile({ logined, setLogined, user }) {
+  const [content, setContent] = useState("");
+  const [imageToggle, setImageToggle] = useState(false);
+  const [uploadedImg, setUploadedImg] = useState({
+    fileName: "",
+    fillPath: "",
+  });
+
+  // ALTER TABLE insta ADD COLUMN imgSrc VARCHAR(255);
+  // 위 쿼리는 insta 테이블, 하단 쿼리는 img_table 테이블.
+  // CREATE TABLE img_table (
+  //   id VARCHAR(100) PRIMARY KEY,
+  //   imgSrc VARCHAR(255),
+  //   imgLike INT DEFAULT 0,
+  //   imgReply INT DEFAULT 0
+  //   );
+  const onImageToggle = () => {
+    setImageToggle(!imageToggle);
+  };
+  const fileAdd = () => {
+    let file = document.getElementById("fileAdd");
+    file.click();
+  };
+
+  const onChange = (e) => {
+    setContent(e.target.files[0]);
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("img", content);
+    const userid = user.userid;
+
+    axios
+      .post(`http://localhost:3002/upload/${userid}`, formData)
+      .then((res) => {
+        const { fileName } = res.data;
+        setUploadedImg({ fileName });
+
+        alert("The file is successfully uploaded");
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
   return (
-    <div
-      className="flex-col flex  h-128 Profi
-    
-    les"
-    >
+    <div className="flex-col flex  h-128 Profiles relative">
       <div className="flex h-3/5 ">
+        {imageToggle && (
+          <form
+            onSubmit={onSubmit}
+            style={{
+              display: "inline-block",
+              position: "absolute",
+              top: "-7%",
+            }}
+          >
+            <div id="uploadDiv">
+              <input
+                id="fileAdd"
+                type="file"
+                onChange={onChange}
+                style={{
+                  cursor: "pointer",
+                }}
+              />
+            </div>
+            <input type="submit" value="Upload" className="btn" />
+          </form>
+        )}
         <div className="flex justify-center items-center w-1/3 ">
           <div className="avatar">
             <div className="w-40 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-              <img
-                src="https://i.picsum.photos/id/10/2500/1667.jpg?hmac=J04WWC_ebchx3WwzbM-Z4_KC_LeLBWr5LZMaAkWkF68"
-                alt=""
-              />
+              <button
+                className="addImage"
+                onClick={() => {
+                  onImageToggle();
+                }}
+              >
+                <img
+                  src={
+                    user.imgSrc != null
+                      ? user.imgSrc
+                      : "https://i.picsum.photos/id/1043/5184/3456.jpg?hmac=wsz2e0aFKEI0ij7mauIr2nFz2pzC8xNlgDHWHYi9qbc"
+                  }
+                  alt=""
+                />
+              </button>
             </div>
           </div>
         </div>

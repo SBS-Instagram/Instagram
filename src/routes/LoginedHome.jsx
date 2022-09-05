@@ -19,6 +19,7 @@ const LoginedHome = ({
   setLogined,
   user,
   onSearch,
+  
 }) => {
   return (
     <div>
@@ -29,6 +30,7 @@ const LoginedHome = ({
         setLogined={setLogined}
         user={user}
         onSearch={onSearch}
+    
       />
       <Layout>
         <LoginedProfile logined={logined} setLogined={setLogined} user={user} />
