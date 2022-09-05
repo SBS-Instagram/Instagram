@@ -9,7 +9,7 @@ const Head = ({ setLoginToggle, onLoginToggle, logined, setLogined }) => {
             href="http://localhost:3000/"
             className="btn btn-ghost normal-case text-xl"
           >
-            instargram
+            instagram
           </a>
         </div>
         <div className="flex-none gap-2">

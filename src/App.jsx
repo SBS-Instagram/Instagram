@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import About from "./routes/About";
 import LoginedHome from "./routes/LoginedHome";
 import UnLoginedHome from "./routes/UnLoginedHome";
+// 기존 Home 에서 로그인 / 비로그인구별함. 3,4번째줄.
 import Join from "./routes/Join";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Grid from "./components/Grid";
@@ -9,13 +10,12 @@ import Image from "./components/Image";
 import axios from "axios";
 import Login from "./components/Login";
 import LoginedHead from "./components/LoginedHead";
-
 import Profile from "./components/Profile";
 import Layout from "./layouts/Layout";
 import "./App.css";
 import { useRecoilState } from "recoil";
 import { authenticatedState } from "./recoil/auth";
-// 14,15번쨰 줄 두개 추가할것. (로그인 정보를 전역으로 공유하기위함)
+
 function App() {
   const [logined, setLogined] = useRecoilState(authenticatedState);
   const [loginToggle, setLoginToggle] = useState(false);
