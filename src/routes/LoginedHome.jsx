@@ -7,7 +7,7 @@ import Image from "../components/Image";
 import axios from "axios";
 import Login from "../components/Login";
 import LoginedHead from "../components/LoginedHead";
-import Profile from "../components/Profile";
+import LoginedProfile from "../components/LoginedProfile";
 import Layout from "../layouts/Layout";
 
 const Home = ({
@@ -17,6 +17,7 @@ const Home = ({
   onLogin,
   logined,
   setLogined,
+  user,
 }) => {
   return (
     <div>
@@ -25,9 +26,10 @@ const Home = ({
         setLoginToggle={setLoginToggle}
         logined={logined}
         setLogined={setLogined}
+        user={user}
       />
       <Layout>
-        <Profile logined={logined} setLogined={setLogined} />
+        <LoginedProfile logined={logined} setLogined={setLogined} user={user} />
       </Layout>
       {loginToggle && (
         <Login
@@ -38,8 +40,8 @@ const Home = ({
           setLogined={setLogined}
         />
       )}
-      <Image logined={logined} setLogined={setLogined} />
-      <Grid logined={logined} setLogined={setLogined} />
+      <Image logined={logined} setLogined={setLogined} user={user} />
+      <Grid logined={logined} setLogined={setLogined} user={user} />
     </div>
   );
 };

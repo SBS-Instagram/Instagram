@@ -10,7 +10,8 @@ import Image from "./components/Image";
 import axios from "axios";
 import Login from "./components/Login";
 import LoginedHead from "./components/LoginedHead";
-import Profile from "./components/Profile";
+import LoginedProfile from "./components/LoginedProfile";
+import UnLoginedProfile from "./components/UnLoginedProfile";
 import Layout from "./layouts/Layout";
 import "./App.css";
 import { useRecoilState } from "recoil";
@@ -20,7 +21,7 @@ function App() {
   const [logined, setLogined] = useRecoilState(authenticatedState);
   const [loginToggle, setLoginToggle] = useState(false);
   const [error, setError] = useState(null);
-
+  const [user, setUser] = useState("");
   const onLoginToggle = () => {
     setLoginToggle(!loginToggle);
   };
@@ -33,7 +34,6 @@ function App() {
         userid: IdValue,
         password: passWordValue,
       });
-      // setUsers(data.data);
     } catch (e) {
       setError(e);
     }
@@ -45,14 +45,12 @@ function App() {
         userid: idValue,
         password: passwordValue,
       });
-      // let a = 5;
-      // {
-      //   a = 5 ? console.log("a=5입니다") : console.log("a=5가 아닙니다.");
-      // }
-      // auto_increment 하는 유저 번호가 필요할까??
+
       setLogined(data.data.authenticated);
       onLoginToggle();
-      console.log(logined);
+      setUser(data.data.user);
+      // console.log("data.data:", data.data.user);
+      // console.log("user : ", user);
     } catch (e) {
       setError(e);
     }
@@ -75,6 +73,7 @@ function App() {
                   onLogin={onLogin}
                   logined={logined}
                   setLogined={setLogined}
+                  user={user}
                 />
               }
             />

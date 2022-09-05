@@ -3,7 +3,7 @@ import axios from "axios";
 
 const BASE_URL = "http://localhost:3002";
 
-const Image = ({ images, setImages, logined, setLogined }) => {
+const Image = ({ images, setImages, logined, setLogined, user }) => {
   const [content, setContent] = useState("");
   const [uploadedImg, setUploadedImg] = useState({
     fileName: "",

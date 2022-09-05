@@ -8,7 +8,8 @@ import axios from "axios";
 import Login from "../components/Login";
 import LoginedHead from "../components/LoginedHead";
 import UnLoginedHead from "../components/UnLoginedHead";
-import Profile from "../components/Profile";
+import LoginedProfile from "../components/LoginedProfile";
+import UnLoginedProfile from "../components/UnLoginedProfile";
 import Layout from "../layouts/Layout";
 
 const Home = ({
@@ -28,7 +29,7 @@ const Home = ({
         setLogined={setLogined}
       />
       <Layout>
-        <Profile logined={logined} setLogined={setLogined} />
+        <UnLoginedProfile logined={logined} setLogined={setLogined} />
       </Layout>
       {loginToggle && (
         <Login

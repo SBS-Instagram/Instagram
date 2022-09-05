@@ -1,11 +1,15 @@
 import React from "react";
-import "../styles/profile.css";
+import "../styles/Loginedprofile.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
-function Profile({ logined, setLogined }) {
+function Profile({ logined, setLogined, user }) {
   return (
-    <div className="flex-col flex  h-128 Profiles">
+    <div
+      className="flex-col flex  h-128 Profi
+    
+    les"
+    >
       <div className="flex h-3/5 ">
         <div className="flex justify-center items-center w-1/3 ">
           <div className="avatar">
@@ -19,7 +23,9 @@ function Profile({ logined, setLogined }) {
         </div>
         <div className="w-2/3 ">
           <div className="flex justify-end items-center h-2/5">
-            <div className="text-2xl font-light mr-auto mt-2">SBS0712</div>
+            <div className="text-2xl font-light mr-auto mt-2">
+              {user.username}님
+            </div>
             <button className="rounded-md border-gray-400 bg-white text-black hover:bg-white text-black hover:rounded-md hover:border-gray-400 btn btn-sm mt-2 mr-4">
               메시지 보내기
             </button>
