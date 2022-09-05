@@ -1,0 +1,28 @@
+@font-face {
+  font-family: "EarlyFontDiary";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_220508@1.0/EarlyFontDiary.woff2")
+    format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+.Topbar * {
+  font-family: "EarlyFontDiary";
+}
+.dropdown a {
+  font-size: 1.1rem;
+}
+.Topbar {
+  border-bottom: 1.5px rgb(209, 209, 209) solid;
+  background: white;
+  position: sticky;
+  top: 0%;
+  z-index: 9999;
+}
+
+.Topbar_logo {
+  max-width: 975px;
+  margin: 0 auto;
+}
+a {
+  font-weight: bolder;
+}
