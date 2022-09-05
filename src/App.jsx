@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import About from "./routes/About";
-import Home from "./routes/Home";
+import LoginedHome from "./routes/LoginedHome";
+import UnLoginedHome from "./routes/UnLoginedHome";
 import Join from "./routes/Join";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Grid from "./components/Grid";
 import Image from "./components/Image";
 import axios from "axios";
 import Login from "./components/Login";
-import Head from "./components/Head";
+import LoginedHead from "./components/LoginedHead";
+
 import Profile from "./components/Profile";
 import Layout from "./layouts/Layout";
 import "./App.css";
@@ -66,7 +68,7 @@ function App() {
             <Route
               path="/"
               element={
-                <Home
+                <LoginedHome
                   onLoginToggle={onLoginToggle}
                   setLoginToggle={setLoginToggle}
                   loginToggle={loginToggle}
@@ -93,7 +95,7 @@ function App() {
             <Route
               path="/"
               element={
-                <Home
+                <UnLoginedHome
                   onLoginToggle={onLoginToggle}
                   setLoginToggle={setLoginToggle}
                   loginToggle={loginToggle}

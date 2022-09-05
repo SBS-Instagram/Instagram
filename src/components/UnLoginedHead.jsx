@@ -1,5 +1,5 @@
 import React from "react";
-import "../styles/Head.css";
+import "../styles/LoginedHead.css";
 const Head = ({ setLoginToggle, onLoginToggle, logined, setLogined }) => {
   return (
     <div className="Topbar">
@@ -14,12 +14,9 @@ const Head = ({ setLoginToggle, onLoginToggle, logined, setLogined }) => {
         </div>
         <div className="flex-none gap-2">
           <a href="#">HOME</a>
-          <a href="#">DM</a>
+
           <a href="#">ADD</a>
-          <button>
-            <a href="#">SEARCH</a>
-          </button>
-          {/* onClick={()=>{serch()}} */}
+
           <button
             onClick={() => {
               onLoginToggle();

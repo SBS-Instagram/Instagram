@@ -6,7 +6,7 @@ import Grid from "../components/Grid";
 import Image from "../components/Image";
 import axios from "axios";
 import Login from "../components/Login";
-import Head from "../components/Head";
+import LoginedHead from "../components/LoginedHead";
 import Profile from "../components/Profile";
 import Layout from "../layouts/Layout";
 
@@ -20,7 +20,7 @@ const Home = ({
 }) => {
   return (
     <div>
-      <Head
+      <LoginedHead
         onLoginToggle={onLoginToggle}
         setLoginToggle={setLoginToggle}
         logined={logined}
