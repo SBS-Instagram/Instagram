@@ -23,8 +23,9 @@ const Image = ({ images, setImages, logined, setLogined, user }) => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("img", content);
+    const userid = user.userid;
     axios
-      .post("http://localhost:3002/upload", formData)
+      .post(`http://localhost:3002/upload/${userid}`, formData)
       .then((res) => {
         const { fileName } = res.data;
         setUploadedImg({ fileName });

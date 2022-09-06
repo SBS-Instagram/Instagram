@@ -9,7 +9,7 @@ function LoginedProfile({ logined, setLogined, user }) {
   const [content, setContent] = useState("");
   const [imageToggle, setImageToggle] = useState(false);
   const [profileImageToggle, setProfileImageToggle] = useState(false);
-  const [imgSrc, setImgSrc] = useState("");
+  const [imgSrc, setImgSrc] = useState(user.imgSrc);
   const [uploadedImg, setUploadedImg] = useState({
     fileName: "",
     fillPath: "",
@@ -55,14 +55,12 @@ function LoginedProfile({ logined, setLogined, user }) {
     const formData = new FormData();
     formData.append("img", content);
     const userid = user.userid;
-
     axios
       .post(`http://localhost:3002/upload/${userid}`, formData)
       .then((res) => {
         const { fileName } = res.data;
         setUploadedImg({ fileName });
         onProfileToggle();
-
         //수정은 되나 초기 로그인 사진이 이상함.
       })
       .catch((err) => {
@@ -86,6 +84,7 @@ function LoginedProfile({ logined, setLogined, user }) {
                 id="fileAdd"
                 type="file"
                 onChange={(e) => {
+                  onChange(e);
                   encodeFileToBase64(e.target.files[0]);
                 }}
                 style={{
