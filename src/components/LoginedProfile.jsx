@@ -8,11 +8,15 @@ import { useRecoilBridgeAcrossReactRoots_UNSTABLE } from "recoil";
 function LoginedProfile({ logined, setLogined, user }) {
   const [content, setContent] = useState("");
   const [imageToggle, setImageToggle] = useState(false);
+  const [profileImageToggle, setProfileImageToggle] = useState(false);
+  const [imgSrc, setImgSrc] = useState("");
   const [uploadedImg, setUploadedImg] = useState({
     fileName: "",
     fillPath: "",
   });
-
+  const onProfileToggle = () => {
+    setProfileImageToggle(!profileImageToggle);
+  };
   // ALTER TABLE insta ADD COLUMN imgSrc VARCHAR(255);
   // 위 쿼리는 insta 테이블, 하단 쿼리는 img_table 테이블.
   // CREATE TABLE img_table (
@@ -32,7 +36,20 @@ function LoginedProfile({ logined, setLogined, user }) {
   const onChange = (e) => {
     setContent(e.target.files[0]);
   };
+  const encodeFileToBase64 = (fileBlob) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(fileBlob);
+    return new Promise((resolve) => {
+      reader.onload = () => {
+        setImgSrc(reader.result);
+        resolve();
+      };
+    });
+  };
 
+  const onImageChange = (e) => {
+    e.preventDefault();
+  };
   const onSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -44,8 +61,9 @@ function LoginedProfile({ logined, setLogined, user }) {
       .then((res) => {
         const { fileName } = res.data;
         setUploadedImg({ fileName });
+        onProfileToggle();
 
-        alert("The file is successfully uploaded");
+        //수정은 되나 초기 로그인 사진이 이상함.
       })
       .catch((err) => {
         console.error(err);
@@ -67,7 +85,9 @@ function LoginedProfile({ logined, setLogined, user }) {
               <input
                 id="fileAdd"
                 type="file"
-                onChange={onChange}
+                onChange={(e) => {
+                  encodeFileToBase64(e.target.files[0]);
+                }}
                 style={{
                   cursor: "pointer",
                 }}
@@ -86,13 +106,17 @@ function LoginedProfile({ logined, setLogined, user }) {
                 }}
               >
                 <a href="#">
+                  {/* <img
+                    src={`${process.env.PUBLIC_URL}/public_assets?logo512.PNG`}
+                  /> */}
                   <img
                     src={
-                      user.imgSrc != null
-                        ? user.imgSrc
-                        : "https://i.picsum.photos/id/1043/5184/3456.jpg?hmac=wsz2e0aFKEI0ij7mauIr2nFz2pzC8xNlgDHWHYi9qbc"
+                      imgSrc == ""
+                        ? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_8odrQguUEk4y0r47v-EpBtqpn-Iw3WiErA&usqp=CAU"
+                        : imgSrc
                     }
                     alt=""
+                    onChange={onImageChange}
                   />
                 </a>
               </button>
@@ -159,6 +183,23 @@ function LoginedProfile({ logined, setLogined, user }) {
           </div>
         </div>
       </div>
+      {profileImageToggle && (
+        <div>
+          <div className="changeProfileImage gap-3">
+            <span>프로필 사진이 변경되었습니다.</span>
+            <a
+              href="#"
+              onClick={() => {
+                onProfileToggle();
+                onImageToggle();
+              }}
+            >
+              {" "}
+              <span>확인</span>
+            </a>
+          </div>
+        </div>
+      )}
       <div className="flex justify-around items-center h-1/5 stories">
         <div className="avatar ">
           <div className=" relative w-20 rounded-full ring ring-offset-base-100 ring-offset-2">
@@ -191,6 +232,7 @@ function LoginedProfile({ logined, setLogined, user }) {
             </a>
           </div>
         </div>
+
         <div className="avatar">
           <div className="  mr-16 w-20 rounded-full ring  ring-offset-base-100 ring-offset-2">
             <a href="">

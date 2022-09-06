@@ -50,7 +50,7 @@ function App() {
       setLogined(data.data.authenticated);
       onLoginToggle();
       setUser(data.data.user);
-      // console.log("data.data:", data.data.user);
+
       // console.log("user : ", user);
     } catch (e) {
       setError(e);
