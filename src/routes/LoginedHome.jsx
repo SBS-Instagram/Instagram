@@ -19,8 +19,8 @@ const LoginedHome = ({
   setLogined,
   user,
   onSearch,
-  
 }) => {
+  setLoginToggle(false);
   return (
     <div>
       <LoginedHead
@@ -30,7 +30,6 @@ const LoginedHome = ({
         setLogined={setLogined}
         user={user}
         onSearch={onSearch}
-    
       />
       <Layout>
         <LoginedProfile logined={logined} setLogined={setLogined} user={user} />

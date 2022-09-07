@@ -12,6 +12,7 @@ import Login from "./components/Login";
 import LoginedHead from "./components/LoginedHead";
 import LoginedProfile from "./components/LoginedProfile";
 import UnLoginedProfile from "./components/UnLoginedProfile";
+import Welcome from "./routes/Welcome";
 import Layout from "./layouts/Layout";
 import "./App.css";
 import { useRecoilState } from "recoil";
@@ -23,7 +24,6 @@ function App() {
   const [login, setLogin] = useState(() =>
     JSON.parse(window.localStorage.getItem("login"))
   );
-
   const [logined, setLogined] = useRecoilState(authenticatedState);
   const [loginToggle, setLoginToggle] = useState(false);
   const [error, setError] = useState(null);
@@ -106,6 +106,16 @@ function App() {
         // 로그인이 되지 않았을 때의 프론트여야함.
         <Router>
           <Routes>
+            <Route
+              path="/welcome"
+              element={
+                <Welcome
+                  onLogin={onLogin}
+                  logined={logined}
+                  setLogined={setLogined}
+                />
+              }
+            />
             <Route
               path="/"
               element={

@@ -5,12 +5,16 @@
   font-weight: normal;
   font-style: normal;
 }
+.Login {
+  position: relative;
+}
+
 .Login * {
   font-family: "GangwonEdu_OTFBoldA";
 }
 body {
   display: block;
-  background: ghostwhite;
+  background: white;
   height: 100vh;
 }
 @media (min-width: 700px) {

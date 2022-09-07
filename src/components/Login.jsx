@@ -4,6 +4,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import Logo from "../public/Logo.PNG";
 import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 // $ npm i @fortawesome/fontawesome-svg-core
 // $ npm i @fortawesome/free-solid-svg-icons @fortawesome/free-regular-svg-icons @fortawesome/free-brands-svg-icons
 // $ npm i @fortawesome/react-fontawesome 폰트어썸사용법
@@ -22,7 +24,10 @@ const Login = ({
 }) => {
   const [idValue, setIdValue] = useState("");
   const [passwordValue, setPasswordValue] = useState("");
-
+  const navigate = useNavigate();
+  const onMoveHompage = () => {
+    navigate("/");
+  };
   const onIdChange = (e) => {
     setIdValue(e.target.value || "");
   };
@@ -68,11 +73,13 @@ const Login = ({
               window.alert("비밀번호를 입력해 주세요");
             } else {
               onLogin(idValue, passwordValue);
+              onMoveHompage();
             }
           }}
         >
           로그인
         </button>
+
         <a href="/Join">
           <button className="UserButton">가입하기</button>
         </a>

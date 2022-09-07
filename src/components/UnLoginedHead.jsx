@@ -7,6 +7,7 @@ import {
   FaUserAlt,
   FaPlusSquare,
 } from "react-icons/fa";
+
 const UnLoginedHead = ({
   setLoginToggle,
   onLoginToggle,
@@ -15,6 +16,7 @@ const UnLoginedHead = ({
   onSearch,
 }) => {
   const [searchValue, setSearchValue] = useState("");
+
   const onSearchChange = (e) => {
     setSearchValue(e.targete.value);
   };

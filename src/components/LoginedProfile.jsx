@@ -4,7 +4,8 @@ import "../styles/Loginedprofile.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useRecoilBridgeAcrossReactRoots_UNSTABLE } from "recoil";
-
+import LoginedHead from "./LoginedHead";
+import { useNavigate } from "react-router-dom";
 function LoginedProfile({ logined, setLogined, user }) {
   const [content, setContent] = useState("");
   const [imageToggle, setImageToggle] = useState(false);
@@ -14,6 +15,11 @@ function LoginedProfile({ logined, setLogined, user }) {
     fileName: "",
     fillPath: "",
   });
+  const navigate = useNavigate();
+  const onMoveHompage = () => {
+    navigate("/");
+  };
+
   const onProfileToggle = () => {
     setProfileImageToggle(!profileImageToggle);
   };
@@ -93,7 +99,7 @@ function LoginedProfile({ logined, setLogined, user }) {
                 }}
               />
             </div>
-            <input type="submit" value="Upload" className="btn" />
+            <input type="submit" value="변경" className="btn" />
           </form>
         )}
         <div className="flex justify-center items-center w-1/3 ">
@@ -190,6 +196,7 @@ function LoginedProfile({ logined, setLogined, user }) {
             <a
               href="#"
               onClick={() => {
+                onMoveHompage();
                 onProfileToggle();
                 onImageToggle();
               }}

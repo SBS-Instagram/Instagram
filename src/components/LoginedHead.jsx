@@ -8,6 +8,8 @@ import {
   FaPlusSquare,
 } from "react-icons/fa";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 const LoginedHead = ({
   setLoginToggle,
   onLoginToggle,
@@ -18,7 +20,11 @@ const LoginedHead = ({
 }) => {
   const [searchValue, setSearchValue] = useState("");
   const [imgSrc, setImgSrc] = useState(user.imgSrc);
+  const navigate = useNavigate();
 
+  const onMoveHompage = () => {
+    navigate("/welcome");
+  };
   const onImageChange = (e) => {
     e.preventDefault();
   };
@@ -66,6 +72,7 @@ const LoginedHead = ({
             onClick={() => {
               if (window.confirm("정말 로그아웃 하시겠습니까?")) {
                 setLogined(!logined);
+                onMoveHompage();
               }
             }}
           >
