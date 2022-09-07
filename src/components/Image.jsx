@@ -29,7 +29,7 @@ const Image = ({ images, setImages, logined, setLogined, user }) => {
       .then((res) => {
         const { fileName } = res.data;
         setUploadedImg({ fileName });
-        alert("The file is successfully uploaded");
+        alert("업로드 완료");
       })
       .catch((err) => {
         console.error(err);
@@ -54,7 +54,12 @@ const Image = ({ images, setImages, logined, setLogined, user }) => {
             }}
           />
         </div>
-        <input type="submit" value="Upload" className="btn" />
+        <input
+          type="submit"
+          value="Upload"
+          className="btn"
+          onClick={() => {}}
+        />
       </form>
     </div>
   );

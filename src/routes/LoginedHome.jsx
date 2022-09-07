@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../layouts/Header";
 import { useRecoilValue } from "recoil";
 import { authenticatedState } from "../recoil/auth";
@@ -18,9 +18,13 @@ const LoginedHome = ({
   logined,
   setLogined,
   user,
+  setUser,
   onSearch,
 }) => {
-  setLoginToggle(false);
+  useEffect(() => {
+    setLoginToggle(false);
+  }, []);
+
   return (
     <div>
       <LoginedHead
@@ -29,6 +33,7 @@ const LoginedHome = ({
         logined={logined}
         setLogined={setLogined}
         user={user}
+        setUser={setUser}
         onSearch={onSearch}
       />
       <Layout>

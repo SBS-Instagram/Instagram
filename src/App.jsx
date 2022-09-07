@@ -28,6 +28,7 @@ function App() {
   const [loginToggle, setLoginToggle] = useState(false);
   const [error, setError] = useState(null);
   const [user, setUser] = useState("");
+  const [images, setImages] = useState([]);
 
   useEffect(() => {
     window.localStorage.setItem("login", JSON.stringify(login));
@@ -89,6 +90,9 @@ function App() {
                   setLogined={setLogined}
                   user={user}
                   onSearch={onSearch}
+                  images={images}
+                  setImages={setImages}
+                  setUser={setUser}
                 />
               }
             />

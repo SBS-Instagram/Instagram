@@ -42,8 +42,6 @@ const UnLoginedHome = ({
           setLogined={setLogined}
         />
       )}
-      <Image logined={logined} setLogined={setLogined} />
-      <Grid logined={logined} setLogined={setLogined} />
     </div>
   );
 };

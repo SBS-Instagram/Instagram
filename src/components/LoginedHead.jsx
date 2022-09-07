@@ -17,6 +17,7 @@ const LoginedHead = ({
   setLogined,
   onSearch,
   user,
+  setUser,
 }) => {
   const [searchValue, setSearchValue] = useState("");
   const [imgSrc, setImgSrc] = useState(user.imgSrc);
@@ -71,6 +72,7 @@ const LoginedHead = ({
           <button
             onClick={() => {
               if (window.confirm("정말 로그아웃 하시겠습니까?")) {
+                setUser("");
                 setLogined(!logined);
                 onMoveHompage();
               }
@@ -84,9 +86,9 @@ const LoginedHead = ({
               <div className="w-10 rounded-full">
                 <img
                   src={
-                    imgSrc == undefined
+                    user.imgSrc == undefined
                       ? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_8odrQguUEk4y0r47v-EpBtqpn-Iw3WiErA&usqp=CAU"
-                      : imgSrc
+                      : user.imgSrc
                   }
                   alt=""
                   onChange={onImageChange}

@@ -62,8 +62,9 @@ function LoginedProfile({ logined, setLogined, user }) {
     const formData = new FormData();
     formData.append("img", content);
     const userid = user.userid;
+
     axios
-      .post(`http://localhost:3002/upload/${userid}`, formData)
+      .post(`http://localhost:3002/profileImage/${userid}`, formData)
       .then((res) => {
         const { fileName } = res.data;
         setUploadedImg({ fileName });

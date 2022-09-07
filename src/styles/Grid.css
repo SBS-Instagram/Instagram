@@ -7,6 +7,9 @@ ul,
 li {
   box-sizing: border-box;
 }
+.list-box {
+  border: 1px red solid;
+}
 .con {
   max-width: 935px;
   height: 150vh;
