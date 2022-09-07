@@ -42,6 +42,7 @@ function LoginedProfile({ logined, setLogined, user }) {
     return new Promise((resolve) => {
       reader.onload = () => {
         setImgSrc(reader.result);
+        user.imgSrc = reader.result;
         resolve();
       };
     });
@@ -110,9 +111,9 @@ function LoginedProfile({ logined, setLogined, user }) {
                   /> */}
                   <img
                     src={
-                      imgSrc == ""
+                      user.imgSrc == undefined
                         ? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_8odrQguUEk4y0r47v-EpBtqpn-Iw3WiErA&usqp=CAU"
-                        : imgSrc
+                        : user.imgSrc
                     }
                     alt=""
                     onChange={onImageChange}

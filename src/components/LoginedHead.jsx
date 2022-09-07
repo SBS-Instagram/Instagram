@@ -17,7 +17,11 @@ const LoginedHead = ({
   user,
 }) => {
   const [searchValue, setSearchValue] = useState("");
+  const [imgSrc, setImgSrc] = useState(user.imgSrc);
 
+  const onImageChange = (e) => {
+    e.preventDefault();
+  };
   const onSearchChange = (e) => {
     setSearchValue(e.targete.value);
   };
@@ -71,7 +75,15 @@ const LoginedHead = ({
           <div className="dropdown dropdown-end">
             <label tabIndex="0" className="btn btn-ghost btn-circle avatar">
               <div className="w-10 rounded-full">
-                <img src={user.imgSrc} />
+                <img
+                  src={
+                    imgSrc == undefined
+                      ? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_8odrQguUEk4y0r47v-EpBtqpn-Iw3WiErA&usqp=CAU"
+                      : imgSrc
+                  }
+                  alt=""
+                  onChange={onImageChange}
+                />
               </div>
             </label>
             <ul
