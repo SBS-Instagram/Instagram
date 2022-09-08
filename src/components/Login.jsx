@@ -21,6 +21,7 @@ const Login = ({
   onLogin,
   logined,
   setLogined,
+  user,
 }) => {
   const [idValue, setIdValue] = useState("");
   const [passwordValue, setPasswordValue] = useState("");

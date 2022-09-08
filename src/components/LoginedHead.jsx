@@ -6,7 +6,9 @@ import {
   FaHome,
   FaUserAlt,
   FaPlusSquare,
+  FaWindowClose,
 } from "react-icons/fa";
+
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -23,6 +25,7 @@ const LoginedHead = ({
 }) => {
   const [searchValue, setSearchValue] = useState("");
   const [imgSrc, setImgSrc] = useState(user.imgSrc);
+  const [searchToggle, setSearchToggle] = useState(false);
   const navigate = useNavigate();
 
   const onMoveHompage = () => {
@@ -32,7 +35,11 @@ const LoginedHead = ({
     e.preventDefault();
   };
   const onSearchChange = (e) => {
-    setSearchValue(e.targete.value);
+    setSearchValue(e.target.value);
+  };
+
+  const onSearchToggle = () => {
+    setSearchToggle(!searchToggle);
   };
 
   return (
@@ -47,7 +54,7 @@ const LoginedHead = ({
           </a>
         </div>
         <div className="flex-none gap-5">
-          <div className="search">
+          <div className="search relative">
             <input
               type="text"
               placeholder="검색"
@@ -56,10 +63,27 @@ const LoginedHead = ({
               onSubmit={() => {
                 onSearch(searchValue);
               }}
+              onClick={() => {
+                setSearchToggle(true);
+              }}
             />
             <button>
               <img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png"></img>
             </button>
+            {searchToggle && (
+              <div className="searchBox">
+                <span>최근검색 항목</span>
+                <button
+                  onClick={() => {
+                    onSearchToggle();
+                  }}
+                  className="searchBoxButton"
+                >
+                  <FaWindowClose />
+                </button>
+                <div></div>
+              </div>
+            )}
           </div>
           <button>
             <FaHome style={{ fontSize: "25px" }} />

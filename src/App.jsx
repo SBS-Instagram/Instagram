@@ -21,19 +21,14 @@ import { authenticatedState } from "./recoil/auth";
 // 로그인유지법 https://velog.io/@hongwr/2022.03.24
 
 function App() {
-  const [login, setLogin] = useState(() =>
-    JSON.parse(window.localStorage.getItem("login"))
-  );
   const [logined, setLogined] = useRecoilState(authenticatedState);
   const [loginToggle, setLoginToggle] = useState(false);
   const [error, setError] = useState(null);
-  const [user, setUser] = useState("");
+  const [user, setUser] = useRecoilState(authenticatedState);
   const [images, setImages] = useState([]);
   const [addImageToggle, setAddImageToggle] = useState(false);
-  useEffect(() => {
-    window.localStorage.setItem("login", JSON.stringify(login));
-  }, [login]);
 
+  // localStorage.setItem(user.userid,user.userid);
   const onLoginToggle = () => {
     setLoginToggle(!loginToggle);
   };

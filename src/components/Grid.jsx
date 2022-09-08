@@ -41,6 +41,7 @@ const Grid = ({ logined, setLogined, user }) => {
           method: "POST",
         });
         setImages(data.data);
+
         setIsLoading(false);
         await new Promise((resolve, reject) => {
           setTimeout(() => {

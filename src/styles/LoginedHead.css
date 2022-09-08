@@ -50,3 +50,15 @@ a {
   right: 10px;
   margin: 0;
 }
+.searchBox {
+  position: absolute;
+  z-index: 999;
+  margin-top: 13px;
+  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.377),
+    5px 5px 5px 5px rgb(202, 202, 202);
+  background-color: white;
+  width: 350px;
+  height: 300px;
+  left: -40px;
+  right: auto;
+}
