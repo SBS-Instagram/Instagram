@@ -18,6 +18,8 @@ const LoginedHead = ({
   onSearch,
   user,
   setUser,
+  setAddImageToggle,
+  onAddImageToggle,
 }) => {
   const [searchValue, setSearchValue] = useState("");
   const [imgSrc, setImgSrc] = useState(user.imgSrc);
@@ -59,15 +61,19 @@ const LoginedHead = ({
               <img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png"></img>
             </button>
           </div>
-          <a href="#">
+          <button>
             <FaHome style={{ fontSize: "25px" }} />
-          </a>
-          <a href="#">
+          </button>
+          <button>
             <FaRegComment style={{ fontSize: "25px" }} />
-          </a>
-          <a href="#">
+          </button>
+          <button
+            onClick={() => {
+              onAddImageToggle();
+            }}
+          >
             <FaPlusSquare style={{ fontSize: "25px" }} />
-          </a>
+          </button>
           {/* onClick={()=>{serch()}} */}
           <button
             onClick={() => {

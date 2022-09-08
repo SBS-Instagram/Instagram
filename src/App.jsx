@@ -29,7 +29,7 @@ function App() {
   const [error, setError] = useState(null);
   const [user, setUser] = useState("");
   const [images, setImages] = useState([]);
-
+  const [addImageToggle, setAddImageToggle] = useState(false);
   useEffect(() => {
     window.localStorage.setItem("login", JSON.stringify(login));
   }, [login]);
@@ -37,7 +37,9 @@ function App() {
   const onLoginToggle = () => {
     setLoginToggle(!loginToggle);
   };
-
+  const onAddImageToggle = () => {
+    setAddImageToggle(!addImageToggle);
+  };
   const joinMember = async (nameValue, phoneValue, IdValue, passWordValue) => {
     try {
       const data = await axios.post(`http://localhost:3002/joinMember`, {
@@ -93,6 +95,9 @@ function App() {
                   images={images}
                   setImages={setImages}
                   setUser={setUser}
+                  onAddImageToggle={onAddImageToggle}
+                  addImageToggle={addImageToggle}
+                  setAddImageToggle={setAddImageToggle}
                 />
               }
             />

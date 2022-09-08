@@ -20,9 +20,16 @@ const LoginedHome = ({
   user,
   setUser,
   onSearch,
+  onAddImageToggle,
+  addImageToggle,
+  setAddImageToggle,
 }) => {
   useEffect(() => {
     setLoginToggle(false);
+  }, []);
+
+  useEffect(() => {
+    setAddImageToggle(false);
   }, []);
 
   return (
@@ -35,7 +42,12 @@ const LoginedHome = ({
         user={user}
         setUser={setUser}
         onSearch={onSearch}
+        setAddImageToggle={setAddImageToggle}
+        onAddImageToggle={onAddImageToggle}
       />
+      {addImageToggle && (
+        <Image logined={logined} setLogined={setLogined} user={user} />
+      )}
       <Layout>
         <LoginedProfile logined={logined} setLogined={setLogined} user={user} />
       </Layout>
@@ -48,7 +60,6 @@ const LoginedHome = ({
           setLogined={setLogined}
         />
       )}
-      <Image logined={logined} setLogined={setLogined} user={user} />
       <Grid logined={logined} setLogined={setLogined} user={user} />
     </div>
   );

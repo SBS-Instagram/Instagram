@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-
+import "../styles/Image.css";
 const BASE_URL = "http://localhost:3002";
 
 const Image = ({ images, setImages, logined, setLogined, user }) => {
@@ -37,30 +37,32 @@ const Image = ({ images, setImages, logined, setLogined, user }) => {
   };
 
   return (
-    <div>
-      <form
-        onSubmit={onSubmit}
-        style={{
-          display: "inline-block",
-        }}
-      >
-        <div id="uploadDiv">
+    <div className="relative mx-auto imgcon">
+      <div className="formbox">
+        <form
+          onSubmit={onSubmit}
+          style={{
+            display: "inline-block",
+          }}
+        >
+          <div id="uploadDiv">
+            <input
+              id="fileAdd"
+              type="file"
+              onChange={onChange}
+              style={{
+                cursor: "pointer",
+              }}
+            />
+          </div>
           <input
-            id="fileAdd"
-            type="file"
-            onChange={onChange}
-            style={{
-              cursor: "pointer",
-            }}
+            type="submit"
+            value="업로드하기"
+            className="btn"
+            onClick={() => {}}
           />
-        </div>
-        <input
-          type="submit"
-          value="Upload"
-          className="btn"
-          onClick={() => {}}
-        />
-      </form>
+        </form>
+      </div>
     </div>
   );
 };
