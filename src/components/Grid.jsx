@@ -10,6 +10,7 @@ const Grid = ({ logined, setLogined, user }) => {
   const [images, setImages] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  // 로그인 후 user가 렌더링되면 사진들 불러오기
   useEffect(() => {
     const getData = async () => {
       try {
@@ -17,10 +18,7 @@ const Grid = ({ logined, setLogined, user }) => {
           url: `http://localhost:3002/getFiles/${user.userid}`,
           method: "POST",
         });
-        // console.log("data.data", data.data);
         setImages(data.data);
-        console.log(data.data);
-        // setImages(imgs);
         setIsLoading(false);
         await new Promise((resolve, reject) => {
           setTimeout(() => {
@@ -34,8 +32,28 @@ const Grid = ({ logined, setLogined, user }) => {
     getData();
   }, [user]);
 
-  // 화면 리디렉션(새로고침)
-  // 업로드 눌렀을떄 콜백함수로 API를 다시 작성하고 화면 다시세팅.(많이쓰임)
+  // 이미지 업로드 후 ( => 이미지 배열에 변동이 생기면) 리렌더링.
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const data = await axios({
+          url: `http://localhost:3002/getFiles/${user.userid}`,
+          method: "POST",
+        });
+        setImages(data.data);
+        setIsLoading(false);
+        await new Promise((resolve, reject) => {
+          setTimeout(() => {
+            resolve();
+          }, 3000);
+        });
+      } catch (e) {
+        setError(e);
+      }
+    };
+    getData();
+  }, [images]); // => [images] 이미지 배열이 바뀌면, 리렌더링. 업로드후 바로 사진갱신됨
+
   if (error) {
     return <>에러: {error.message}</>;
   }
@@ -57,209 +75,21 @@ const Grid = ({ logined, setLogined, user }) => {
           <li key={index}>
             <div>
               <img src={image.imgSrc} />
+              <div>
+                <FontAwesomeIcon icon={faHeart} className="icon" />
+                <span>{image.imgLike}</span>
+              </div>
+              <div>
+                <FontAwesomeIcon icon={faCommentDots} className="icon" />
+                <span>{image.imgReply}</span>
+              </div>
             </div>
           </li>
         ))}
       </ul>
     </section>
   ); // 9.7 홈페이지에 업로드된 이미지 나열성공, 좋아요 댓글 수 추가해야함
-  // return (
-  //   <div>
-  //     <section className="mx-auto con section-2">
-  //       <ul className="list-box grid grid-cols-3 gap-2 sm:gap-2 md:gap-3 lg:gap-4">
-  //         <li>
-  //           <a href="#">
-  //             {/* <img src={images[0].imgSrc} alt="" /> */}
-  //             <div>
-  //               <FontAwesomeIcon icon={faHeart} className="icon" />
-  //               {/* <span>{images[0].imgLike}</span> */}
-  //             </div>
-  //             <div>
-  //               <FontAwesomeIcon icon={faCommentDots} className="icon" />
-  //               {/* <span>{images[0].imgReply}</span> */}
-  //             </div>
-  //           </a>
-  //         </li>
-  //         <li>
-  //           <a href="#">
-  //             <img
-  //               src="https://images.pexels.com/photos/4085643/pexels-photo-4085643.jpeg?auto=compress&cs=tinysrgb&w=300&lazy=load"
-  //               alt=""
-  //             />
-  //             <div>
-  //               <FontAwesomeIcon icon={faHeart} className="icon" />
-  //               <span>22.5K</span>
-  //             </div>
-  //             <div>
-  //               <FontAwesomeIcon icon={faCommentDots} className="icon" />
-  //               <span>2.7K</span>
-  //             </div>
-  //           </a>
-  //         </li>
-  //         <li>
-  //           <a href="#">
-  //             <img
-  //               src="https://images.pexels.com/photos/4085643/pexels-photo-4085643.jpeg?auto=compress&cs=tinysrgb&w=300&lazy=load"
-  //               alt=""
-  //             />
-  //             <div>
-  //               <FontAwesomeIcon icon={faHeart} className="icon" />
-  //               <span>22.5K</span>
-  //             </div>
-  //             <div>
-  //               <FontAwesomeIcon icon={faCommentDots} className="icon" />
-  //               <span>2.7K</span>
-  //             </div>
-  //           </a>
-  //         </li>
-  //         <li>
-  //           <a href="#">
-  //             <img
-  //               src="https://images.pexels.com/photos/4085643/pexels-photo-4085643.jpeg?auto=compress&cs=tinysrgb&w=300&lazy=load"
-  //               alt=""
-  //             />
-  //             <div>
-  //               <FontAwesomeIcon icon={faHeart} className="icon" />
-  //               <span>22.5K</span>
-  //             </div>
-  //             <div>
-  //               <FontAwesomeIcon icon={faCommentDots} className="icon" />
-  //               <span>2.7K</span>
-  //             </div>
-  //           </a>
-  //         </li>
-  //         <li>
-  //           <a href="#">
-  //             <img
-  //               src="https://images.pexels.com/photos/13025002/pexels-photo-13025002.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-  //               alt=""
-  //             />
-  //             <div>
-  //               <FontAwesomeIcon icon={faHeart} className="icon" />
-  //               <span>22.5K</span>
-  //             </div>
-  //             <div>
-  //               <FontAwesomeIcon icon={faCommentDots} className="icon" />
-  //               <span>2.7K</span>
-  //             </div>
-  //           </a>
-  //         </li>
-  //         <li>
-  //           <a href="#">
-  //             <img
-  //               src="https://images.pexels.com/photos/13025002/pexels-photo-13025002.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-  //               alt=""
-  //             />
-  //             <div>
-  //               <FontAwesomeIcon icon={faHeart} className="icon" />
-  //               <span>22.5K</span>
-  //             </div>
-  //             <div>
-  //               <FontAwesomeIcon icon={faCommentDots} className="icon" />
-  //               <span>2.7K</span>
-  //             </div>
-  //           </a>
-  //         </li>
-  //         <li>
-  //           <a href="#">
-  //             <img
-  //               src="https://images.pexels.com/photos/13025002/pexels-photo-13025002.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-  //               alt=""
-  //             />
-  //             <div>
-  //               <FontAwesomeIcon icon={faHeart} className="icon" />
-  //               <span>22.5K</span>
-  //             </div>
-  //             <div>
-  //               <FontAwesomeIcon icon={faCommentDots} className="icon" />
-  //               <span>2.7K</span>
-  //             </div>
-  //           </a>
-  //         </li>
-  //         <li>
-  //           <a href="#">
-  //             <img
-  //               src="https://images.pexels.com/photos/13025002/pexels-photo-13025002.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-  //               alt=""
-  //             />
-  //             <div>
-  //               <FontAwesomeIcon icon={faHeart} className="icon" />
-  //               <span>22.5K</span>
-  //             </div>
-  //             <div>
-  //               <FontAwesomeIcon icon={faCommentDots} className="icon" />
-  //               <span>2.7K</span>
-  //             </div>
-  //           </a>
-  //         </li>
-  //         <li>
-  //           <a href="#">
-  //             <img
-  //               src="https://images.pexels.com/photos/13248509/pexels-photo-13248509.jpeg?auto=compress&cs=tinysrgb&w=300&lazy=load"
-  //               alt=""
-  //             />
-  //             <div>
-  //               <FontAwesomeIcon icon={faHeart} className="icon" />
-  //               <span>22.5K</span>
-  //             </div>
-  //             <div>
-  //               <FontAwesomeIcon icon={faCommentDots} className="icon" />
-  //               <span>2.7K</span>
-  //             </div>
-  //           </a>
-  //         </li>{" "}
-  //         <li>
-  //           <a href="#">
-  //             <img
-  //               src="https://images.pexels.com/photos/13248509/pexels-photo-13248509.jpeg?auto=compress&cs=tinysrgb&w=300&lazy=load"
-  //               alt=""
-  //             />
-  //             <div>
-  //               <FontAwesomeIcon icon={faHeart} className="icon" />
-  //               <span>22.5K</span>
-  //             </div>
-  //             <div>
-  //               <FontAwesomeIcon icon={faCommentDots} className="icon" />
-  //               <span>2.7K</span>
-  //             </div>
-  //           </a>
-  //         </li>{" "}
-  //         <li>
-  //           <a href="#">
-  //             <img
-  //               src="https://images.pexels.com/photos/13248509/pexels-photo-13248509.jpeg?auto=compress&cs=tinysrgb&w=300&lazy=load"
-  //               alt=""
-  //             />
-  //             <div>
-  //               <FontAwesomeIcon icon={faHeart} className="icon" />
-  //               <span>22.5K</span>
-  //             </div>
-  //             <div>
-  //               <FontAwesomeIcon icon={faCommentDots} className="icon" />
-  //               <span>2.7K</span>
-  //             </div>
-  //           </a>
-  //         </li>{" "}
-  //         <li>
-  //           <a href="#">
-  //             <img
-  //               src="https://images.pexels.com/photos/13248509/pexels-photo-13248509.jpeg?auto=compress&cs=tinysrgb&w=300&lazy=load"
-  //               alt=""
-  //             />
-  //             <div>
-  //               <FontAwesomeIcon icon={faHeart} className="icon" />
-  //               <span>22.5K</span>
-  //             </div>
-  //             <div>
-  //               <FontAwesomeIcon icon={faCommentDots} className="icon" />
-  //               <span>2.7K</span>
-  //             </div>
-  //           </a>
-  //         </li>
-  //       </ul>
-  //     </section>
-  //   </div>
-  // );
+  // 9.8 이미지 정렬, 좋아요, 댓글수 나열 성공.
 };
 
 export default Grid;
