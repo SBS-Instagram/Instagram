@@ -17,7 +17,6 @@ import Layout from "./layouts/Layout";
 import "./App.css";
 import { useRecoilState } from "recoil";
 import { authenticatedState } from "./recoil/auth";
-import session from "redux-persist/lib/storage/session";
 
 // 로그인유지법 https://velog.io/@hongwr/2022.03.24
 
@@ -63,7 +62,7 @@ function App() {
       // setUser(data.data.user);
       sessionStorage.setItem("user", JSON.stringify(data.data.user));
 
-      setUser(JSON.parse(sessionStorage.getItem("user")));
+      setUser(data.data.user);
     } catch (e) {
       setError(e);
     }

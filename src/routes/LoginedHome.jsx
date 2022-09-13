@@ -49,7 +49,12 @@ const LoginedHome = ({
         <Image logined={logined} setLogined={setLogined} user={user} />
       )}
       <Layout>
-        <LoginedProfile logined={logined} setLogined={setLogined} user={user} />
+        <LoginedProfile
+          logined={logined}
+          setLogined={setLogined}
+          user={user}
+          setUser={setUser}
+        />
       </Layout>
       {loginToggle && (
         <Login

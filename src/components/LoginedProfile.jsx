@@ -6,10 +6,11 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useRecoilBridgeAcrossReactRoots_UNSTABLE } from "recoil";
 import LoginedHead from "./LoginedHead";
 import { useNavigate } from "react-router-dom";
-function LoginedProfile({ logined, setLogined, user }) {
+function LoginedProfile({ logined, setLogined, user, setUser }) {
   const [content, setContent] = useState("");
   const [imageToggle, setImageToggle] = useState(false);
   const [profileImageToggle, setProfileImageToggle] = useState(false);
+  const [error, setError] = useState(null);
   const [imgSrc, setImgSrc] = useState(user.imgSrc);
   const [uploadedImg, setUploadedImg] = useState({
     fileName: "",
@@ -57,18 +58,18 @@ function LoginedProfile({ logined, setLogined, user }) {
   const onImageChange = (e) => {
     e.preventDefault();
   };
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("img", content);
     const userid = user.userid;
-
     axios
       .post(`http://localhost:3002/profileImage/${userid}`, formData)
       .then((res) => {
         const { fileName } = res.data;
         setUploadedImg({ fileName });
         onProfileToggle();
+
         //수정은 되나 초기 로그인 사진이 이상함.
       })
       .catch((err) => {
@@ -197,10 +198,22 @@ function LoginedProfile({ logined, setLogined, user }) {
             <span>프로필 사진이 변경되었습니다.</span>
             <a
               href="#"
-              onClick={() => {
+              onClick={async () => {
                 onMoveHompage();
                 onProfileToggle();
                 onImageToggle();
+                try {
+                  const data = await axios.post(
+                    `http://localhost:3002/getMember/${user.userid}`,
+                    {}
+                  );
+
+                  sessionStorage.setItem("user", JSON.stringify(data.data));
+                  setUser(data.data);
+                  setImgSrc(data.data.imgSrc);
+                } catch (e) {
+                  setError(e);
+                }
               }}
             >
               {" "}
