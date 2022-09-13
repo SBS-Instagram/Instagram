@@ -157,7 +157,7 @@ function LoginedProfile({ logined, setLogined, user, setUser }) {
                     marginLeft: "10px",
                   }}
                 >
-                  0
+                  {user.article}
                 </span>
               </a>
 

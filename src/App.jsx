@@ -19,6 +19,9 @@ import { useRecoilState } from "recoil";
 import { authenticatedState } from "./recoil/auth";
 
 // 로그인유지법 https://velog.io/@hongwr/2022.03.24
+// 9.13 ALTER TABLE insta ADD COLUMN article INT DEFAULT 0;
+// insta 테이블쿼리 게시물갯수 컬럼추가
+// UPDATE insta SET article = article+1 WHERE userid = 'test';
 
 function App() {
   const [logined, setLogined] = useRecoilState(authenticatedState);
