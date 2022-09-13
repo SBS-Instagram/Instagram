@@ -9,6 +9,7 @@ import Login from "../components/Login";
 import LoginedHead from "../components/LoginedHead";
 import LoginedProfile from "../components/LoginedProfile";
 import Layout from "../layouts/Layout";
+import Footer from "../layouts/Footer";
 
 const LoginedHome = ({
   onLoginToggle,
@@ -66,6 +67,7 @@ const LoginedHome = ({
         />
       )}
       <Grid logined={logined} setLogined={setLogined} user={user} />
+      <Footer />
     </div>
   );
 };

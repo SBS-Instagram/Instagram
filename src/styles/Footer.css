@@ -1,0 +1,13 @@
+.footerbox {
+  width: 900px;
+  height: 100px;
+}
+.footerbox > ul > li > a {
+  color: rgba(145, 134, 134, 0.836);
+  font-size: 0.8rem;
+}
+.footerbox > span {
+  color: rgba(145, 134, 134, 0.836);
+  display: flex;
+  justify-content: center;
+}
