@@ -70,7 +70,7 @@ const Grid = ({ logined, setLogined, user }) => {
   //   );  9.7 수정된 이미지테이블 쿼리
 
   return (
-    <section className="mx-auto con section-2">
+    <section className="mx-auto con section-2 relative">
       <ul className="list-box grid grid-cols-3 gap-2 sm:gap-2 md:gap-3 lg:gap-4">
         {images.map((image, index) => (
           <li key={index}>
@@ -88,6 +88,28 @@ const Grid = ({ logined, setLogined, user }) => {
           </li>
         ))}
       </ul>
+      <button
+        className="fixed bg-blue-200 topbtn"
+        style={{
+          width: "150px",
+          height: "40px",
+          left: "2%",
+          bottom: "2%",
+          borderRadius: "15px",
+          padding: "10px",
+          color: "gray",
+        }}
+        onClick={() => {
+          if (!window.scrollY) return;
+          window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+          });
+        }}
+      >
+        {" "}
+        위로 가기
+      </button>
     </section>
   ); // 9.7 홈페이지에 업로드된 이미지 나열성공, 좋아요 댓글 수 추가해야함
   // 9.8 이미지 정렬, 좋아요, 댓글수 나열 성공.

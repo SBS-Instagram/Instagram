@@ -1,6 +1,5 @@
 html,
 body {
-  overflow-x: hidden;
   min-width: 700px;
 }
 ul,
@@ -10,9 +9,12 @@ li {
 
 .con {
   max-width: 935px;
-  max-height: 150vh;
+
   margin-left: 20px;
   margin-right: 20px;
+  display: flex;
+  align-items: stretch;
+  align-content: stretch;
 }
 
 .list-box {
@@ -64,6 +66,10 @@ li {
 }
 .section-2 > ul > li:hover > div::before {
   background-color: rgba(0, 0, 0, 0.4);
+}
+.topbtn:hover {
+  transform: translateY(-50%);
+  transition: 1s linear;
 }
 
 /* after 글자 지정 */

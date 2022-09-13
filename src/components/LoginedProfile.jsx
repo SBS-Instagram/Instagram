@@ -20,6 +20,26 @@ function LoginedProfile({ logined, setLogined, user, setUser }) {
   const onMoveHompage = () => {
     navigate("/");
   };
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const data = await axios({
+          url: `http://localhost:3002/getMember/${user.userid}`,
+          method: "POST",
+        });
+        setUser(data.data);
+
+        await new Promise((resolve, reject) => {
+          setTimeout(() => {
+            resolve();
+          }, 3000);
+        });
+      } catch (e) {
+        setError(e);
+      }
+    };
+    getData();
+  }, [user]);
 
   const onProfileToggle = () => {
     setProfileImageToggle(!profileImageToggle);
