@@ -17,6 +17,7 @@ import Layout from "./layouts/Layout";
 import "./App.css";
 import { useRecoilState } from "recoil";
 import { authenticatedState } from "./recoil/auth";
+import session from "redux-persist/lib/storage/session";
 
 // 로그인유지법 https://velog.io/@hongwr/2022.03.24
 
@@ -24,11 +25,13 @@ function App() {
   const [logined, setLogined] = useRecoilState(authenticatedState);
   const [loginToggle, setLoginToggle] = useState(false);
   const [error, setError] = useState(null);
-  const [user, setUser] = useRecoilState(authenticatedState);
+  const [user, setUser] = useState(
+    () => JSON.parse(sessionStorage.getItem("user")) || ""
+  );
+  // const [name, setName] = useState("");
   const [images, setImages] = useState([]);
   const [addImageToggle, setAddImageToggle] = useState(false);
 
-  // localStorage.setItem(user.userid,user.userid);
   const onLoginToggle = () => {
     setLoginToggle(!loginToggle);
   };
@@ -47,7 +50,7 @@ function App() {
       setError(e);
     }
   };
-
+  // https://www.daleseo.com/react-hooks-use-web-storage/ 세션스토리지 블로그
   const onLogin = async (idValue, passwordValue) => {
     try {
       const data = await axios.post(`http://localhost:3002/loginMember`, {
@@ -57,9 +60,10 @@ function App() {
 
       setLogined(data.data.authenticated);
       onLoginToggle();
-      setUser(data.data.user);
+      // setUser(data.data.user);
+      sessionStorage.setItem("user", JSON.stringify(data.data.user));
 
-      // console.log("user : ", user);
+      setUser(JSON.parse(sessionStorage.getItem("user")));
     } catch (e) {
       setError(e);
     }

@@ -105,6 +105,7 @@ const LoginedHead = ({
                 setUser("");
                 setLogined(!logined);
                 onMoveHompage();
+                sessionStorage.clear();
               }
             }}
           >

@@ -30,7 +30,7 @@ const Grid = ({ logined, setLogined, user }) => {
       }
     };
     getData();
-  }, [user]);
+  }, [images]);
 
   // 이미지 업로드 후 ( => 이미지 배열에 변동이 생기면) 리렌더링.
   useEffect(() => {
@@ -69,6 +69,11 @@ const Grid = ({ logined, setLogined, user }) => {
   //   imgReply INT DEFAULT 0
   //   );  9.7 수정된 이미지테이블 쿼리
 
+  // const likecount = images.map((image) => image.imgLike);
+  // const likeSum = likecount.reduce((prev, curr) => {
+  //   return prev + curr;
+  // }, 0);
+
   return (
     <section className="mx-auto con section-2">
       <ul className="list-box grid grid-cols-3 gap-2 sm:gap-2 md:gap-3 lg:gap-4">
@@ -88,6 +93,7 @@ const Grid = ({ logined, setLogined, user }) => {
           </li>
         ))}
       </ul>
+      {/* <div>{likeSum}</div> */}
     </section>
   ); // 9.7 홈페이지에 업로드된 이미지 나열성공, 좋아요 댓글 수 추가해야함
   // 9.8 이미지 정렬, 좋아요, 댓글수 나열 성공.

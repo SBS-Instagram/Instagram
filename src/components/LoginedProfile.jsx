@@ -133,6 +133,7 @@ function LoginedProfile({ logined, setLogined, user }) {
         <div className="w-2/3 ">
           <div className="flex justify-end items-center h-2/5">
             <div className="text-2xl font-light mr-auto mt-2">
+              {/* {JSON.parse(sessionStorage.getItem("user"))}님 */}
               {user.username}님
             </div>
             <button className="rounded-md border-gray-400 bg-white text-black hover:bg-white text-black hover:rounded-md hover:border-gray-400 btn btn-sm mt-2 mr-4">
