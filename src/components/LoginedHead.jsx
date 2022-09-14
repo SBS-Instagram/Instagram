@@ -43,7 +43,14 @@ const LoginedHead = ({
   };
   //깃테스트
   return (
-    <div className="Topbar">
+    <div
+      className="Topbar"
+      onClick={() => {
+        if (searchToggle) {
+          setSearchToggle(false);
+        }
+      }}
+    >
       <div className="navbar bg-base-100 Topbar_logo">
         <div className="flex-1">
           <a
@@ -72,14 +79,28 @@ const LoginedHead = ({
             </button>
             {searchToggle && (
               <div className="searchBox">
-                <span>최근검색 항목</span>
+                <span
+                  style={{
+                    fontSize: "1.1rem",
+                    fontWeight: "bolder",
+                  }}
+                >
+                  최근검색 항목
+                </span>
                 <button
                   onClick={() => {
                     onSearchToggle();
                   }}
                   className="searchBoxButton"
                 >
-                  <FaWindowClose />
+                  <FaWindowClose
+                    style={{
+                      position: "absolute",
+                      right: "2",
+                      top: "2",
+                      fontSize: "1.5rem",
+                    }}
+                  />
                 </button>
                 <div></div>
               </div>
