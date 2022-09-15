@@ -24,6 +24,7 @@ const LoginedHome = ({
   onAddImageToggle,
   addImageToggle,
   setAddImageToggle,
+  searchedList,
 }) => {
   useEffect(() => {
     setLoginToggle(false);
@@ -45,6 +46,7 @@ const LoginedHome = ({
         onSearch={onSearch}
         setAddImageToggle={setAddImageToggle}
         onAddImageToggle={onAddImageToggle}
+        searchedList={searchedList}
       />
       {addImageToggle && (
         <Image logined={logined} setLogined={setLogined} user={user} />

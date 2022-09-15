@@ -22,6 +22,7 @@ const LoginedHead = ({
   setUser,
   setAddImageToggle,
   onAddImageToggle,
+  searchedList,
 }) => {
   const [searchValue, setSearchValue] = useState("");
   const [imgSrc, setImgSrc] = useState(user.imgSrc);
@@ -36,6 +37,7 @@ const LoginedHead = ({
   };
   const onSearchChange = (e) => {
     setSearchValue(e.target.value);
+    onSearch(searchValue);
   };
 
   const onSearchToggle = () => {
@@ -67,9 +69,6 @@ const LoginedHead = ({
               placeholder="검색"
               onChange={onSearchChange}
               value={searchValue}
-              onSubmit={() => {
-                onSearch(searchValue);
-              }}
               onClick={() => {
                 setSearchToggle(true);
               }}
@@ -85,7 +84,7 @@ const LoginedHead = ({
                     fontWeight: "bolder",
                   }}
                 >
-                  최근검색 항목
+                  검색 항목
                 </span>
                 <button
                   onClick={() => {
@@ -102,7 +101,33 @@ const LoginedHead = ({
                     }}
                   />
                 </button>
-                <div></div>
+                <div className="searchedBox flex mt-2 ml-1">
+                  {searchedList.map((searched, id) => (
+                    <li key={id}>
+                      <div className="flex gap-1">
+                        <div className="w-12 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 img-Box ml-2 mt-1">
+                          <a href="#">
+                            <img
+                              src={
+                                searched.imgSrc != null
+                                  ? searched.imgSrc
+                                  : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_8odrQguUEk4y0r47v-EpBtqpn-Iw3WiErA&usqp=CAU"
+                              }
+                            />
+                          </a>
+                        </div>
+                        <div>
+                          <div className="searchedName">
+                            <span>{searched.username}</span>
+                          </div>
+                          <div className="searchedId">
+                            <span>{searched.userid}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                  ))}
+                </div>
               </div>
             )}
           </div>

@@ -134,9 +134,6 @@ function LoginedProfile({ logined, setLogined, user, setUser }) {
                 }}
               >
                 <a href="#">
-                  {/* <img
-                    src={`${process.env.PUBLIC_URL}/public_assets?logo512.PNG`}
-                  /> */}
                   <img
                     src={
                       user.imgSrc == undefined

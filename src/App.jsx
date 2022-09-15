@@ -27,6 +27,7 @@ function App() {
   const [logined, setLogined] = useRecoilState(authenticatedState);
   const [loginToggle, setLoginToggle] = useState(false);
   const [error, setError] = useState(null);
+  const [searchedList, setSearchedList] = useState([]);
   const [user, setUser] = useState(
     () => JSON.parse(sessionStorage.getItem("user")) || ""
   );
@@ -73,7 +74,20 @@ function App() {
   //https://velog.io/@jjhstoday/AWS-EC2%EC%97%90-React-Node.js-%EC%95%B1-%EB%B0%B0%ED%8F%AC%ED%95%98%EA%B8%B0-1-AWS-EC2-instance-%EC%83%9D%EC%84%B1
   // AWS React 연결 블로그
 
-  const onSearch = async (searchValue) => {};
+  const onSearch = async (searchValue) => {
+    try {
+      const data = await axios.get(
+        `http://localhost:3002/instaSearch/${searchValue}`,
+        {}
+      );
+
+      setSearchedList(data.data);
+      console.log(searchedList);
+      // setUser(data.data.user);
+    } catch (e) {
+      setError(e);
+    }
+  };
 
   return (
     <div>
@@ -99,6 +113,7 @@ function App() {
                   onAddImageToggle={onAddImageToggle}
                   addImageToggle={addImageToggle}
                   setAddImageToggle={setAddImageToggle}
+                  searchedList={searchedList}
                 />
               }
             />
