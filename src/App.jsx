@@ -76,14 +76,12 @@ function App() {
 
   const onSearch = async (searchValue) => {
     try {
-      const data = await axios.get(
-        `http://localhost:3002/instaSearch/${searchValue}`,
-        {}
-      );
+      const data = await axios({
+        url: `http://localhost:3002/instaSearch/${searchValue}`,
+        method: "GET",
+      });
 
       setSearchedList(data.data);
-      console.log(searchedList);
-      // setUser(data.data.user);
     } catch (e) {
       setError(e);
     }
@@ -114,6 +112,7 @@ function App() {
                   addImageToggle={addImageToggle}
                   setAddImageToggle={setAddImageToggle}
                   searchedList={searchedList}
+                  setSearchedList={setSearchedList}
                 />
               }
             />

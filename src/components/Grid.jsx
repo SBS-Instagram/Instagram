@@ -18,7 +18,7 @@ const Grid = ({ logined, setLogined, user }) => {
           url: `http://localhost:3002/getFiles/${user.userid}`,
           method: "POST",
         });
-        setImages(data.data);
+        setImages(data.data.reverse());
         setIsLoading(false);
         await new Promise((resolve, reject) => {
           setTimeout(() => {
@@ -40,7 +40,8 @@ const Grid = ({ logined, setLogined, user }) => {
           url: `http://localhost:3002/getFiles/${user.userid}`,
           method: "POST",
         });
-        setImages(data.data);
+
+        setImages(data.data.reverse());
 
         setIsLoading(false);
         await new Promise((resolve, reject) => {

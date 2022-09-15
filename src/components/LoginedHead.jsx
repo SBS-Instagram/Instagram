@@ -8,7 +8,7 @@ import {
   FaPlusSquare,
   FaWindowClose,
 } from "react-icons/fa";
-
+import { useCallback } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -23,10 +23,12 @@ const LoginedHead = ({
   setAddImageToggle,
   onAddImageToggle,
   searchedList,
+  setSearchedList,
 }) => {
   const [searchValue, setSearchValue] = useState("");
   const [imgSrc, setImgSrc] = useState(user.imgSrc);
   const [searchToggle, setSearchToggle] = useState(false);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   const onMoveHompage = () => {
@@ -37,13 +39,32 @@ const LoginedHead = ({
   };
   const onSearchChange = (e) => {
     setSearchValue(e.target.value);
-    onSearch(searchValue);
+    console.log("searchValue", searchValue);
+    if (e.target.value.length > 0) {
+      onSearch(searchValue);
+    }
   };
 
   const onSearchToggle = () => {
     setSearchToggle(!searchToggle);
   };
-  //깃테스트
+
+  // useEffect(() => {
+  //   const getData = async () => {
+  //     try {
+  //       const data = await axios({
+  //         url: `http://localhost:3002/instaSearch/${searchValue}`,
+  //         method: "GET",
+  //       });
+  //       setSearchedList(data.data);
+  //       console.log("변경");
+  //     } catch (e) {
+  //       setError(e);
+  //     }
+  //     getData();
+  //   };
+  // }, [searchValue]);
+
   return (
     <div
       className="Topbar"
@@ -72,6 +93,14 @@ const LoginedHead = ({
               onClick={() => {
                 setSearchToggle(true);
               }}
+              onKeyPress={(e) => {
+                if (e.key == "Enter") {
+                  onSearch(searchValue);
+                }
+              }}
+              // onKeyPress={(e) => {
+              //   onSearch(searchValue);
+              // }}
             />
             <button>
               <img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png"></img>
@@ -101,33 +130,39 @@ const LoginedHead = ({
                     }}
                   />
                 </button>
-                <div className="searchedBox flex mt-2 ml-1">
-                  {searchedList.map((searched, id) => (
-                    <li key={id}>
-                      <div className="flex gap-1">
-                        <div className="w-12 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 img-Box ml-2 mt-1">
-                          <a href="#">
-                            <img
-                              src={
-                                searched.imgSrc != null
-                                  ? searched.imgSrc
-                                  : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_8odrQguUEk4y0r47v-EpBtqpn-Iw3WiErA&usqp=CAU"
-                              }
-                            />
-                          </a>
-                        </div>
-                        <div>
-                          <div className="searchedName">
-                            <span>{searched.username}</span>
+                {searchedList != "" ? (
+                  <div className="searchedBox flex mt-2 ml-1">
+                    {searchedList.map((searched, id) => (
+                      <li key={id}>
+                        <div className="flex gap-1">
+                          <div className="w-12 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 img-Box ml-2 mt-1">
+                            <a href="#">
+                              <img
+                                src={
+                                  searched.imgSrc != null
+                                    ? searched.imgSrc
+                                    : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_8odrQguUEk4y0r47v-EpBtqpn-Iw3WiErA&usqp=CAU"
+                                }
+                              />
+                            </a>
                           </div>
-                          <div className="searchedId">
-                            <span>{searched.userid}</span>
+                          <div>
+                            <div className="searchedName">
+                              <span>{searched.username}</span>
+                            </div>
+                            <div className="searchedId">
+                              <span>{searched.userid}</span>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </li>
-                  ))}
-                </div>
+                      </li>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="flex justify-center align-center">
+                    <span>검색 결과 없음</span>
+                  </div>
+                )}
               </div>
             )}
           </div>

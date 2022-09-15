@@ -89,8 +89,6 @@ function LoginedProfile({ logined, setLogined, user, setUser }) {
         const { fileName } = res.data;
         setUploadedImg({ fileName });
         onProfileToggle();
-
-        //수정은 되나 초기 로그인 사진이 이상함.
       })
       .catch((err) => {
         console.error(err);
