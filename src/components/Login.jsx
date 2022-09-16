@@ -27,7 +27,7 @@ const Login = ({
   const [passwordValue, setPasswordValue] = useState("");
   const navigate = useNavigate();
   const onMoveHompage = () => {
-    navigate("/");
+    navigate(`/${idValue}`);
   };
   const onIdChange = (e) => {
     setIdValue(e.target.value || "");

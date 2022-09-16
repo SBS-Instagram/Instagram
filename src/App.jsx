@@ -55,16 +55,17 @@ function App() {
   };
   // https://www.daleseo.com/react-hooks-use-web-storage/ 세션스토리지 블로그
   const onLogin = async (idValue, passwordValue) => {
+    setUser("");
     try {
       const data = await axios.post(`http://localhost:3002/loginMember`, {
         userid: idValue,
         password: passwordValue,
       });
 
+      sessionStorage.setItem("user", JSON.stringify(data.data.user));
       setLogined(data.data.authenticated);
       onLoginToggle();
       // setUser(data.data.user);
-      sessionStorage.setItem("user", JSON.stringify(data.data.user));
 
       setUser(data.data.user);
     } catch (e) {
@@ -86,7 +87,8 @@ function App() {
       setError(e);
     }
   };
-
+  // https://v5.reactrouter.com/web/example/url-params
+  // router path param
   return (
     <div>
       {logined ? (
@@ -94,7 +96,7 @@ function App() {
         <Router>
           <Routes>
             <Route
-              path="/"
+              path="/:userid"
               element={
                 <LoginedHome
                   onLoginToggle={onLoginToggle}
@@ -141,7 +143,7 @@ function App() {
               }
             />
             <Route
-              path="/"
+              path="/:userid"
               element={
                 <UnLoginedHome
                   onLoginToggle={onLoginToggle}
