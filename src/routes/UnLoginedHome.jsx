@@ -2,7 +2,7 @@ import React from "react";
 import Header from "../layouts/Header";
 import { useRecoilValue } from "recoil";
 import { authenticatedState } from "../recoil/auth";
-import Grid from "../components/Grid";
+import UnLoginedGrid from "../components/UnLoginedGrid";
 import Image from "../components/Image";
 import axios from "axios";
 import Login from "../components/Login";
@@ -12,6 +12,7 @@ import LoginedProfile from "../components/LoginedProfile";
 import UnLoginedProfile from "../components/UnLoginedProfile";
 import Layout from "../layouts/Layout";
 import { useNavigate, useParams } from "react-router-dom";
+import Footer from "../layouts/Footer";
 const UnLoginedHome = ({
   onLoginToggle,
   setLoginToggle,
@@ -52,6 +53,13 @@ const UnLoginedHome = ({
           setLogined={setLogined}
         />
       )}
+      <UnLoginedGrid
+        logined={logined}
+        setLogined={setLogined}
+        user={user}
+        userid={userid}
+      />
+      <Footer />
     </div>
   );
 };
