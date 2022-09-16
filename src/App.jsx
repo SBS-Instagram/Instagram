@@ -155,6 +155,8 @@ function App() {
                   onSearch={onSearch}
                   user={user}
                   setUser={setUser}
+                  searchedList={searchedList}
+                  setSearchedList={setSearchedList}
                 />
               }
             />

@@ -88,9 +88,6 @@ const LoginedHead = ({
                   onSearch(searchValue);
                 }
               }}
-              // onKeyPress={(e) => {
-              //   onSearch(searchValue);
-              // }}
             />
             <button>
               <img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png"></img>
@@ -138,10 +135,16 @@ const LoginedHead = ({
                           </div>
                           <div>
                             <div className="searchedName">
-                              <span>{searched.username}</span>
+                              <span>
+                                <a href={searched.userid}>
+                                  {searched.username}
+                                </a>
+                              </span>
                             </div>
                             <div className="searchedId">
-                              <span>{searched.userid}</span>
+                              <a href={searched.userid}>
+                                <span>{searched.userid}</span>
+                              </a>
                             </div>
                           </div>
                         </div>

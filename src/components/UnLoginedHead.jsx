@@ -6,19 +6,35 @@ import {
   FaHome,
   FaUserAlt,
   FaPlusSquare,
+  FaWindowClose,
 } from "react-icons/fa";
-
+import { useNavigate } from "react-router-dom";
 const UnLoginedHead = ({
   setLoginToggle,
   onLoginToggle,
   logined,
   setLogined,
   onSearch,
+  user,
+  searchedList,
+  setSearchedList,
 }) => {
   const [searchValue, setSearchValue] = useState("");
+  const [imgSrc, setImgSrc] = useState(user.imgSrc);
+  const [searchToggle, setSearchToggle] = useState(false);
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (searchValue.length > 0) {
+      onSearch(searchValue);
+    }
+  }, [searchValue]);
 
   const onSearchChange = (e) => {
-    setSearchValue(e.targete.value);
+    setSearchValue(e.target.value);
+  };
+  const onSearchToggle = () => {
+    setSearchToggle(!searchToggle);
   };
   return (
     <div className="Topbar">
@@ -38,13 +54,84 @@ const UnLoginedHead = ({
               placeholder="검색"
               onChange={onSearchChange}
               value={searchValue}
-              onSubmit={() => {
-                onSearch(searchValue);
+              onClick={() => {
+                setSearchToggle(true);
+              }}
+              onKeyPress={(e) => {
+                if (e.key == "Enter") {
+                  onSearch(searchValue);
+                }
               }}
             />
             <button>
               <img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png"></img>
             </button>
+            {searchToggle && (
+              <div className="searchBox">
+                <span
+                  style={{
+                    fontSize: "1.1rem",
+                    fontWeight: "bolder",
+                  }}
+                >
+                  검색 항목
+                </span>
+                <button
+                  onClick={() => {
+                    onSearchToggle();
+                  }}
+                  className="searchBoxButton"
+                >
+                  <FaWindowClose
+                    style={{
+                      position: "absolute",
+                      right: "2",
+                      top: "2",
+                      fontSize: "1.5rem",
+                    }}
+                  />
+                </button>
+                {searchedList != "" ? (
+                  <div className="searchedBox flex mt-2 ml-1">
+                    {searchedList.map((searched, id) => (
+                      <li key={id}>
+                        <div className="flex gap-1">
+                          <div className="w-12 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 img-Box ml-2 mt-1">
+                            <a href="#">
+                              <img
+                                src={
+                                  searched.imgSrc != null
+                                    ? searched.imgSrc
+                                    : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_8odrQguUEk4y0r47v-EpBtqpn-Iw3WiErA&usqp=CAU"
+                                }
+                              />
+                            </a>
+                          </div>
+                          <div>
+                            <div className="searchedName">
+                              <span>
+                                <a href={searched.userid}>
+                                  {searched.username}
+                                </a>
+                              </span>
+                            </div>
+                            <div className="searchedId">
+                              <a href={searched.userid}>
+                                <span>{searched.userid}</span>
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="flex justify-center align-center">
+                    <span>검색 결과 없음</span>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
           <a href="#">
             <FaHome style={{ fontSize: "25px" }} />

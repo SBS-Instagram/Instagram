@@ -23,6 +23,8 @@ const UnLoginedHome = ({
   onSearch,
   user,
   setUser,
+  searchedList,
+  setSearchedList,
 }) => {
   const { userid } = useParams();
 
@@ -34,6 +36,9 @@ const UnLoginedHome = ({
         logined={logined}
         setLogined={setLogined}
         onSearch={onSearch}
+        user={user}
+        searchedList={searchedList}
+        setSearchedList={setSearchedList}
       />
       <Layout>
         <UnLoginedProfile
