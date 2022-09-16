@@ -30,6 +30,15 @@ const LoginedHead = ({
   const [searchToggle, setSearchToggle] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  useEffect(() => {
+    //useEffect 사용이유
+    //setState는 비동기처리라서, 보류처리된 후 한발짝 늦게 적용된다.
+    //그래서 asd라고 입력해도 as 까지만 나온다.
+    //그렇기 때문에 useEffect를 사용하여 검색값이 바뀔떄마다 바로 적용하게해준다.
+    if (searchValue.length > 0) {
+      onSearch(searchValue);
+    }
+  }, [searchValue]);
 
   const onMoveHompage = () => {
     navigate("/welcome");
@@ -39,31 +48,11 @@ const LoginedHead = ({
   };
   const onSearchChange = (e) => {
     setSearchValue(e.target.value);
-    console.log("searchValue", searchValue);
-    if (e.target.value.length > 0) {
-      onSearch(searchValue);
-    }
   };
 
   const onSearchToggle = () => {
     setSearchToggle(!searchToggle);
   };
-
-  // useEffect(() => {
-  //   const getData = async () => {
-  //     try {
-  //       const data = await axios({
-  //         url: `http://localhost:3002/instaSearch/${searchValue}`,
-  //         method: "GET",
-  //       });
-  //       setSearchedList(data.data);
-  //       console.log("변경");
-  //     } catch (e) {
-  //       setError(e);
-  //     }
-  //     getData();
-  //   };
-  // }, [searchValue]);
 
   return (
     <div
@@ -71,6 +60,7 @@ const LoginedHead = ({
       onClick={() => {
         if (searchToggle) {
           setSearchToggle(false);
+          setSearchedList("");
         }
       }}
     >
