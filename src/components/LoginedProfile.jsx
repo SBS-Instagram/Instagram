@@ -18,7 +18,7 @@ function LoginedProfile({ logined, setLogined, user, setUser }) {
   });
   const navigate = useNavigate();
   const onMoveHompage = () => {
-    navigate("/");
+    navigate(`/${user.userid}`);
   };
   useEffect(() => {
     const getData = async () => {

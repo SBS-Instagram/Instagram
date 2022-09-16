@@ -1,25 +1,76 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "../styles/UnLoginedprofile.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { useRecoilBridgeAcrossReactRoots_UNSTABLE } from "recoil";
+import UnLoginedHead from "./UnLoginedHead";
+import { useNavigate, useParams } from "react-router-dom";
+function UnLoginedProfile({ logined, setLogined, user, setUser, userid }) {
+  const [content, setContent] = useState("");
+  const [imageToggle, setImageToggle] = useState(false);
+  const [profileImageToggle, setProfileImageToggle] = useState(false);
+  const [error, setError] = useState(null);
+  const [imgSrc, setImgSrc] = useState(user.imgSrc);
+  const [uploadedImg, setUploadedImg] = useState({
+    fileName: "",
+    fillPath: "",
+  });
 
-function UnLoginedProfile({ logined, setLogined, user }) {
+  const navigate = useNavigate();
+  const onMoveHompage = () => {
+    navigate("/");
+  };
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const data = await axios({
+          url: `http://localhost:3002/getMember/${userid}`,
+          method: "POST",
+        });
+
+        setUser(data.data);
+
+        await new Promise((resolve, reject) => {
+          setTimeout(() => {
+            resolve();
+          }, 3000);
+        });
+      } catch (e) {
+        setError(e);
+      }
+    };
+    getData();
+  }, [user]);
+
   return (
-    <div className="flex-col flex  h-128 Profiles">
+    <div className="flex-col flex  h-128 Profiles relative">
       <div className="flex h-3/5 ">
         <div className="flex justify-center items-center w-1/3 ">
           <div className="avatar">
-            <div className="w-40 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-              <img
-                src="https://i.picsum.photos/id/10/2500/1667.jpg?hmac=J04WWC_ebchx3WwzbM-Z4_KC_LeLBWr5LZMaAkWkF68"
-                alt=""
-              />
+            <div className="w-40 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 img-box">
+              <button className="addImage" onClick={() => {}}>
+                <a href="#">
+                  <img
+                    src={
+                      user.imgSrc == undefined
+                        ? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_8odrQguUEk4y0r47v-EpBtqpn-Iw3WiErA&usqp=CAU"
+                        : user.imgSrc
+                    }
+                    alt=""
+                  />
+                </a>
+              </button>
             </div>
           </div>
         </div>
         <div className="w-2/3 ">
           <div className="flex justify-end items-center h-2/5">
-            <div className="text-2xl font-light mr-auto mt-2">SBS0712</div>
+            <div className="text-2xl font-light mr-auto mt-2">
+              {/* {JSON.parse(sessionStorage.getItem("user"))}님 */}
+              {user.username}님
+            </div>
             <button className="rounded-md border-gray-400 bg-white text-black hover:bg-white text-black hover:rounded-md hover:border-gray-400 btn btn-sm mt-2 mr-4">
               메시지 보내기
             </button>
@@ -40,7 +91,7 @@ function UnLoginedProfile({ logined, setLogined, user }) {
                     marginLeft: "10px",
                   }}
                 >
-                  0
+                  {user.article}
                 </span>
               </a>
 
@@ -75,6 +126,33 @@ function UnLoginedProfile({ logined, setLogined, user }) {
           </div>
         </div>
       </div>
+      {profileImageToggle && (
+        <div>
+          <div className="changeProfileImage gap-3">
+            <span>프로필 사진이 변경되었습니다.</span>
+            <a
+              href="#"
+              onClick={async () => {
+                try {
+                  const data = await axios.post(
+                    `http://localhost:3002/getMember/${user.userid}`,
+                    {}
+                  );
+
+                  sessionStorage.setItem("user", JSON.stringify(data.data));
+                  setUser(data.data);
+                  setImgSrc(data.data.imgSrc);
+                } catch (e) {
+                  setError(e);
+                }
+              }}
+            >
+              {" "}
+              <span>확인</span>
+            </a>
+          </div>
+        </div>
+      )}
       <div className="flex justify-around items-center h-1/5 stories">
         <div className="avatar ">
           <div className=" relative w-20 rounded-full ring ring-offset-base-100 ring-offset-2">
@@ -107,6 +185,7 @@ function UnLoginedProfile({ logined, setLogined, user }) {
             </a>
           </div>
         </div>
+
         <div className="avatar">
           <div className="  mr-16 w-20 rounded-full ring  ring-offset-base-100 ring-offset-2">
             <a href="">

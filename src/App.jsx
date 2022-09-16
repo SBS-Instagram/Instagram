@@ -153,6 +153,8 @@ function App() {
                   logined={logined}
                   setLogined={setLogined}
                   onSearch={onSearch}
+                  user={user}
+                  setUser={setUser}
                 />
               }
             />

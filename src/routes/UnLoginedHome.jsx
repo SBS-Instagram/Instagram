@@ -11,7 +11,7 @@ import UnLoginedHead from "../components/UnLoginedHead";
 import LoginedProfile from "../components/LoginedProfile";
 import UnLoginedProfile from "../components/UnLoginedProfile";
 import Layout from "../layouts/Layout";
-
+import { useNavigate, useParams } from "react-router-dom";
 const UnLoginedHome = ({
   onLoginToggle,
   setLoginToggle,
@@ -20,7 +20,11 @@ const UnLoginedHome = ({
   logined,
   setLogined,
   onSearch,
+  user,
+  setUser,
 }) => {
+  const { userid } = useParams();
+
   return (
     <div>
       <UnLoginedHead
@@ -31,7 +35,13 @@ const UnLoginedHome = ({
         onSearch={onSearch}
       />
       <Layout>
-        <UnLoginedProfile logined={logined} setLogined={setLogined} />
+        <UnLoginedProfile
+          logined={logined}
+          setLogined={setLogined}
+          user={user}
+          setUser={setUser}
+          userid={userid}
+        />
       </Layout>
       {loginToggle && (
         <Login
