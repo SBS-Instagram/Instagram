@@ -6,7 +6,7 @@ import { faCommentDots } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { library } from "@fortawesome/fontawesome-svg-core";
 
-const Grid = ({ logined, setLogined, user }) => {
+const Grid = ({ logined, setLogined, user, userid }) => {
   const [images, setImages] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -15,7 +15,7 @@ const Grid = ({ logined, setLogined, user }) => {
     const getData = async () => {
       try {
         const data = await axios({
-          url: `http://localhost:3002/getFiles/${user.userid}`,
+          url: `http://localhost:3002/getFiles/${userid}`,
           method: "POST",
         });
         setImages(data.data.reverse());

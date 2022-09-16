@@ -6,7 +6,7 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useRecoilBridgeAcrossReactRoots_UNSTABLE } from "recoil";
 import LoginedHead from "./LoginedHead";
 import { useNavigate } from "react-router-dom";
-function LoginedProfile({ logined, setLogined, user, setUser }) {
+function LoginedProfile({ logined, setLogined, user, setUser, userid }) {
   const [content, setContent] = useState("");
   const [imageToggle, setImageToggle] = useState(false);
   const [profileImageToggle, setProfileImageToggle] = useState(false);
@@ -24,7 +24,7 @@ function LoginedProfile({ logined, setLogined, user, setUser }) {
     const getData = async () => {
       try {
         const data = await axios({
-          url: `http://localhost:3002/getMember/${user.userid}`,
+          url: `http://localhost:3002/getMember/${userid}`,
           method: "POST",
         });
         setUser(data.data);

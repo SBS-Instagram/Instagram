@@ -10,7 +10,7 @@ import LoginedHead from "../components/LoginedHead";
 import LoginedProfile from "../components/LoginedProfile";
 import Layout from "../layouts/Layout";
 import Footer from "../layouts/Footer";
-
+import { useNavigate, useParams } from "react-router-dom";
 const LoginedHome = ({
   onLoginToggle,
   setLoginToggle,
@@ -34,6 +34,8 @@ const LoginedHome = ({
   useEffect(() => {
     setAddImageToggle(false);
   }, []);
+
+  const { userid } = useParams();
 
   return (
     <div>
@@ -59,6 +61,7 @@ const LoginedHome = ({
           setLogined={setLogined}
           user={user}
           setUser={setUser}
+          userid={userid}
         />
       </Layout>
       {loginToggle && (
@@ -70,7 +73,12 @@ const LoginedHome = ({
           setLogined={setLogined}
         />
       )}
-      <Grid logined={logined} setLogined={setLogined} user={user} />
+      <Grid
+        logined={logined}
+        setLogined={setLogined}
+        user={user}
+        userid={userid}
+      />
       <Footer />
     </div>
   );
