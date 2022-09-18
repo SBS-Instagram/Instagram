@@ -6,7 +6,14 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useRecoilBridgeAcrossReactRoots_UNSTABLE } from "recoil";
 import LoginedHead from "./LoginedHead";
 import { useNavigate } from "react-router-dom";
-function LoginedProfile({ logined, setLogined, user, setUser, userid }) {
+function LoginedProfile({
+  logined,
+  setLogined,
+  user,
+  setUser,
+  userid,
+  onFollow,
+}) {
   const [content, setContent] = useState("");
   const [imageToggle, setImageToggle] = useState(false);
   const [profileImageToggle, setProfileImageToggle] = useState(false);
@@ -90,11 +97,14 @@ function LoginedProfile({ logined, setLogined, user, setUser, userid }) {
   };
 
   // 9.18 팔로우, 팔로워의 각 숫자를 나타내기 위한 followNum followerNum
-  // 팔로우, 팔로워의 Id명단을 추가하기 위해 follow, follower Column 추가
-  // ALTER TABLE insta ADD COLUMN follow VARCHAR(30);
   // ALTER TABLE insta ADD COLUMN followNum int default 0;
-  // ALTER TABLE insta ADD COLUMN follower VARCHAR(30);
   // ALTER TABLE insta ADD COLUMN followNum int default 0;
+
+  // 팔로우, 팔로워의 Id명단을 추가하기 위해 follow_table 추가
+  // CREATE TABLE follow_table (
+  // followId VARCHAR(50),
+  // followedId VARCHAR(50));
+
   return userinfo.userid === user.userid ? (
     <div className="flex-col flex  h-128 Profiles relative">
       <div className="flex h-3/5 ">
@@ -315,7 +325,12 @@ function LoginedProfile({ logined, setLogined, user, setUser, userid }) {
             <button className="rounded-md border-gray-400 bg-white text-black hover:bg-white text-black hover:rounded-md hover:border-gray-400 btn btn-sm mt-2 mr-4">
               메시지 보내기
             </button>
-            <button className="rounded-md border-gray-400 bg-white text-black hover:bg-white text-black hover:rounded-md hover:border-gray-400 btn btn-sm mt-2 mr-4">
+            <button
+              className="rounded-md border-gray-400 bg-white text-black hover:bg-white text-black hover:rounded-md hover:border-gray-400 btn btn-sm mt-2 mr-4"
+              onClick={() => {
+                onFollow(userinfo.userid, user.userid);
+              }}
+            >
               팔로우
             </button>
             <button className="mr-auto flex justify mt-4">

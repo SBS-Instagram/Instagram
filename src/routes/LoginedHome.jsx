@@ -26,6 +26,7 @@ const LoginedHome = ({
   setAddImageToggle,
   searchedList,
   setSearchedList,
+  onFollow,
 }) => {
   useEffect(() => {
     setLoginToggle(false);
@@ -62,6 +63,7 @@ const LoginedHome = ({
           user={user}
           setUser={setUser}
           userid={userid}
+          onFollow={onFollow}
         />
       </Layout>
       {loginToggle && (

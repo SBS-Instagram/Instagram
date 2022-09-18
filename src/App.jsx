@@ -89,6 +89,29 @@ function App() {
   };
   // https://v5.reactrouter.com/web/example/url-params
   // router path param
+
+  // 팔로우,팔로워 기능
+  const onFollow = async (reqId, resId) => {
+    try {
+      const data = await axios.get(
+        `http://localhost:3002/instaFollow?reqId=${reqId}&resId=${resId}`,
+        {}
+      );
+    } catch (e) {
+      setError(e);
+    }
+  };
+
+  const onRemove = async (id) => {
+    try {
+      await axios({
+        url: `http://localhost:3002/delete?id=${id}&userid=${user.userid}`,
+        method: "DELETE",
+      });
+    } catch (e) {
+      setError(e);
+    }
+  };
   return (
     <div>
       {logined ? (
@@ -115,6 +138,7 @@ function App() {
                   setAddImageToggle={setAddImageToggle}
                   searchedList={searchedList}
                   setSearchedList={setSearchedList}
+                  onFollow={onFollow}
                 />
               }
             />
