@@ -38,7 +38,7 @@ const Image = ({ images, setImages, logined, setLogined, user }) => {
 
   return (
     <div className="relative mx-auto imgcon">
-      <div className="formbox">
+      <div className="formbox ">
         <form
           onSubmit={onSubmit}
           style={{

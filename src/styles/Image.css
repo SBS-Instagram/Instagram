@@ -2,6 +2,8 @@
   width: 950px;
 }
 .formbox {
-  position: absolute;
-  right: 0%;
+  top: 7.5%;
+  right: 2%;
+  position: fixed;
+  z-index: 998;
 }
