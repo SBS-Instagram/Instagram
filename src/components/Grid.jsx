@@ -12,6 +12,7 @@ const Grid = ({ logined, setLogined, user, userid, onRemove }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [deleteToggle, setDeleteToggle] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
+  const userinfo = JSON.parse(sessionStorage.getItem("user")) || "";
   // 로그인 후 user가 렌더링되면 사진들 불러오기
   useEffect(() => {
     const getData = async () => {
@@ -64,17 +65,11 @@ const Grid = ({ logined, setLogined, user, userid, onRemove }) => {
   if (isLoading) {
     return <>Loading...</>;
   }
-  // CREATE TABLE img_table (
-  //   id INT PRIMARY KEY AUTO_INCREMENT,
-  //   userid VARCHAR(100),
-  //   imgSrc VARCHAR(255),
-  //   imgLike INT DEFAULT 0,
-  //   imgReply INT DEFAULT 0
-  //   );  9.7 수정된 이미지테이블 쿼리
+
   const onDeleteToggle = () => {
     setDeleteToggle(!deleteToggle);
   };
-  return (
+  return userinfo.userid === user.userid ? (
     <div>
       <section className="mx-auto con section-2 relative">
         <ul className="list-box grid grid-cols-3 gap-2 sm:gap-2 md:gap-3 lg:gap-4">
@@ -141,6 +136,50 @@ const Grid = ({ logined, setLogined, user, userid, onRemove }) => {
           </div>
         </div>
       )}
+    </div>
+  ) : (
+    <div>
+      <section className="mx-auto con section-2 relative">
+        <ul className="list-box grid grid-cols-3 gap-2 sm:gap-2 md:gap-3 lg:gap-4">
+          {images.map((image, index) => (
+            <li key={index}>
+              <div>
+                <img src={image.imgSrc} />
+                <div>
+                  <FontAwesomeIcon icon={faHeart} className="icon" />
+                  <span>{image.imgLike}</span>
+                </div>
+                <div>
+                  <FontAwesomeIcon icon={faCommentDots} className="icon" />
+                  <span>{image.imgReply}</span>
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
+        <button
+          className="fixed bg-blue-200 topbtn"
+          style={{
+            width: "150px",
+            height: "40px",
+            left: "2%",
+            bottom: "2%",
+            borderRadius: "15px",
+            padding: "10px",
+            color: "gray",
+          }}
+          onClick={() => {
+            if (!window.scrollY) return;
+            window.scrollTo({
+              top: 0,
+              behavior: "smooth",
+            });
+          }}
+        >
+          {" "}
+          위로 가기
+        </button>
+      </section>
     </div>
   );
 };
