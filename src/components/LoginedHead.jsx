@@ -10,7 +10,7 @@ import {
 } from "react-icons/fa";
 import { useCallback } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const LoginedHead = ({
   setLoginToggle,
@@ -43,6 +43,9 @@ const LoginedHead = ({
 
   const onMoveHompage = () => {
     navigate("/welcome");
+  };
+  const onMoveMyHomepage = () => {
+    navigate(`http://localhost.3000/${userinfo.userid}`);
   };
   const onImageChange = (e) => {
     e.preventDefault();
@@ -206,10 +209,7 @@ const LoginedHead = ({
               className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52"
             >
               <li>
-                <a
-                  href="https://www.instagram.com/anjjaaang/"
-                  className="justify-between"
-                >
+                <a href={`${userinfo.userid}`} className="justify-between">
                   프로필
                   <span className="badge">New</span>
                 </a>
@@ -375,10 +375,7 @@ const LoginedHead = ({
               className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52"
             >
               <li>
-                <a
-                  href="https://www.instagram.com/anjjaaang/"
-                  className="justify-between"
-                >
+                <a href={`${userinfo.userid}`} className="justify-between">
                   프로필
                   <span className="badge">New</span>
                 </a>
