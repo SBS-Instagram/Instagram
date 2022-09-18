@@ -139,6 +139,7 @@ function App() {
                   searchedList={searchedList}
                   setSearchedList={setSearchedList}
                   onFollow={onFollow}
+                  onRemove={onRemove}
                 />
               }
             />

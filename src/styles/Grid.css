@@ -129,3 +129,10 @@ div > div:last-child > .icon {
     left: 40%;
   }
 }
+.deleteBox {
+  position: absolute;
+  left: 40%;
+  margin-top: -430px;
+  width: 430px;
+  height: 130px;
+}

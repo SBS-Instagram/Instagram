@@ -13,6 +13,7 @@ function LoginedProfile({
   setUser,
   userid,
   onFollow,
+  onRemove,
 }) {
   const [content, setContent] = useState("");
   const [imageToggle, setImageToggle] = useState(false);

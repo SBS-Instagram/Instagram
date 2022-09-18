@@ -6,10 +6,12 @@ import { faCommentDots } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { library } from "@fortawesome/fontawesome-svg-core";
 
-const Grid = ({ logined, setLogined, user, userid }) => {
+const Grid = ({ logined, setLogined, user, userid, onRemove }) => {
   const [images, setImages] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [deleteToggle, setDeleteToggle] = useState(false);
+  const [selectedImage, setSelectedImage] = useState("");
   // 로그인 후 user가 렌더링되면 사진들 불러오기
   useEffect(() => {
     const getData = async () => {
@@ -69,51 +71,77 @@ const Grid = ({ logined, setLogined, user, userid }) => {
   //   imgLike INT DEFAULT 0,
   //   imgReply INT DEFAULT 0
   //   );  9.7 수정된 이미지테이블 쿼리
-
+  const onDeleteToggle = () => {
+    setDeleteToggle(!deleteToggle);
+  };
   return (
-    <section className="mx-auto con section-2 relative">
-      <ul className="list-box grid grid-cols-3 gap-2 sm:gap-2 md:gap-3 lg:gap-4">
-        {images.map((image, index) => (
-          <li key={index}>
-            <div>
-              <img src={image.imgSrc} />
+    <div>
+      <section className="mx-auto con section-2 relative">
+        <ul className="list-box grid grid-cols-3 gap-2 sm:gap-2 md:gap-3 lg:gap-4">
+          {images.map((image, index) => (
+            <li
+              key={index}
+              onClick={() => {
+                onDeleteToggle();
+                setSelectedImage(image.id);
+              }}
+            >
               <div>
-                <FontAwesomeIcon icon={faHeart} className="icon" />
-                <span>{image.imgLike}</span>
+                <img src={image.imgSrc} />
+                <div>
+                  <FontAwesomeIcon icon={faHeart} className="icon" />
+                  <span>{image.imgLike}</span>
+                </div>
+                <div>
+                  <FontAwesomeIcon icon={faCommentDots} className="icon" />
+                  <span>{image.imgReply}</span>
+                </div>
               </div>
-              <div>
-                <FontAwesomeIcon icon={faCommentDots} className="icon" />
-                <span>{image.imgReply}</span>
-              </div>
+            </li>
+          ))}
+        </ul>
+        <button
+          className="fixed bg-blue-200 topbtn"
+          style={{
+            width: "150px",
+            height: "40px",
+            left: "2%",
+            bottom: "2%",
+            borderRadius: "15px",
+            padding: "10px",
+            color: "gray",
+          }}
+          onClick={() => {
+            if (!window.scrollY) return;
+            window.scrollTo({
+              top: 0,
+              behavior: "smooth",
+            });
+          }}
+        >
+          {" "}
+          위로 가기
+        </button>
+      </section>
+      {deleteToggle && (
+        <div className="bg-base-100 shadow-xl deleteBox">
+          <div className="card-body">
+            <h2 className="card-title">해당 게시물을 정말 삭제하시겠습니까?</h2>
+            <div className="card-actions justify-end">
+              <button
+                className="btn btn-primary"
+                onClick={async () => {
+                  onRemove(selectedImage);
+                  onDeleteToggle();
+                }}
+              >
+                네
+              </button>
             </div>
-          </li>
-        ))}
-      </ul>
-      <button
-        className="fixed bg-blue-200 topbtn"
-        style={{
-          width: "150px",
-          height: "40px",
-          left: "2%",
-          bottom: "2%",
-          borderRadius: "15px",
-          padding: "10px",
-          color: "gray",
-        }}
-        onClick={() => {
-          if (!window.scrollY) return;
-          window.scrollTo({
-            top: 0,
-            behavior: "smooth",
-          });
-        }}
-      >
-        {" "}
-        위로 가기
-      </button>
-    </section>
-  ); // 9.7 홈페이지에 업로드된 이미지 나열성공, 좋아요 댓글 수 추가해야함
-  // 9.8 이미지 정렬, 좋아요, 댓글수 나열 성공.
+          </div>
+        </div>
+      )}
+    </div>
+  );
 };
-
 export default Grid;

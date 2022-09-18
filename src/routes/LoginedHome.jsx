@@ -27,6 +27,7 @@ const LoginedHome = ({
   searchedList,
   setSearchedList,
   onFollow,
+  onRemove,
 }) => {
   useEffect(() => {
     setLoginToggle(false);
@@ -64,6 +65,7 @@ const LoginedHome = ({
           setUser={setUser}
           userid={userid}
           onFollow={onFollow}
+          onRemove={onRemove}
         />
       </Layout>
       {loginToggle && (
@@ -80,6 +82,7 @@ const LoginedHome = ({
         setLogined={setLogined}
         user={user}
         userid={userid}
+        onRemove={onRemove}
       />
       <Footer />
     </div>
