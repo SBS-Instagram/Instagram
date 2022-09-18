@@ -16,7 +16,7 @@ function LoginedProfile({ logined, setLogined, user, setUser, userid }) {
     fileName: "",
     fillPath: "",
   });
-  const userinfo = JSON.parse(sessionStorage.getItem("user"));
+  const userinfo = JSON.parse(sessionStorage.getItem("user")) || "";
   const navigate = useNavigate();
   const onMoveHompage = () => {
     navigate(`/${user.userid}`);
@@ -45,14 +45,7 @@ function LoginedProfile({ logined, setLogined, user, setUser, userid }) {
   const onProfileToggle = () => {
     setProfileImageToggle(!profileImageToggle);
   };
-  // ALTER TABLE insta ADD COLUMN imgSrc VARCHAR(255);
-  // 위 쿼리는 insta 테이블, 하단 쿼리는 img_table 테이블.
-  // CREATE TABLE img_table (
-  //   id VARCHAR(100) PRIMARY KEY,
-  //   imgSrc VARCHAR(255),
-  //   imgLike INT DEFAULT 0,
-  //   imgReply INT DEFAULT 0
-  //   );
+
   const onImageToggle = () => {
     setImageToggle(!imageToggle);
   };
@@ -95,6 +88,13 @@ function LoginedProfile({ logined, setLogined, user, setUser, userid }) {
         console.error(err);
       });
   };
+
+  // 9.18 팔로우, 팔로워의 각 숫자를 나타내기 위한 followNum followerNum
+  // 팔로우, 팔로워의 Id명단을 추가하기 위해 follow, follower Column 추가
+  // ALTER TABLE insta ADD COLUMN follow VARCHAR(30);
+  // ALTER TABLE insta ADD COLUMN followNum int default 0;
+  // ALTER TABLE insta ADD COLUMN follower VARCHAR(30);
+  // ALTER TABLE insta ADD COLUMN followNum int default 0;
   return userinfo.userid === user.userid ? (
     <div className="flex-col flex  h-128 Profiles relative">
       <div className="flex h-3/5 ">
@@ -184,7 +184,7 @@ function LoginedProfile({ logined, setLogined, user, setUser, userid }) {
                     marginLeft: "10px",
                   }}
                 >
-                  0
+                  {user.followerNum}
                 </span>
               </a>
               <a href="" className="mr-20">
@@ -194,7 +194,7 @@ function LoginedProfile({ logined, setLogined, user, setUser, userid }) {
                     marginLeft: "10px",
                   }}
                 >
-                  0
+                  {user.followNum}
                 </span>
               </a>
             </div>
@@ -310,7 +310,6 @@ function LoginedProfile({ logined, setLogined, user, setUser, userid }) {
         <div className="w-2/3 ">
           <div className="flex justify-end items-center h-2/5">
             <div className="text-2xl font-light mr-auto mt-2">
-              {/* {JSON.parse(sessionStorage.getItem("user"))}님 */}
               {user.username}님
             </div>
             <button className="rounded-md border-gray-400 bg-white text-black hover:bg-white text-black hover:rounded-md hover:border-gray-400 btn btn-sm mt-2 mr-4">
@@ -344,7 +343,7 @@ function LoginedProfile({ logined, setLogined, user, setUser, userid }) {
                     marginLeft: "10px",
                   }}
                 >
-                  0
+                  {user.followerNum}
                 </span>
               </a>
               <a href="" className="mr-20">
@@ -354,7 +353,7 @@ function LoginedProfile({ logined, setLogined, user, setUser, userid }) {
                     marginLeft: "10px",
                   }}
                 >
-                  0
+                  {user.followNum}
                 </span>
               </a>
             </div>

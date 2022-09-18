@@ -30,7 +30,7 @@ const LoginedHead = ({
   const [searchToggle, setSearchToggle] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-  const userinfo = JSON.parse(sessionStorage.getItem("user"));
+  const userinfo = JSON.parse(sessionStorage.getItem("user")) || "";
   useEffect(() => {
     //useEffect 사용이유
     //setState는 비동기처리라서, 보류처리된 후 한발짝 늦게 적용된다.
@@ -176,7 +176,7 @@ const LoginedHead = ({
           >
             <FaPlusSquare style={{ fontSize: "25px" }} />
           </button>
-          {/* onClick={()=>{serch()}} */}
+
           <button
             onClick={() => {
               if (window.confirm("정말 로그아웃 하시겠습니까?")) {
