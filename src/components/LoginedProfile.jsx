@@ -99,7 +99,7 @@ function LoginedProfile({
 
   // 9.18 팔로우, 팔로워의 각 숫자를 나타내기 위한 followNum followerNum
   // ALTER TABLE insta ADD COLUMN followNum int default 0;
-  // ALTER TABLE insta ADD COLUMN followNum int default 0;
+  // ALTER TABLE insta ADD COLUMN followerNum int default 0;
 
   // 팔로우, 팔로워의 Id명단을 추가하기 위해 follow_table 추가
   // CREATE TABLE follow_table (
