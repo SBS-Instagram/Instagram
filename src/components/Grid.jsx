@@ -3,6 +3,7 @@ import "../styles/Grid.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { faCommentDots } from "@fortawesome/free-solid-svg-icons";
+import { FaWindowClose } from "react-icons/fa";
 import axios from "axios";
 import { library } from "@fortawesome/fontawesome-svg-core";
 
@@ -11,8 +12,11 @@ const Grid = ({ logined, setLogined, user, userid, onRemove }) => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [deleteToggle, setDeleteToggle] = useState(false);
+  const [detailToggle, setDetailToggle] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
   const userinfo = JSON.parse(sessionStorage.getItem("user")) || "";
+  const windowY = window.scrollY;
+
   // 로그인 후 user가 렌더링되면 사진들 불러오기
   useEffect(() => {
     const getData = async () => {
@@ -69,6 +73,10 @@ const Grid = ({ logined, setLogined, user, userid, onRemove }) => {
   const onDeleteToggle = () => {
     setDeleteToggle(!deleteToggle);
   };
+
+  const onDetailToggle = () => {
+    setDetailToggle(!detailToggle);
+  };
   return userinfo.userid === user.userid ? (
     <div>
       <section className="mx-auto con section-2 relative">
@@ -77,8 +85,9 @@ const Grid = ({ logined, setLogined, user, userid, onRemove }) => {
             <li
               key={index}
               onClick={() => {
-                onDeleteToggle();
                 setSelectedImage(image.id);
+                onDetailToggle();
+                // onDeleteToggle();
               }}
             >
               <div>
@@ -118,6 +127,26 @@ const Grid = ({ logined, setLogined, user, userid, onRemove }) => {
           위로 가기
         </button>
       </section>
+      {detailToggle && (
+        <div>
+          <div className="articleDetail" style={{}}>
+            <button
+              onClick={() => {
+                onDetailToggle();
+              }}
+            >
+              <FaWindowClose
+                style={{
+                  position: "absolute",
+                  right: "2",
+                  top: "2",
+                  fontSize: "1.5rem",
+                }}
+              />
+            </button>
+          </div>
+        </div>
+      )}
       {deleteToggle && (
         <div className="bg-base-100 shadow-xl deleteBox">
           <div className="card-body">

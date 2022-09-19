@@ -136,3 +136,10 @@ div > div:last-child > .icon {
   width: 430px;
   height: 130px;
 }
+
+.articleDetail {
+  width: 98vw;
+  height: 98vh;
+  background-color: rgba(0, 0, 0, 0.3);
+  position: absolute;
+}

@@ -83,7 +83,7 @@ const Join = ({ joinMember, onLoginToggle }) => {
         {completeToggle && (
           <div className="joinComplete">
             {" "}
-            <a href="/#">
+            <a href="/welcome">
               가입이 완료되었습니다.
               <br />
               "이 곳"을 누른 후
