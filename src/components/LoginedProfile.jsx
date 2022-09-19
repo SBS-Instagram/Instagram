@@ -14,10 +14,14 @@ function LoginedProfile({
   userid,
   onFollow,
   onRemove,
+  onFollowCheck,
+  isFollowed,
+  setIsFollowed,
 }) {
   const [content, setContent] = useState("");
   const [imageToggle, setImageToggle] = useState(false);
   const [profileImageToggle, setProfileImageToggle] = useState(false);
+
   const [error, setError] = useState(null);
   const [imgSrc, setImgSrc] = useState(user.imgSrc);
   const [uploadedImg, setUploadedImg] = useState({
@@ -49,6 +53,47 @@ function LoginedProfile({
     };
     getData();
   }, [user]);
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const data = await axios({
+          url: `http://localhost:3002/getMember/${userid}`,
+          method: "POST",
+        });
+        setUser(data.data);
+
+        await new Promise((resolve, reject) => {
+          setTimeout(() => {
+            resolve();
+          }, 3000);
+        });
+      } catch (e) {
+        setError(e);
+      }
+    };
+    getData();
+  }, [isFollowed]);
+
+  //새로고침 시 (최초1회) 팔로우중인지 아닌지 파악하기위함.
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const data = await axios.get(
+          `http://localhost:3002/isFollowed?reqId=${userinfo.userid}&resId=${user.userid}`,
+          {}
+        );
+        if (data.data) {
+          setIsFollowed(true);
+        } else {
+          setIsFollowed(false);
+        }
+      } catch (e) {
+        setError(e);
+      }
+    };
+    getData();
+  }, []);
 
   const onProfileToggle = () => {
     setProfileImageToggle(!profileImageToggle);
@@ -326,14 +371,28 @@ function LoginedProfile({
             <button className="rounded-md border-gray-400 bg-white text-black hover:bg-white text-black hover:rounded-md hover:border-gray-400 btn btn-sm mt-2 mr-4">
               메시지 보내기
             </button>
-            <button
-              className="rounded-md border-gray-400 bg-white text-black hover:bg-white text-black hover:rounded-md hover:border-gray-400 btn btn-sm mt-2 mr-4"
-              onClick={() => {
-                onFollow(userinfo.userid, user.userid);
-              }}
-            >
-              팔로우
-            </button>
+            {isFollowed ? (
+              <button
+                className="rounded-md border-gray-400 bg-white text-black hover:bg-white text-black hover:rounded-md hover:border-gray-400 btn btn-sm mt-2 mr-4 "
+                onClick={() => {
+                  onFollowCheck(userinfo.userid, user.userid);
+                  onFollow(userinfo.userid, user.userid);
+                }}
+              >
+                팔로우
+              </button>
+            ) : (
+              <button
+                className="rounded-md border-gray-400 bg-white text-black hover:bg-white text-black hover:rounded-md hover:border-gray-400 btn btn-sm mt-2 mr-4 "
+                onClick={() => {
+                  onFollowCheck(userinfo.userid, user.userid);
+                  onFollow(userinfo.userid, user.userid);
+                }}
+              >
+                팔로우 취소
+              </button>
+            )}
+
             <button className="mr-auto flex justify mt-4">
               <i className="fi fi-bs-menu-dots"></i>
             </button>

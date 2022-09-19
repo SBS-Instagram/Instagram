@@ -5,6 +5,7 @@ import UnLoginedHome from "./routes/UnLoginedHome";
 // 기존 Home 에서 로그인 / 비로그인구별함. 3,4번째줄.
 import Join from "./routes/Join";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
 import Grid from "./components/Grid";
 import Image from "./components/Image";
 import axios from "axios";
@@ -28,9 +29,11 @@ function App() {
   const [loginToggle, setLoginToggle] = useState(false);
   const [error, setError] = useState(null);
   const [searchedList, setSearchedList] = useState([]);
+  const [isFollowed, setIsFollowed] = useState(true);
   const [user, setUser] = useState(
     () => JSON.parse(sessionStorage.getItem("user")) || ""
   );
+
   // const [name, setName] = useState("");
   const [images, setImages] = useState([]);
   const [addImageToggle, setAddImageToggle] = useState(false);
@@ -102,6 +105,24 @@ function App() {
     }
   };
 
+  // 팔로우 체크
+  // 팔로우중이면 true , 아니면 false 반환
+  const onFollowCheck = async (reqId, resId) => {
+    try {
+      const data = await axios.get(
+        `http://localhost:3002/isFollowed?reqId=${reqId}&resId=${resId}`,
+        {}
+      );
+      if (data.data) {
+        setIsFollowed(true);
+      } else {
+        setIsFollowed(false);
+      }
+    } catch (e) {
+      setError(e);
+    }
+  };
+
   const onRemove = async (id) => {
     try {
       await axios({
@@ -140,6 +161,9 @@ function App() {
                   setSearchedList={setSearchedList}
                   onFollow={onFollow}
                   onRemove={onRemove}
+                  onFollowCheck={onFollowCheck}
+                  isFollowed={isFollowed}
+                  setIsFollowed={setIsFollowed}
                 />
               }
             />

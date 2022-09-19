@@ -28,6 +28,9 @@ const LoginedHome = ({
   setSearchedList,
   onFollow,
   onRemove,
+  onFollowCheck,
+  isFollowed,
+  setIsFollowed,
 }) => {
   useEffect(() => {
     setLoginToggle(false);
@@ -66,6 +69,9 @@ const LoginedHome = ({
           userid={userid}
           onFollow={onFollow}
           onRemove={onRemove}
+          onFollowCheck={onFollowCheck}
+          isFollowed={isFollowed}
+          setIsFollowed={setIsFollowed}
         />
       </Layout>
       {loginToggle && (
