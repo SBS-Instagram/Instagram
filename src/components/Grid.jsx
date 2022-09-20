@@ -13,8 +13,8 @@ const Grid = ({ logined, setLogined, user, userid, onRemove }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [deleteToggle, setDeleteToggle] = useState(false);
   const [detailToggle, setDetailToggle] = useState(false);
-  const [selectedImage, setSelectedImage] = useState("");
-  const [selectedImageSrc, setSelectedImageSrc] = useState("");
+  const [selectedImage, setSelectedImage] = useState([]);
+
   const userinfo = JSON.parse(sessionStorage.getItem("user")) || "";
   const windowY = window.scrollY;
 
@@ -79,10 +79,14 @@ const Grid = ({ logined, setLogined, user, userid, onRemove }) => {
     setDetailToggle(!detailToggle);
   };
   return userinfo.userid === user.userid ? (
-    <div>
+    <div
+      onClick={() => {
+        if (detailToggle) setDetailToggle(false);
+      }}
+    >
       <section className="mx-auto con section-2 relative">
         {detailToggle && (
-          <div>
+          <div className="">
             <div
               className="articleDetail"
               style={{ marginTop: `${windowY - 450}px` }}
@@ -91,20 +95,54 @@ const Grid = ({ logined, setLogined, user, userid, onRemove }) => {
                 onClick={() => {
                   onDetailToggle();
                 }}
-              >
+              ></button>
+
+              <div className="imgBox">
+                <img src={selectedImage.imgSrc} alt="" />
+              </div>
+              <div className="flex flex-raw mt-3">
+                <div>
+                  <FontAwesomeIcon icon={faHeart} className="icon" />
+                  <span> 좋아요 {selectedImage.imgLike}</span>
+                </div>
+                <div className="ml-4">
+                  <FontAwesomeIcon icon={faCommentDots} className="icon" />
+                  <span> 댓글 {selectedImage.imgReply}</span>
+                </div>
+              </div>
+              <div className="replyBox flex">
                 <FaWindowClose
                   style={{
                     position: "absolute",
                     right: "2",
                     top: "2",
                     fontSize: "1.5rem",
+                    color: "black",
+                    cursor: "pointer",
                   }}
                 />
-              </button>
-              <div>
-                <img src={selectedImageSrc} alt="" />
+                <div className="w-12 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 img-Box ml-2 mt-2">
+                  <a href={user.userid}>
+                    <img src={user.imgSrc} alt="" />
+                  </a>
+                </div>
+
+                <div className="replyUserBox mt-4">
+                  <div>
+                    <a href={user.userid}>
+                      <span>{user.userid}</span>
+                    </a>
+                  </div>
+                  <div
+                    style={{
+                      borderBottom: "2px gray solid",
+                      marginTop: "35px",
+                      marginLeft: "-65px",
+                      width: "532px",
+                    }}
+                  ></div>
+                </div>
               </div>
-              <div></div>
             </div>
           </div>
         )}
@@ -118,7 +156,7 @@ const Grid = ({ logined, setLogined, user, userid, onRemove }) => {
                 <button
                   className="btn btn-primary"
                   onClick={async () => {
-                    onRemove(selectedImage);
+                    onRemove(selectedImage.id);
                     onDeleteToggle();
                   }}
                 >
@@ -133,8 +171,8 @@ const Grid = ({ logined, setLogined, user, userid, onRemove }) => {
             <li
               key={index}
               onClick={() => {
-                setSelectedImage(image.id);
-                setSelectedImageSrc(image.imgSrc);
+                setSelectedImage(image);
+
                 onDetailToggle();
                 // onDeleteToggle();
               }}
@@ -185,8 +223,8 @@ const Grid = ({ logined, setLogined, user, userid, onRemove }) => {
             <li
               key={index}
               onClick={() => {
-                setSelectedImage(image.id);
-                setSelectedImageSrc(image.imgSrc);
+                setSelectedImage(image);
+
                 onDetailToggle();
                 // onDeleteToggle();
               }}
