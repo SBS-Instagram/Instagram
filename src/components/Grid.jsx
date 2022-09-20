@@ -14,6 +14,7 @@ const Grid = ({ logined, setLogined, user, userid, onRemove }) => {
   const [deleteToggle, setDeleteToggle] = useState(false);
   const [detailToggle, setDetailToggle] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
+  const [selectedImageSrc, setSelectedImageSrc] = useState("");
   const userinfo = JSON.parse(sessionStorage.getItem("user")) || "";
   const windowY = window.scrollY;
 
@@ -80,12 +81,60 @@ const Grid = ({ logined, setLogined, user, userid, onRemove }) => {
   return userinfo.userid === user.userid ? (
     <div>
       <section className="mx-auto con section-2 relative">
+        {detailToggle && (
+          <div>
+            <div
+              className="articleDetail"
+              style={{ marginTop: `${windowY - 450}px` }}
+            >
+              <button
+                onClick={() => {
+                  onDetailToggle();
+                }}
+              >
+                <FaWindowClose
+                  style={{
+                    position: "absolute",
+                    right: "2",
+                    top: "2",
+                    fontSize: "1.5rem",
+                  }}
+                />
+              </button>
+              <div>
+                <img src={selectedImageSrc} alt="" />
+              </div>
+              <div></div>
+            </div>
+          </div>
+        )}
+        {deleteToggle && (
+          <div className="bg-base-100 shadow-xl deleteBox">
+            <div className="card-body">
+              <h2 className="card-title">
+                해당 게시물을 정말 삭제하시겠습니까?
+              </h2>
+              <div className="card-actions justify-end">
+                <button
+                  className="btn btn-primary"
+                  onClick={async () => {
+                    onRemove(selectedImage);
+                    onDeleteToggle();
+                  }}
+                >
+                  네
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
         <ul className="list-box grid grid-cols-3 gap-2 sm:gap-2 md:gap-3 lg:gap-4">
           {images.map((image, index) => (
             <li
               key={index}
               onClick={() => {
                 setSelectedImage(image.id);
+                setSelectedImageSrc(image.imgSrc);
                 onDetailToggle();
                 // onDeleteToggle();
               }}
@@ -127,51 +176,21 @@ const Grid = ({ logined, setLogined, user, userid, onRemove }) => {
           위로 가기
         </button>
       </section>
-      {detailToggle && (
-        <div>
-          <div className="articleDetail" style={{}}>
-            <button
-              onClick={() => {
-                onDetailToggle();
-              }}
-            >
-              <FaWindowClose
-                style={{
-                  position: "absolute",
-                  right: "2",
-                  top: "2",
-                  fontSize: "1.5rem",
-                }}
-              />
-            </button>
-          </div>
-        </div>
-      )}
-      {deleteToggle && (
-        <div className="bg-base-100 shadow-xl deleteBox">
-          <div className="card-body">
-            <h2 className="card-title">해당 게시물을 정말 삭제하시겠습니까?</h2>
-            <div className="card-actions justify-end">
-              <button
-                className="btn btn-primary"
-                onClick={async () => {
-                  onRemove(selectedImage);
-                  onDeleteToggle();
-                }}
-              >
-                네
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   ) : (
     <div>
       <section className="mx-auto con section-2 relative">
         <ul className="list-box grid grid-cols-3 gap-2 sm:gap-2 md:gap-3 lg:gap-4">
           {images.map((image, index) => (
-            <li key={index}>
+            <li
+              key={index}
+              onClick={() => {
+                setSelectedImage(image.id);
+                setSelectedImageSrc(image.imgSrc);
+                onDetailToggle();
+                // onDeleteToggle();
+              }}
+            >
               <div>
                 <img src={image.imgSrc} />
                 <div>

@@ -138,8 +138,9 @@ div > div:last-child > .icon {
 }
 
 .articleDetail {
-  width: 98vw;
-  height: 98vh;
+  width: 100%;
+  height: 88vh;
   background-color: rgba(0, 0, 0, 0.3);
   position: absolute;
+  z-index: 997;
 }
