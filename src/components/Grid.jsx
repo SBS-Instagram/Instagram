@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../styles/Grid.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import { faHeart, faBars } from "@fortawesome/free-solid-svg-icons";
 import { faCommentDots } from "@fortawesome/free-solid-svg-icons";
 import { FaWindowClose } from "react-icons/fa";
 import axios from "axios";
@@ -14,7 +14,7 @@ const Grid = ({ logined, setLogined, user, userid, onRemove }) => {
   const [deleteToggle, setDeleteToggle] = useState(false);
   const [detailToggle, setDetailToggle] = useState(false);
   const [selectedImage, setSelectedImage] = useState([]);
-
+  const [menuToggle, setMenuToggle] = useState(false);
   const userinfo = JSON.parse(sessionStorage.getItem("user")) || "";
   const windowY = window.scrollY;
 
@@ -70,7 +70,9 @@ const Grid = ({ logined, setLogined, user, userid, onRemove }) => {
   if (isLoading) {
     return <>Loading...</>;
   }
-
+  const onMenuToggle = () => {
+    setMenuToggle(!menuToggle);
+  };
   const onDeleteToggle = () => {
     setDeleteToggle(!deleteToggle);
   };
@@ -81,7 +83,9 @@ const Grid = ({ logined, setLogined, user, userid, onRemove }) => {
   return userinfo.userid === user.userid ? (
     <div
       onClick={() => {
-        if (detailToggle) setDetailToggle(false);
+        if (detailToggle) {
+          // setDetailToggle(false);
+        }
       }}
     >
       <section className="mx-auto con section-2 relative">
@@ -91,17 +95,13 @@ const Grid = ({ logined, setLogined, user, userid, onRemove }) => {
               className="articleDetail"
               style={{ marginTop: `${windowY - 450}px` }}
             >
-              <button
-                onClick={() => {
-                  onDetailToggle();
-                }}
-              ></button>
+              <button onClick={() => {}}></button>
 
               <div className="imgBox">
                 <img src={selectedImage.imgSrc} alt="" />
               </div>
               <div className="flex flex-raw mt-3">
-                <div>
+                <div style={{ marginLeft: "10px" }}>
                   <FontAwesomeIcon icon={faHeart} className="icon" />
                   <span> 좋아요 {selectedImage.imgLike}</span>
                 </div>
@@ -111,22 +111,77 @@ const Grid = ({ logined, setLogined, user, userid, onRemove }) => {
                 </div>
               </div>
               <div className="replyBox flex">
-                <FaWindowClose
-                  style={{
-                    position: "absolute",
-                    right: "2",
-                    top: "2",
-                    fontSize: "1.5rem",
-                    color: "black",
-                    cursor: "pointer",
+                <button
+                  onClick={() => {
+                    setDetailToggle(false);
                   }}
-                />
+                >
+                  <FaWindowClose
+                    style={{
+                      position: "absolute",
+                      right: "2",
+                      top: "2",
+                      fontSize: "1.5rem",
+                      color: "black",
+                      cursor: "pointer",
+                    }}
+                  />
+                </button>
+                <div>
+                  <button
+                    onClick={() => {
+                      onMenuToggle();
+                      setDeleteToggle(false);
+                    }}
+                  >
+                    <FontAwesomeIcon
+                      icon={faBars}
+                      style={{
+                        fontSize: "1.2rem",
+                        position: "absolute",
+                        right: "1%",
+                        top: "5%",
+                      }}
+                    />
+                  </button>
+
+                  {menuToggle && (
+                    <div
+                      style={{
+                        position: "absolute",
+                        right: "5%",
+                        top: "5%",
+                        display: "flex",
+                        flexDirection: "column",
+                        backgroundColor: "rgba(235, 229, 255, 0.85)",
+                        width: "100px",
+                        gap: "10px",
+                      }}
+                      //dataAos
+                    >
+                      <button>수정</button>
+                      <button
+                        onClick={() => {
+                          onDeleteToggle();
+                        }}
+                      >
+                        삭제
+                      </button>
+                      <button
+                        onClick={() => {
+                          onMenuToggle();
+                        }}
+                      >
+                        취소
+                      </button>
+                    </div>
+                  )}
+                </div>
                 <div className="w-12 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 img-Box ml-2 mt-2">
                   <a href={user.userid}>
                     <img src={user.imgSrc} alt="" />
                   </a>
                 </div>
-
                 <div className="replyUserBox mt-4">
                   <div>
                     <a href={user.userid}>
@@ -141,13 +196,23 @@ const Grid = ({ logined, setLogined, user, userid, onRemove }) => {
                       width: "532px",
                     }}
                   ></div>
+                  <div
+                    style={{
+                      border: "1px red solid",
+                    }}
+                  >
+                    <span>body</span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         )}
         {deleteToggle && (
-          <div className="bg-base-100 shadow-xl deleteBox">
+          <div
+            className="bg-base-100 shadow-xl deleteBox"
+            style={{ marginTop: `${windowY - 250}px`, zIndex: "998" }}
+          >
             <div className="card-body">
               <h2 className="card-title">
                 해당 게시물을 정말 삭제하시겠습니까?
@@ -158,6 +223,8 @@ const Grid = ({ logined, setLogined, user, userid, onRemove }) => {
                   onClick={async () => {
                     onRemove(selectedImage.id);
                     onDeleteToggle();
+                    setDetailToggle(false);
+                    setMenuToggle(false);
                   }}
                 >
                   네

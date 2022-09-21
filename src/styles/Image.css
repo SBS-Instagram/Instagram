@@ -1,9 +1,25 @@
+@font-face {
+  font-family: "EarlyFontDiary";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_220508@1.0/EarlyFontDiary.woff2")
+    format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+.formbox * {
+  font-family: "EarlyFontDiary";
+}
 .imgcon {
   width: 950px;
 }
 .formbox {
   top: 7.5%;
-  right: 2%;
+  right: 10%;
   position: fixed;
   z-index: 998;
+  outline: 1px solid rgb(112, 171, 211);
+  background-color: whitesmoke;
+}
+.textBox {
+  outline: 1px solid rgb(112, 171, 211);
+  margin-top: 20px;
 }

@@ -5,6 +5,7 @@ const BASE_URL = "http://localhost:3002";
 
 const Image = ({ images, setImages, logined, setLogined, user }) => {
   const [content, setContent] = useState("");
+  const [textValue, setTextValue] = useState("");
   const [uploadedImg, setUploadedImg] = useState({
     fileName: "",
     fillPath: "",
@@ -14,18 +15,26 @@ const Image = ({ images, setImages, logined, setLogined, user }) => {
     let file = document.getElementById("fileAdd");
     file.click();
   };
-
+  const onTextChange = (e) => {
+    setTextValue(e.target.value);
+  };
   const onChange = (e) => {
     setContent(e.target.files[0]);
   };
 
   const onSubmit = (e) => {
     e.preventDefault();
+
+    if (content == null || content == "") {
+      return;
+    }
     const formData = new FormData();
     formData.append("img", content);
-    const userid = user.userid;
+    const userid = JSON.parse(sessionStorage.getItem("user")).userid;
+
     axios
       .post(`http://localhost:3002/upload/${userid}`, formData)
+      //textValue
       .then((res) => {
         const { fileName } = res.data;
         setUploadedImg({ fileName });
@@ -55,12 +64,23 @@ const Image = ({ images, setImages, logined, setLogined, user }) => {
               }}
             />
           </div>
-          <input
-            type="submit"
-            value="업로드하기"
-            className="btn"
-            onClick={() => {}}
-          />
+          <div className="flex justify-center">
+            <textarea
+              className="textBox"
+              style={{
+                width: "300px",
+                height: "500px",
+                whiteSpace: "wrap",
+              }}
+              type="text"
+              onChange={onTextChange}
+              value={textValue}
+              placeholder="게시글을 입력해 주세요"
+            />
+          </div>
+          <div className="flex justify-center mt-5 mb-5">
+            <input type="submit" value="업로드하기" className="btn" />
+          </div>
         </form>
       </div>
     </div>

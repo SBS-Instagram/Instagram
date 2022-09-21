@@ -127,6 +127,10 @@ function LoginedProfile({
   };
   const onSubmit = async (e) => {
     e.preventDefault();
+    if (content == "" || content == undefined || content == null) {
+      window.alert("사진 파일을 선택 후 변경 버튼을 눌러주세요");
+      return;
+    }
     const formData = new FormData();
     formData.append("img", content);
     const userid = user.userid;
