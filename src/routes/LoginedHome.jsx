@@ -58,7 +58,12 @@ const LoginedHome = ({
         setSearchedList={setSearchedList}
       />
       {addImageToggle && (
-        <Image logined={logined} setLogined={setLogined} user={user} />
+        <Image
+          logined={logined}
+          setLogined={setLogined}
+          user={user}
+          onAddImageToggle={onAddImageToggle}
+        />
       )}
       <Layout>
         <LoginedProfile

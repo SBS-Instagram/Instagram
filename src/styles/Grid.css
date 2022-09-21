@@ -148,8 +148,8 @@ div > div:last-child > .icon {
   font-size: 1.2rem;
 }
 .articleDetail > .imgBox {
-  width: 400px;
-  height: 500px;
+  width: 450px;
+  height: 550px;
 }
 .articleDetail > .imgBox > img {
   display: block;
@@ -163,7 +163,7 @@ div > div:last-child > .icon {
   right: 0;
   top: 0;
   background-color: rgba(255, 255, 255, 0.85);
-  width: 57.2%;
+  width: 51.9%;
   height: 100%;
 }
 .replyUserBox {

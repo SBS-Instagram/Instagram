@@ -1,9 +1,18 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { FaWindowClose } from "react-icons/fa";
 import "../styles/Image.css";
 const BASE_URL = "http://localhost:3002";
 
-const Image = ({ images, setImages, logined, setLogined, user }) => {
+const Image = ({
+  images,
+  setImages,
+  logined,
+  setLogined,
+  user,
+  onAddImageToggle,
+}) => {
   const [content, setContent] = useState("");
   const [textValue, setTextValue] = useState("");
   const [uploadedImg, setUploadedImg] = useState({
@@ -30,15 +39,22 @@ const Image = ({ images, setImages, logined, setLogined, user }) => {
     }
     const formData = new FormData();
     formData.append("img", content);
+    formData.append("text", textValue);
+    //append : 개체 FormData내부의 기존 키에 새 값을 FormData추가
+    //참고사이트 : https://developer.mozilla.org/en-US/docs/Web/API/FormData/append
     const userid = JSON.parse(sessionStorage.getItem("user")).userid;
 
-    axios
-      .post(`http://localhost:3002/upload/${userid}`, formData)
+    axios({
+      url: `http://localhost:3002/upload/${userid}`,
+      method: "POST",
+      data: formData,
+    })
       //textValue
       .then((res) => {
         const { fileName } = res.data;
         setUploadedImg({ fileName });
         alert("업로드 완료");
+        onAddImageToggle();
       })
       .catch((err) => {
         console.error(err);
@@ -63,6 +79,22 @@ const Image = ({ images, setImages, logined, setLogined, user }) => {
                 cursor: "pointer",
               }}
             />
+          </div>
+          <div>
+            <button
+              onClick={() => {
+                onAddImageToggle();
+              }}
+            >
+              <FaWindowClose
+                style={{
+                  position: "absolute",
+                  right: "2",
+                  top: "2",
+                  fontSize: "1.5rem",
+                }}
+              />
+            </button>
           </div>
           <div className="flex justify-center">
             <textarea

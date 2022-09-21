@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import "../styles/Grid.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { FaWindowClose } from "react-icons/fa";
 import { faHeart, faBars } from "@fortawesome/free-solid-svg-icons";
 import { faCommentDots } from "@fortawesome/free-solid-svg-icons";
-import { FaWindowClose } from "react-icons/fa";
 import axios from "axios";
 import { library } from "@fortawesome/fontawesome-svg-core";
-
+import AOS from "aos";
+import "aos/dist/aos.css";
 const Grid = ({ logined, setLogined, user, userid, onRemove }) => {
   const [images, setImages] = useState([]);
   const [error, setError] = useState(null);
@@ -18,6 +19,9 @@ const Grid = ({ logined, setLogined, user, userid, onRemove }) => {
   const userinfo = JSON.parse(sessionStorage.getItem("user")) || "";
   const windowY = window.scrollY;
 
+  useEffect(() => {
+    AOS.init();
+  });
   // 로그인 후 user가 렌더링되면 사진들 불러오기
   useEffect(() => {
     const getData = async () => {
@@ -153,11 +157,11 @@ const Grid = ({ logined, setLogined, user, userid, onRemove }) => {
                         top: "5%",
                         display: "flex",
                         flexDirection: "column",
-                        backgroundColor: "rgba(235, 229, 255, 0.85)",
+                        backgroundColor: "rgba(0, 0, 0, 0.05)",
                         width: "100px",
                         gap: "10px",
                       }}
-                      //dataAos
+                      data-aos="fade-left"
                     >
                       <button>수정</button>
                       <button
@@ -193,15 +197,19 @@ const Grid = ({ logined, setLogined, user, userid, onRemove }) => {
                       borderBottom: "2px gray solid",
                       marginTop: "35px",
                       marginLeft: "-65px",
-                      width: "532px",
+                      width: "483px",
                     }}
                   ></div>
                   <div
                     style={{
                       border: "1px red solid",
+                      width: "400px",
+                      height: "400px",
+                      marginLeft: "-30px",
+                      marginTop: "10px",
                     }}
                   >
-                    <span>body</span>
+                    <span>{selectedImage.body}</span>
                   </div>
                 </div>
               </div>
