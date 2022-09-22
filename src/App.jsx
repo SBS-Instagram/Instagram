@@ -182,7 +182,7 @@ function App() {
         <Router>
           <Routes>
             <Route
-              path="/welcome"
+              path="/"
               element={
                 <Welcome
                   onLogin={onLogin}

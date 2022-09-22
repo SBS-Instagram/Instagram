@@ -42,7 +42,7 @@ const LoginedHead = ({
   }, [searchValue]);
 
   const onMoveHompage = () => {
-    navigate("/welcome");
+    navigate("/");
   };
   const onMoveMyHomepage = () => {
     navigate(`http://localhost.3000/${userinfo.userid}`);

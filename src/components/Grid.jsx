@@ -18,7 +18,7 @@ const Grid = ({ logined, setLogined, user, userid, onRemove }) => {
   const [menuToggle, setMenuToggle] = useState(false);
   const userinfo = JSON.parse(sessionStorage.getItem("user")) || "";
   const windowY = window.scrollY;
-
+  const [parsedDate, setParsedDate] = useState([]);
   useEffect(() => {
     AOS.init();
   });
@@ -84,6 +84,12 @@ const Grid = ({ logined, setLogined, user, userid, onRemove }) => {
   const onDetailToggle = () => {
     setDetailToggle(!detailToggle);
   };
+
+  // 9.22 좋아요 테이블 추가
+  // CREATE TABLE like_table (
+  //   id INT,
+  //   likeid VARCHAR(50)
+  //   );
   return userinfo.userid === user.userid ? (
     <div
       onClick={() => {
@@ -200,17 +206,30 @@ const Grid = ({ logined, setLogined, user, userid, onRemove }) => {
                       width: "483px",
                     }}
                   ></div>
+                  <div style={{ width: "150px", marginLeft: "-30px" }}>
+                    <span>{parsedDate[0]}</span>
+                  </div>
                   <div
                     style={{
-                      border: "1px red solid",
                       width: "400px",
-                      height: "400px",
+                      height: "350px",
                       marginLeft: "-30px",
                       marginTop: "10px",
                     }}
                   >
                     <span>{selectedImage.body}</span>
                   </div>
+                  <div
+                    style={{
+                      borderBottom: "2px gray solid",
+                      marginTop: "35px",
+                      marginLeft: "-65px",
+                      width: "483px",
+                    }}
+                  ></div>
+                  <button>
+                    <FontAwesomeIcon icon={faHeart} className="icon" />
+                  </button>
                 </div>
               </div>
             </div>
@@ -247,7 +266,7 @@ const Grid = ({ logined, setLogined, user, userid, onRemove }) => {
               key={index}
               onClick={() => {
                 setSelectedImage(image);
-
+                setParsedDate(selectedImage.regDate.split("T"));
                 onDetailToggle();
                 // onDeleteToggle();
               }}
