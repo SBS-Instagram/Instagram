@@ -133,6 +133,16 @@ function App() {
       setError(e);
     }
   };
+
+  const onLike = async (id, userid, imgSrc) => {
+    try {
+      const data = await axios.post(
+        `http://localhost:3002/like?id=${id}&userid=${userid}&imgSrc=${imgSrc}`
+      );
+    } catch (e) {
+      setError(e);
+    }
+  };
   return (
     <div>
       {logined ? (
@@ -164,6 +174,7 @@ function App() {
                   onFollowCheck={onFollowCheck}
                   isFollowed={isFollowed}
                   setIsFollowed={setIsFollowed}
+                  onLike={onLike}
                 />
               }
             />

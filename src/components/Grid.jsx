@@ -8,7 +8,7 @@ import axios from "axios";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import AOS from "aos";
 import "aos/dist/aos.css";
-const Grid = ({ logined, setLogined, user, userid, onRemove }) => {
+const Grid = ({ logined, setLogined, user, userid, onRemove, onLike }) => {
   const [images, setImages] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -86,10 +86,13 @@ const Grid = ({ logined, setLogined, user, userid, onRemove }) => {
   };
 
   // 9.22 좋아요 테이블 추가
-  // CREATE TABLE like_table (
+  // CREATE TABLE like_table(
   //   id INT,
-  //   likeid VARCHAR(50)
+  //   likeid VARCHAR(30),
+  //   liked INT,
+  //   imgSrc VARCHAR(255)
   //   );
+
   return userinfo.userid === user.userid ? (
     <div
       onClick={() => {
@@ -207,7 +210,10 @@ const Grid = ({ logined, setLogined, user, userid, onRemove }) => {
                     }}
                   ></div>
                   <div style={{ width: "150px", marginLeft: "-30px" }}>
-                    <span>{parsedDate[0]}</span>
+                    <span>
+                      {parsedDate[0]}
+                      {/* {selectedImage.regDate("T")} */}
+                    </span>
                   </div>
                   <div
                     style={{
@@ -227,7 +233,15 @@ const Grid = ({ logined, setLogined, user, userid, onRemove }) => {
                       width: "483px",
                     }}
                   ></div>
-                  <button>
+                  <button
+                    onClick={() => {
+                      onLike(
+                        selectedImage.id,
+                        userinfo.userid,
+                        selectedImage.imgSrc
+                      );
+                    }}
+                  >
                     <FontAwesomeIcon icon={faHeart} className="icon" />
                   </button>
                 </div>

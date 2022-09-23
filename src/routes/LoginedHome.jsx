@@ -31,6 +31,7 @@ const LoginedHome = ({
   onFollowCheck,
   isFollowed,
   setIsFollowed,
+  onLike,
 }) => {
   useEffect(() => {
     setLoginToggle(false);
@@ -94,6 +95,7 @@ const LoginedHome = ({
         user={user}
         userid={userid}
         onRemove={onRemove}
+        onLike={onLike}
       />
       <Footer />
     </div>
