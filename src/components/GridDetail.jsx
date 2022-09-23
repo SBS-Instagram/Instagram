@@ -3,6 +3,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { FaWindowClose } from "react-icons/fa";
 import { faHeart, faBars } from "@fortawesome/free-solid-svg-icons";
 import { faCommentDots } from "@fortawesome/free-solid-svg-icons";
+import { useEffect } from "react";
+import axios from "axios";
 const GridDetail = ({
   logined,
   setLogined,
@@ -12,6 +14,7 @@ const GridDetail = ({
   onLike,
   windowY,
   selectedImage,
+  setSelectedImage,
   setDetailToggle,
   onMenuToggle,
   setMenuToggle,
@@ -20,8 +23,22 @@ const GridDetail = ({
   deleteToggle,
   onDeleteToggle,
   setDeleteToggle,
+  images,
 }) => {
   const userinfo = JSON.parse(sessionStorage.getItem("user")) || "";
+  // useEffect(() => {
+  //   const getData = async () => {
+  //     try {
+  //       const data = await axios({
+  //         url: `http://localhost:3002/getImage/${selectedImage.id}`,
+  //         method: "POST",
+  //       });
+  //     } catch (e) {
+  //       console.log(e);
+  //     }
+  //   };
+  //   getData();
+  // }, [images]);
   return (
     <div>
       (
@@ -135,11 +152,17 @@ const GridDetail = ({
                   width: "483px",
                 }}
               ></div>
-              <div style={{ width: "150px", marginLeft: "-30px" }}>
-                <span>
-                  {parsedDate[0]}
-                  {/* {selectedImage.regDate("T")} */}
-                </span>
+              <div
+                style={{
+                  width: "100px",
+                  height: "30px",
+                  marginLeft: "-30px",
+
+                  overflow: "hidden",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                <span>{selectedImage.regDate}</span>
               </div>
               <div
                 style={{

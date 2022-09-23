@@ -18,6 +18,8 @@ import Layout from "./layouts/Layout";
 import "./App.css";
 import { useRecoilState } from "recoil";
 import { authenticatedState } from "./recoil/auth";
+import GridDetail from "./components/GridDetail";
+import { useNavigate, useParams } from "react-router-dom";
 
 // 로그인유지법 https://velog.io/@hongwr/2022.03.24
 // 9.13 ALTER TABLE insta ADD COLUMN article INT DEFAULT 0;
@@ -25,6 +27,7 @@ import { authenticatedState } from "./recoil/auth";
 // UPDATE insta SET article = article+1 WHERE userid = 'test';
 
 function App() {
+  const { userid } = useParams();
   const [logined, setLogined] = useRecoilState(authenticatedState);
   const [loginToggle, setLoginToggle] = useState(false);
   const [error, setError] = useState(null);
@@ -37,7 +40,7 @@ function App() {
   // const [name, setName] = useState("");
   const [images, setImages] = useState([]);
   const [addImageToggle, setAddImageToggle] = useState(false);
-
+  console.log("userid", userid);
   const onLoginToggle = () => {
     setLoginToggle(!loginToggle);
   };
@@ -176,6 +179,7 @@ function App() {
                   isFollowed={isFollowed}
                   setIsFollowed={setIsFollowed}
                   onLike={onLike}
+                  userid={userid}
                 />
               }
             />
@@ -186,7 +190,20 @@ function App() {
                 <Join joinMember={joinMember} onLoginToggle={onLoginToggle} />
               }
             />
-
+            <Route
+              path="/:userid/:id"
+              element={
+                <Grid
+                  logined={logined}
+                  setLogined={setLogined}
+                  user={user}
+                  userid={userid}
+                  onRemove={onRemove}
+                  onLike={onLike}
+                />
+              }
+            />
+            {/* <Route path="/:userid/id" element={<GridDetail />} /> */}
             {/* 라우터가 유저id와 다를경우, 에러처리해주는 컴포넌트 생성해야함
              <Route
               path="*"

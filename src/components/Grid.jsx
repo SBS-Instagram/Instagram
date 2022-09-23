@@ -8,7 +8,7 @@ import axios from "axios";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import AOS from "aos";
 import "aos/dist/aos.css";
-
+import { useNavigate } from "react-router-dom";
 import GridDetail from "./GridDetail";
 const Grid = ({ logined, setLogined, user, userid, onRemove, onLike }) => {
   const [images, setImages] = useState([]);
@@ -21,7 +21,10 @@ const Grid = ({ logined, setLogined, user, userid, onRemove, onLike }) => {
   const userinfo = JSON.parse(sessionStorage.getItem("user")) || "";
   const windowY = window.scrollY;
   const [parsedDate, setParsedDate] = useState([]);
-
+  const navigate = useNavigate();
+  const onMoveHompage = () => {
+    navigate(`/${user.userid}/${selectedImage.id}`);
+  };
   useEffect(() => {
     AOS.init();
   });
@@ -34,7 +37,6 @@ const Grid = ({ logined, setLogined, user, userid, onRemove, onLike }) => {
           method: "POST",
         });
         setImages(data.data.reverse());
-        console.log("a");
       } catch (e) {
         setError(e);
       }
@@ -47,18 +49,10 @@ const Grid = ({ logined, setLogined, user, userid, onRemove, onLike }) => {
     const getData = async () => {
       try {
         const data = await axios({
-          url: `http://localhost:3002/getFiles/${user.userid}`,
+          url: `http://localhost:3002/getFiles/${userid}`,
           method: "POST",
         });
         setImages(data.data.reverse());
-        // 계속 실행중.
-        console.log("b");
-        await new Promise((resolve, reject) => {
-          setTimeout(() => {
-            resolve();
-          }, 3000);
-        });
-
         setIsLoading(false);
       } catch (e) {
         setError(e);
@@ -111,6 +105,7 @@ const Grid = ({ logined, setLogined, user, userid, onRemove, onLike }) => {
             onLike={onLike}
             windowY={windowY}
             selectedImage={selectedImage}
+            setSelectedImage={setSelectedImage}
             setDetailToggle={setDetailToggle}
             onMenuToggle={onMenuToggle}
             setMenuToggle={setMenuToggle}
@@ -119,6 +114,7 @@ const Grid = ({ logined, setLogined, user, userid, onRemove, onLike }) => {
             deleteToggle={deleteToggle}
             onDeleteToggle={onDeleteToggle}
             setDeleteToggle={setDeleteToggle}
+            images={images}
           />
         )}
         {/* {detailToggle && (
@@ -300,7 +296,7 @@ const Grid = ({ logined, setLogined, user, userid, onRemove, onLike }) => {
               key={index}
               onClick={() => {
                 setSelectedImage(image);
-                setParsedDate(selectedImage.regDate.split("T"));
+
                 onDetailToggle();
                 // onDeleteToggle();
               }}

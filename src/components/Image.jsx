@@ -31,7 +31,7 @@ const Image = ({
     setContent(e.target.files[0]);
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
 
     if (content == null || content == "") {
@@ -53,12 +53,20 @@ const Image = ({
       .then((res) => {
         const { fileName } = res.data;
         setUploadedImg({ fileName });
-        alert("업로드 완료");
-        onAddImageToggle();
       })
       .catch((err) => {
         console.error(err);
       });
+
+    try {
+      const data = await axios.get(`http://localhost:3002/getImages/${userid}`);
+
+      setImages(data.data);
+      onAddImageToggle();
+      alert("업로드 완료");
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (

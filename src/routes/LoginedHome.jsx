@@ -34,6 +34,8 @@ const LoginedHome = ({
   isFollowed,
   setIsFollowed,
   onLike,
+  setImages,
+  userid,
 }) => {
   useEffect(() => {
     setLoginToggle(false);
@@ -42,8 +44,6 @@ const LoginedHome = ({
   useEffect(() => {
     setAddImageToggle(false);
   }, []);
-
-  const { userid } = useParams();
 
   return (
     <div>
@@ -67,6 +67,7 @@ const LoginedHome = ({
           setLogined={setLogined}
           user={user}
           onAddImageToggle={onAddImageToggle}
+          setImages={setImages}
         />
       )}
       <Layout>
