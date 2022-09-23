@@ -41,7 +41,8 @@ function LoginedProfile({
           method: "POST",
         });
         setUser(data.data);
-
+        // 계속실행중
+        console.log("CCC");
         await new Promise((resolve, reject) => {
           setTimeout(() => {
             resolve();

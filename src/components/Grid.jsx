@@ -8,6 +8,8 @@ import axios from "axios";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import AOS from "aos";
 import "aos/dist/aos.css";
+
+import GridDetail from "./GridDetail";
 const Grid = ({ logined, setLogined, user, userid, onRemove, onLike }) => {
   const [images, setImages] = useState([]);
   const [error, setError] = useState(null);
@@ -19,6 +21,7 @@ const Grid = ({ logined, setLogined, user, userid, onRemove, onLike }) => {
   const userinfo = JSON.parse(sessionStorage.getItem("user")) || "";
   const windowY = window.scrollY;
   const [parsedDate, setParsedDate] = useState([]);
+
   useEffect(() => {
     AOS.init();
   });
@@ -31,18 +34,13 @@ const Grid = ({ logined, setLogined, user, userid, onRemove, onLike }) => {
           method: "POST",
         });
         setImages(data.data.reverse());
-        setIsLoading(false);
-        await new Promise((resolve, reject) => {
-          setTimeout(() => {
-            resolve();
-          }, 3000);
-        });
+        console.log("a");
       } catch (e) {
         setError(e);
       }
     };
     getData();
-  }, [user]);
+  }, []);
 
   // 이미지 업로드 후 ( => 이미지 배열에 변동이 생기면) 리렌더링.
   useEffect(() => {
@@ -52,15 +50,16 @@ const Grid = ({ logined, setLogined, user, userid, onRemove, onLike }) => {
           url: `http://localhost:3002/getFiles/${user.userid}`,
           method: "POST",
         });
-
         setImages(data.data.reverse());
-
-        setIsLoading(false);
+        // 계속 실행중.
+        console.log("b");
         await new Promise((resolve, reject) => {
           setTimeout(() => {
             resolve();
           }, 3000);
         });
+
+        setIsLoading(false);
       } catch (e) {
         setError(e);
       }
@@ -103,6 +102,26 @@ const Grid = ({ logined, setLogined, user, userid, onRemove, onLike }) => {
     >
       <section className="mx-auto con section-2 relative">
         {detailToggle && (
+          <GridDetail
+            logined={logined}
+            setLogined={setLogined}
+            user={user}
+            userid={userid}
+            onRemove={onRemove}
+            onLike={onLike}
+            windowY={windowY}
+            selectedImage={selectedImage}
+            setDetailToggle={setDetailToggle}
+            onMenuToggle={onMenuToggle}
+            setMenuToggle={setMenuToggle}
+            menuToggle={menuToggle}
+            parsedDate={parsedDate}
+            deleteToggle={deleteToggle}
+            onDeleteToggle={onDeleteToggle}
+            setDeleteToggle={setDeleteToggle}
+          />
+        )}
+        {/* {detailToggle && (
           <div className="">
             <div
               className="articleDetail"
@@ -117,6 +136,7 @@ const Grid = ({ logined, setLogined, user, userid, onRemove, onLike }) => {
                 <div style={{ marginLeft: "10px" }}>
                   <FontAwesomeIcon icon={faHeart} className="icon" />
                   <span> 좋아요 {selectedImage.imgLike}</span>
+                  
                 </div>
                 <div className="ml-4">
                   <FontAwesomeIcon icon={faCommentDots} className="icon" />
@@ -212,7 +232,7 @@ const Grid = ({ logined, setLogined, user, userid, onRemove, onLike }) => {
                   <div style={{ width: "150px", marginLeft: "-30px" }}>
                     <span>
                       {parsedDate[0]}
-                      {/* {selectedImage.regDate("T")} */}
+                      
                     </span>
                   </div>
                   <div
@@ -273,7 +293,7 @@ const Grid = ({ logined, setLogined, user, userid, onRemove, onLike }) => {
               </div>
             </div>
           </div>
-        )}
+        )} */}
         <ul className="list-box grid grid-cols-3 gap-2 sm:gap-2 md:gap-3 lg:gap-4">
           {images.map((image, index) => (
             <li

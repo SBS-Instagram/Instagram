@@ -149,6 +149,7 @@ function App() {
         // 로그인 되었을때의 프론트 상황이어야 함.
         <Router>
           <Routes>
+            {/* <Route path="/" element= /> */}
             <Route
               path="/:userid"
               element={
@@ -178,13 +179,19 @@ function App() {
                 />
               }
             />
-            <Route path="/about" element={<About />} />
+
             <Route
               path="/join"
               element={
                 <Join joinMember={joinMember} onLoginToggle={onLoginToggle} />
               }
             />
+
+            {/* 라우터가 유저id와 다를경우, 에러처리해주는 컴포넌트 생성해야함
+             <Route
+              path="*"
+              element = {<NotFound />} 
+              /> */}
           </Routes>
           {/*  로그인 된 프론트 상황 여기까지. */}
         </Router>

@@ -4,6 +4,7 @@ import { useRecoilValue } from "recoil";
 import { authenticatedState } from "../recoil/auth";
 import Grid from "../components/Grid";
 import Image from "../components/Image";
+import About from "../routes/About";
 import axios from "axios";
 import Login from "../components/Login";
 import LoginedHead from "../components/LoginedHead";
@@ -11,6 +12,7 @@ import LoginedProfile from "../components/LoginedProfile";
 import Layout from "../layouts/Layout";
 import Footer from "../layouts/Footer";
 import { useNavigate, useParams } from "react-router-dom";
+
 const LoginedHome = ({
   onLoginToggle,
   setLoginToggle,
@@ -58,6 +60,7 @@ const LoginedHome = ({
         searchedList={searchedList}
         setSearchedList={setSearchedList}
       />
+
       {addImageToggle && (
         <Image
           logined={logined}
