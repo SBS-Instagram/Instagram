@@ -6,20 +6,28 @@ import { faHeart, faBars } from "@fortawesome/free-solid-svg-icons";
 import { faCommentDots } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import AOS from "aos";
-import "aos/dist/aos.css";
+
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import GridDetail from "./GridDetail";
-const Grid = ({ logined, setLogined, user, userid, onRemove, onLike }) => {
+
+const Grid = ({
+  logined,
+  setLogined,
+  user,
+  userid,
+  onRemove,
+  onLike,
+  deleteToggle,
+  onDeleteToggle,
+  setDeleteToggle,
+  menuToggle,
+  setMenuToggle,
+  onMenuToggle,
+}) => {
   const [images, setImages] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [deleteToggle, setDeleteToggle] = useState(false);
-  const [detailToggle, setDetailToggle] = useState(false);
   const [selectedImage, setSelectedImage] = useState([]);
-
-  const [menuToggle, setMenuToggle] = useState(false);
   const userinfo = JSON.parse(sessionStorage.getItem("user")) || "";
   const windowY = window.scrollY;
   const [parsedDate, setParsedDate] = useState([]);
@@ -29,9 +37,6 @@ const Grid = ({ logined, setLogined, user, userid, onRemove, onLike }) => {
       navigate(`/${user.userid}/${selectedImage.id}`);
     }
   };
-  useEffect(() => {
-    AOS.init();
-  });
 
   // 로그인 후 user가 렌더링되면 사진들 불러오기
   useEffect(() => {
@@ -72,23 +77,6 @@ const Grid = ({ logined, setLogined, user, userid, onRemove, onLike }) => {
   if (isLoading) {
     return <>Loading...</>;
   }
-  const onMenuToggle = () => {
-    setMenuToggle(!menuToggle);
-  };
-  const onDeleteToggle = () => {
-    setDeleteToggle(!deleteToggle);
-  };
-
-  const onDetailToggle = async () => {
-    setDetailToggle(!detailToggle);
-    await new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve();
-      }, 100);
-    });
-
-    onMoveHompage();
-  };
 
   // 9.22 좋아요 테이블 추가
   // CREATE TABLE like_table(
@@ -101,13 +89,7 @@ const Grid = ({ logined, setLogined, user, userid, onRemove, onLike }) => {
   return (
     <div>
       {userinfo.userid === user.userid ? (
-        <div
-          onClick={() => {
-            if (detailToggle) {
-              // setDetailToggle(false);
-            }
-          }}
-        >
+        <div onClick={() => {}}>
           <section className="mx-auto con section-2 relative">
             {/* {detailToggle && (
           <div className="">
@@ -288,9 +270,7 @@ const Grid = ({ logined, setLogined, user, userid, onRemove, onLike }) => {
                   key={index}
                   onClick={() => {
                     setSelectedImage(image);
-
-                    onDetailToggle();
-
+                    onMoveHompage();
                     // onDeleteToggle();
                   }}
                 >
@@ -342,9 +322,6 @@ const Grid = ({ logined, setLogined, user, userid, onRemove, onLike }) => {
                   key={index}
                   onClick={() => {
                     setSelectedImage(image);
-
-                    onDetailToggle();
-                    // onDeleteToggle();
                   }}
                 >
                   <div>

@@ -36,10 +36,16 @@ function App() {
   const [user, setUser] = useState(
     () => JSON.parse(sessionStorage.getItem("user")) || ""
   );
-
-  // const [name, setName] = useState("");
+  const [deleteToggle, setDeleteToggle] = useState(false);
+  const [menuToggle, setMenuToggle] = useState(false);
   const [images, setImages] = useState([]);
   const [addImageToggle, setAddImageToggle] = useState(false);
+  const onMenuToggle = () => {
+    setMenuToggle(!menuToggle);
+  };
+  const onDeleteToggle = () => {
+    setDeleteToggle(!deleteToggle);
+  };
 
   const onLoginToggle = () => {
     setLoginToggle(!loginToggle);
@@ -160,20 +166,20 @@ function App() {
                 <LoginedHome
                   onLoginToggle={onLoginToggle}
                   setLoginToggle={setLoginToggle}
-                  loginToggle={loginToggle}
-                  onLogin={onLogin}
                   logined={logined}
                   setLogined={setLogined}
-                  user={user}
-                  onSearch={onSearch}
-                  images={images}
-                  setImages={setImages}
                   setUser={setUser}
-                  onAddImageToggle={onAddImageToggle}
-                  addImageToggle={addImageToggle}
+                  onSearch={onSearch}
                   setAddImageToggle={setAddImageToggle}
+                  onAddImageToggle={onAddImageToggle}
                   searchedList={searchedList}
                   setSearchedList={setSearchedList}
+                  loginToggle={loginToggle}
+                  onLogin={onLogin}
+                  user={user}
+                  setImages={setImages}
+                  images={images}
+                  addImageToggle={addImageToggle}
                   onFollow={onFollow}
                   onRemove={onRemove}
                   onFollowCheck={onFollowCheck}
@@ -193,7 +199,27 @@ function App() {
             <Route
               path="/:userid/:id"
               element={
-                <GridDetail user={user} onLike={onLike} onRemove={onRemove} />
+                <GridDetail
+                  user={user}
+                  onLike={onLike}
+                  onRemove={onRemove}
+                  deleteToggle={deleteToggle}
+                  onDeleteToggle={onDeleteToggle}
+                  setDeleteToggle={setDeleteToggle}
+                  menuToggle={menuToggle}
+                  setMenuToggle={setMenuToggle}
+                  onMenuToggle={onMenuToggle}
+                  onLoginToggle={onLoginToggle}
+                  setLoginToggle={setLoginToggle}
+                  logined={logined}
+                  setLogined={setLogined}
+                  setUser={setUser}
+                  onSearch={onSearch}
+                  setAddImageToggle={setAddImageToggle}
+                  onAddImageToggle={onAddImageToggle}
+                  searchedList={searchedList}
+                  setSearchedList={setSearchedList}
+                />
               }
             />
 

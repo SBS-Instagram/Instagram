@@ -11,23 +11,23 @@ import LoginedHead from "../components/LoginedHead";
 import LoginedProfile from "../components/LoginedProfile";
 import Layout from "../layouts/Layout";
 import Footer from "../layouts/Footer";
-import { useNavigate, useParams } from "react-router-dom";
 
+import { useNavigate, useParams } from "react-router-dom";
 const LoginedHome = ({
   onLoginToggle,
   setLoginToggle,
-  loginToggle,
-  onLogin,
   logined,
   setLogined,
-  user,
   setUser,
   onSearch,
-  onAddImageToggle,
-  addImageToggle,
+  loginToggle,
   setAddImageToggle,
+  onAddImageToggle,
   searchedList,
   setSearchedList,
+  onLogin,
+  user,
+  addImageToggle,
   onFollow,
   onRemove,
   onFollowCheck,

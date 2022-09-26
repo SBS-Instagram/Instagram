@@ -71,7 +71,7 @@ const LoginedHead = ({
       <div className="navbar bg-base-100 Topbar_logo">
         <div className="flex-1">
           <a
-            href="http://localhost:3000/"
+            href={`http://localhost:3000/${userinfo.userid}`}
             className="btn btn-ghost normal-case text-xl"
           >
             instagram
@@ -209,7 +209,10 @@ const LoginedHead = ({
               className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52"
             >
               <li>
-                <a href={`${userinfo.userid}`} className="justify-between">
+                <a
+                  href={`http://localhost:3000/${userinfo.userid}`}
+                  className="justify-between"
+                >
                   프로필
                   <span className="badge">New</span>
                 </a>

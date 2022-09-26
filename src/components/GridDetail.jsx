@@ -7,33 +7,42 @@ import { useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
+import AOS from "aos";
+import "aos/dist/aos.css";
+import LoginedHead from "./LoginedHead";
 const GridDetail = ({
-  logined,
-  setLogined,
   user,
-  userid,
-  onRemove,
   onLike,
-  windowY,
-  selectedImage,
-  setSelectedImage,
-  setDetailToggle,
-  onMenuToggle,
-  setMenuToggle,
-  menuToggle,
-  parsedDate,
+  onRemove,
   deleteToggle,
   onDeleteToggle,
   setDeleteToggle,
-  images,
+  menuToggle,
+  setMenuToggle,
+  onMenuToggle,
+  onLoginToggle,
+  setLoginToggle,
+  logined,
+  setLogined,
+  setUser,
+  onSearch,
+  loginToggle,
+  setAddImageToggle,
+  onAddImageToggle,
+  searchedList,
+  setSearchedList,
 }) => {
   const userinfo = JSON.parse(sessionStorage.getItem("user")) || "";
   const [img, setImg] = useState([]);
+  const [like, setLike] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
   const onMoveHomepage = () => {
     navigate(-1);
   };
+  useEffect(() => {
+    AOS.init();
+  });
   useEffect(() => {
     const getData = async () => {
       try {
@@ -53,6 +62,21 @@ const GridDetail = ({
     const getData = async () => {
       try {
         const data = await axios({
+          url: `http://localhost:3002/isLiked?userid=${userinfo.userid}&id=${id}`,
+          method: "GET",
+        });
+        setLike(data.data);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    getData();
+  }, [img.imgLike]);
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const data = await axios({
           url: `http://localhost:3002/getImage/${id}`,
           method: "GET",
         });
@@ -67,11 +91,22 @@ const GridDetail = ({
 
   return (
     <div>
+      <LoginedHead
+        onLoginToggle={onLoginToggle}
+        setLoginToggle={setLoginToggle}
+        logined={logined}
+        setLogined={setLogined}
+        user={user}
+        setUser={setUser}
+        onSearch={onSearch}
+        setAddImageToggle={setAddImageToggle}
+        onAddImageToggle={onAddImageToggle}
+        searchedList={searchedList}
+        setSearchedList={setSearchedList}
+        userid={id}
+      />
       <div className="">
-        <div
-          className="articleDetail"
-          style={{ marginTop: `${windowY - 450}px` }}
-        >
+        <div className="articleDetail">
           <button onClick={() => {}}></button>
 
           <div className="imgBox">
@@ -208,7 +243,23 @@ const GridDetail = ({
                   onLike(img.id, userinfo.userid, img.imgSrc);
                 }}
               >
-                <FontAwesomeIcon icon={faHeart} className="icon" />
+                {like ? (
+                  <FontAwesomeIcon
+                    icon={faHeart}
+                    className="icon"
+                    style={{
+                      color: "pink",
+                    }}
+                  />
+                ) : (
+                  <FontAwesomeIcon
+                    icon={faHeart}
+                    className="icon"
+                    style={{
+                      color: "rgba(255,255,255,0.9)",
+                    }}
+                  />
+                )}
               </button>
               <span
                 style={{
@@ -225,7 +276,7 @@ const GridDetail = ({
       {deleteToggle && (
         <div
           className="bg-base-100 shadow-xl deleteBox"
-          style={{ marginTop: `${windowY - 250}px`, zIndex: "998" }}
+          style={{ zIndex: "998" }}
         >
           <div className="card-body">
             <h2 className="card-title">해당 게시물을 정말 삭제하시겠습니까?</h2>
@@ -233,9 +284,9 @@ const GridDetail = ({
               <button
                 className="btn btn-primary"
                 onClick={async () => {
-                  onRemove(selectedImage.id);
+                  onRemove(id);
                   onDeleteToggle();
-                  setDetailToggle(false);
+
                   setMenuToggle(false);
                 }}
               >
