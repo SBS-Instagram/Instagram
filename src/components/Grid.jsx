@@ -64,7 +64,7 @@ const Grid = ({ logined, setLogined, user, userid, onRemove, onLike }) => {
       }
     };
     getData();
-  }, []); // => [images] 이미지 배열이 바뀌면, 리렌더링. 업로드후 바로 사진갱신됨
+  }, [images]); // => [images] 이미지 배열이 바뀌면, 리렌더링. 업로드후 바로 사진갱신됨
 
   if (error) {
     return <>에러: {error.message}</>;
@@ -331,35 +331,7 @@ const Grid = ({ logined, setLogined, user, userid, onRemove, onLike }) => {
               위로 가기
             </button>
           </section>
-          <div>
-            <Routes>
-              <Route
-                path="/user/70"
-                element={
-                  <GridDetail
-                    logined={logined}
-                    setLogined={setLogined}
-                    user={user}
-                    userid={userid}
-                    onRemove={onRemove}
-                    onLike={onLike}
-                    windowY={windowY}
-                    selectedImage={selectedImage}
-                    setSelectedImage={setSelectedImage}
-                    setDetailToggle={setDetailToggle}
-                    onMenuToggle={onMenuToggle}
-                    setMenuToggle={setMenuToggle}
-                    menuToggle={menuToggle}
-                    parsedDate={parsedDate}
-                    deleteToggle={deleteToggle}
-                    onDeleteToggle={onDeleteToggle}
-                    setDeleteToggle={setDeleteToggle}
-                    images={images}
-                  />
-                }
-              />
-            </Routes>
-          </div>
+          <div></div>
         </div>
       ) : (
         <div>

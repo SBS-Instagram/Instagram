@@ -190,7 +190,12 @@ function App() {
                 <Join joinMember={joinMember} onLoginToggle={onLoginToggle} />
               }
             />
-            <Route path="/:userid/:id" element={<GridDetail />} />
+            <Route
+              path="/:userid/:id"
+              element={
+                <GridDetail user={user} onLike={onLike} onRemove={onRemove} />
+              }
+            />
 
             {/* 라우터가 유저id와 다를경우, 에러처리해주는 컴포넌트 생성해야함
              <Route
