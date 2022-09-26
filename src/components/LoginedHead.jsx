@@ -140,13 +140,17 @@ const LoginedHead = ({
                           <div>
                             <div className="searchedName">
                               <span>
-                                <a href={searched.userid}>
+                                <a
+                                  href={`http://localhost:3000/${searched.userid}`}
+                                >
                                   {searched.username}
                                 </a>
                               </span>
                             </div>
                             <div className="searchedId">
-                              <a href={searched.userid}>
+                              <a
+                                href={`http://localhost:3000/${searched.userid}`}
+                              >
                                 <span>{searched.userid}</span>
                               </a>
                             </div>

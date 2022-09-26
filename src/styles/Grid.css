@@ -136,9 +136,26 @@ div > div:last-child > .icon {
   width: 430px;
   height: 130px;
 }
-
+.detailBox {
+  width: 1000px;
+}
+@media (min-width: 1350px) {
+  .detailBox {
+    transform: translateX(30%);
+  }
+}
+@media (min-width: 1700px) {
+  .detailBox {
+    transform: translateX(50%);
+  }
+}
+@media (max-width: 910px) {
+  .detailBox {
+    transform: translateX(5%);
+  }
+}
 .articleDetail {
-  width: 100%;
+  width: 1000px;
   height: 80vh;
   background-color: rgba(0, 0, 0, 0.6);
   position: absolute;

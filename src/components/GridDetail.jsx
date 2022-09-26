@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import LoginedHead from "./LoginedHead";
+import UnLoginedHead from "./UnLoginedHead";
 const GridDetail = ({
   user,
   onLike,
@@ -37,9 +38,15 @@ const GridDetail = ({
   const [like, setLike] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
+  const [replyValue, setReplyValue] = useState("");
+  const onReplyChange = (e) => {
+    setReplyValue(e.target.value);
+  };
   const onMoveHomepage = () => {
     navigate(-1);
   };
+
+  const onReplySubmit = () => {};
   useEffect(() => {
     AOS.init();
   });
@@ -89,7 +96,7 @@ const GridDetail = ({
     getData();
   }, [img]);
 
-  return (
+  return userinfo.userid === user.userid ? (
     <div>
       <LoginedHead
         onLoginToggle={onLoginToggle}
@@ -105,7 +112,7 @@ const GridDetail = ({
         setSearchedList={setSearchedList}
         userid={id}
       />
-      <div className="">
+      <div className="detailBox">
         <div className="articleDetail">
           <button onClick={() => {}}></button>
 
@@ -223,12 +230,24 @@ const GridDetail = ({
               <div
                 style={{
                   width: "400px",
-                  height: "350px",
+                  height: "150px",
                   marginLeft: "-30px",
                   marginTop: "10px",
                 }}
               >
                 <span>{img.body}</span>
+              </div>
+              <div
+                style={{
+                  border: "1px red solid",
+                  width: "400px",
+                  height: "300px",
+                  marginLeft: "-30px",
+                  marginTop: "10px",
+                  overflow: "auto",
+                }}
+              >
+                <span>댓글</span>
               </div>
               <div
                 style={{
@@ -268,6 +287,29 @@ const GridDetail = ({
               >
                 좋아요
               </span>
+              <div
+                style={{
+                  marginLeft: "-20px",
+                  marginTop: "10px",
+                }}
+              >
+                <input
+                  type="text"
+                  placeholder="댓글 달기.."
+                  onChange={onReplyChange}
+                  value={replyValue}
+                  style={{
+                    width: "350px",
+                  }}
+                />
+                <button
+                  onSubmit={() => {
+                    onReplySubmit();
+                  }}
+                >
+                  완료
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -292,6 +334,325 @@ const GridDetail = ({
               >
                 네
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  ) : (
+    <div>
+      {logined ? (
+        <div>
+          <LoginedHead
+            onLoginToggle={onLoginToggle}
+            setLoginToggle={setLoginToggle}
+            logined={logined}
+            setLogined={setLogined}
+            user={user}
+            setUser={setUser}
+            onSearch={onSearch}
+            setAddImageToggle={setAddImageToggle}
+            onAddImageToggle={onAddImageToggle}
+            searchedList={searchedList}
+            setSearchedList={setSearchedList}
+            userid={id}
+          />
+          <div className="detailBox">
+            <div className="articleDetail">
+              <button onClick={() => {}}></button>
+
+              <div className="imgBox">
+                <img src={img.imgSrc} alt="" />
+              </div>
+              <div className="flex flex-raw mt-3">
+                <div style={{ marginLeft: "10px" }}>
+                  <FontAwesomeIcon icon={faHeart} className="icon" />
+                  <span> 좋아요 {img.imgLike}</span>
+                  {/* 좋아요 체크해서 흰하트,검은하트 출력해야함 */}
+                  {/* 좋아요 버튼 눌렀을떄 바로 좋아요수가 올라야하는데 */}
+                  {/* 토글상황에서 바로 리렌더링이 되는지 불확실 */}
+                  {/* 안된다면 이미지클릭시 라우터활용해서 다른홈페이지이동 고려해야함 */}
+                </div>
+                <div className="ml-4">
+                  <FontAwesomeIcon icon={faCommentDots} className="icon" />
+                  <span> 댓글 {img.imgReply}</span>
+                </div>
+              </div>
+              <div className="replyBox flex">
+                <Link to={-1}>
+                  <FaWindowClose
+                    style={{
+                      position: "absolute",
+                      right: "2",
+                      top: "2",
+                      fontSize: "1.5rem",
+                      color: "black",
+                      cursor: "pointer",
+                    }}
+                  />
+                </Link>
+                <div>
+                  <button
+                    onClick={() => {
+                      onMenuToggle();
+                      setDeleteToggle(false);
+                    }}
+                  >
+                    <FontAwesomeIcon
+                      icon={faBars}
+                      style={{
+                        fontSize: "1.2rem",
+                        position: "absolute",
+                        right: "1%",
+                        top: "5%",
+                      }}
+                    />
+                  </button>
+                </div>
+                <div className="w-12 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 img-Box ml-2 mt-2">
+                  <a href={`http://localhost:3000/${user.userid}`}>
+                    <img src={user.imgSrc} alt="" />
+                  </a>
+                </div>
+                <div className="replyUserBox mt-4">
+                  <div>
+                    <a href={`http://localhost:3000/${user.userid}`}>
+                      <span>{user.userid}</span>
+                    </a>
+                  </div>
+                  <div
+                    style={{
+                      borderBottom: "2px gray solid",
+                      marginTop: "35px",
+                      marginLeft: "-65px",
+                      width: "483px",
+                    }}
+                  ></div>
+                  <div
+                    style={{
+                      width: "100px",
+                      height: "30px",
+                      marginLeft: "-30px",
+
+                      overflow: "hidden",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    <span>{img.regDate}</span>
+                  </div>
+                  <div
+                    style={{
+                      width: "400px",
+                      height: "150px",
+                      marginLeft: "-30px",
+                      marginTop: "10px",
+                    }}
+                  >
+                    <span>{img.body}</span>
+                  </div>
+                  <div
+                    style={{
+                      border: "1px red solid",
+                      width: "400px",
+                      height: "300px",
+                      marginLeft: "-30px",
+                      marginTop: "10px",
+                      overflow: "auto",
+                    }}
+                  >
+                    <span>댓글</span>
+                  </div>
+                  <div
+                    style={{
+                      borderBottom: "2px gray solid",
+                      marginTop: "35px",
+                      marginLeft: "-65px",
+                      width: "483px",
+                    }}
+                  ></div>
+                  <button
+                    onClick={() => {
+                      window.alert("로그인이 필요한 기능입니다.");
+                      onMoveHomepage();
+                    }}
+                  >
+                    <FontAwesomeIcon
+                      icon={faHeart}
+                      className="icon"
+                      style={{
+                        color: "pink",
+                      }}
+                    />
+                  </button>
+                  <span
+                    style={{
+                      marginLeft: "5px",
+                    }}
+                  >
+                    좋아요
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div>
+          <UnLoginedHead
+            onLoginToggle={onLoginToggle}
+            setLoginToggle={setLoginToggle}
+            logined={logined}
+            setLogined={setLogined}
+            user={user}
+            setUser={setUser}
+            onSearch={onSearch}
+            setAddImageToggle={setAddImageToggle}
+            onAddImageToggle={onAddImageToggle}
+            searchedList={searchedList}
+            setSearchedList={setSearchedList}
+            userid={id}
+          />
+          <div className="detailBox">
+            <div className="articleDetail">
+              <button onClick={() => {}}></button>
+
+              <div className="imgBox">
+                <img src={img.imgSrc} alt="" />
+              </div>
+              <div className="flex flex-raw mt-3">
+                <div style={{ marginLeft: "10px" }}>
+                  <FontAwesomeIcon icon={faHeart} className="icon" />
+                  <span> 좋아요 {img.imgLike}</span>
+                  {/* 좋아요 체크해서 흰하트,검은하트 출력해야함 */}
+                  {/* 좋아요 버튼 눌렀을떄 바로 좋아요수가 올라야하는데 */}
+                  {/* 토글상황에서 바로 리렌더링이 되는지 불확실 */}
+                  {/* 안된다면 이미지클릭시 라우터활용해서 다른홈페이지이동 고려해야함 */}
+                </div>
+                <div className="ml-4">
+                  <FontAwesomeIcon icon={faCommentDots} className="icon" />
+                  <span> 댓글 {img.imgReply}</span>
+                </div>
+              </div>
+              <div className="replyBox flex">
+                <Link to={-1}>
+                  <FaWindowClose
+                    style={{
+                      position: "absolute",
+                      right: "2",
+                      top: "2",
+                      fontSize: "1.5rem",
+                      color: "black",
+                      cursor: "pointer",
+                    }}
+                  />
+                </Link>
+                <div>
+                  <button
+                    onClick={() => {
+                      window.alert("작성자만 사용할 수 있는 기능입니다.");
+                      setDeleteToggle(false);
+                    }}
+                  >
+                    <FontAwesomeIcon
+                      icon={faBars}
+                      style={{
+                        fontSize: "1.2rem",
+                        position: "absolute",
+                        right: "1%",
+                        top: "5%",
+                      }}
+                    />
+                  </button>
+                </div>
+                <div className="w-12 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 img-Box ml-2 mt-2">
+                  <a href={`http://localhost:3000/${user.userid}`}>
+                    <img src={user.imgSrc} alt="" />
+                  </a>
+                </div>
+                <div className="replyUserBox mt-4">
+                  <div>
+                    <a href={`http://localhost:3000/${user.userid}`}>
+                      <span>{user.userid}</span>
+                    </a>
+                  </div>
+                  <div
+                    style={{
+                      borderBottom: "2px gray solid",
+                      marginTop: "35px",
+                      marginLeft: "-65px",
+                      width: "483px",
+                    }}
+                  ></div>
+                  <div
+                    style={{
+                      width: "100px",
+                      height: "30px",
+                      marginLeft: "-30px",
+
+                      overflow: "hidden",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    <span>{img.regDate}</span>
+                  </div>
+                  <div
+                    style={{
+                      width: "400px",
+                      height: "150px",
+                      marginLeft: "-30px",
+                      marginTop: "10px",
+                    }}
+                  >
+                    <span>{img.body}</span>
+                  </div>
+                  <div
+                    style={{
+                      border: "1px red solid",
+                      width: "400px",
+                      height: "300px",
+                      marginLeft: "-30px",
+                      marginTop: "10px",
+                      overflow: "auto",
+                    }}
+                  >
+                    <span>댓글</span>
+                    {/* CREATE TABLE reply_table (
+                        id INT,
+                        replyid VARCHAR(50),
+                        reply VARCHAR(255)
+                      ); */}
+                  </div>
+                  <div
+                    style={{
+                      borderBottom: "2px gray solid",
+                      marginTop: "35px",
+                      marginLeft: "-65px",
+                      width: "483px",
+                    }}
+                  ></div>
+                  <button
+                    onClick={() => {
+                      window.alert("로그인이 필요한 기능입니다.");
+                    }}
+                  >
+                    <FontAwesomeIcon
+                      icon={faHeart}
+                      className="icon"
+                      style={{
+                        color: "pink",
+                      }}
+                    />
+                  </button>
+                  <span
+                    style={{
+                      marginLeft: "5px",
+                    }}
+                  >
+                    좋아요
+                  </span>
+                </div>
+              </div>
+              <div></div>
             </div>
           </div>
         </div>

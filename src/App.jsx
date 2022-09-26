@@ -270,6 +270,32 @@ function App() {
                 <Join joinMember={joinMember} onLoginToggle={onLoginToggle} />
               }
             />
+            <Route
+              path="/:userid/:id"
+              element={
+                <GridDetail
+                  user={user}
+                  onLike={onLike}
+                  onRemove={onRemove}
+                  deleteToggle={deleteToggle}
+                  onDeleteToggle={onDeleteToggle}
+                  setDeleteToggle={setDeleteToggle}
+                  menuToggle={menuToggle}
+                  setMenuToggle={setMenuToggle}
+                  onMenuToggle={onMenuToggle}
+                  onLoginToggle={onLoginToggle}
+                  setLoginToggle={setLoginToggle}
+                  logined={logined}
+                  setLogined={setLogined}
+                  setUser={setUser}
+                  onSearch={onSearch}
+                  setAddImageToggle={setAddImageToggle}
+                  onAddImageToggle={onAddImageToggle}
+                  searchedList={searchedList}
+                  setSearchedList={setSearchedList}
+                />
+              }
+            />
           </Routes>
           {/*  로그인 안 된 프론트 상황 여기까지. */}
         </Router>
