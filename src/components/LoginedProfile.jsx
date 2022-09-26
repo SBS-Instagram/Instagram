@@ -53,7 +53,7 @@ function LoginedProfile({
       }
     };
     getData();
-  }, [user]);
+  }, []);
 
   useEffect(() => {
     const getData = async () => {

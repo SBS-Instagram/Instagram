@@ -8,6 +8,7 @@ import axios from "axios";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import GridDetail from "./GridDetail";
 const Grid = ({ logined, setLogined, user, userid, onRemove, onLike }) => {
@@ -17,17 +18,21 @@ const Grid = ({ logined, setLogined, user, userid, onRemove, onLike }) => {
   const [deleteToggle, setDeleteToggle] = useState(false);
   const [detailToggle, setDetailToggle] = useState(false);
   const [selectedImage, setSelectedImage] = useState([]);
+
   const [menuToggle, setMenuToggle] = useState(false);
   const userinfo = JSON.parse(sessionStorage.getItem("user")) || "";
   const windowY = window.scrollY;
   const [parsedDate, setParsedDate] = useState([]);
   const navigate = useNavigate();
   const onMoveHompage = () => {
-    navigate(`/${user.userid}/${selectedImage.id}`);
+    if (selectedImage.id != undefined) {
+      navigate(`/${user.userid}/${selectedImage.id}`);
+    }
   };
   useEffect(() => {
     AOS.init();
   });
+
   // 로그인 후 user가 렌더링되면 사진들 불러오기
   useEffect(() => {
     const getData = async () => {
@@ -59,7 +64,7 @@ const Grid = ({ logined, setLogined, user, userid, onRemove, onLike }) => {
       }
     };
     getData();
-  }, [images]); // => [images] 이미지 배열이 바뀌면, 리렌더링. 업로드후 바로 사진갱신됨
+  }, []); // => [images] 이미지 배열이 바뀌면, 리렌더링. 업로드후 바로 사진갱신됨
 
   if (error) {
     return <>에러: {error.message}</>;
@@ -74,8 +79,15 @@ const Grid = ({ logined, setLogined, user, userid, onRemove, onLike }) => {
     setDeleteToggle(!deleteToggle);
   };
 
-  const onDetailToggle = () => {
+  const onDetailToggle = async () => {
     setDetailToggle(!detailToggle);
+    await new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve();
+      }, 100);
+    });
+
+    onMoveHompage();
   };
 
   // 9.22 좋아요 테이블 추가
@@ -86,38 +98,18 @@ const Grid = ({ logined, setLogined, user, userid, onRemove, onLike }) => {
   //   imgSrc VARCHAR(255)
   //   );
 
-  return userinfo.userid === user.userid ? (
-    <div
-      onClick={() => {
-        if (detailToggle) {
-          // setDetailToggle(false);
-        }
-      }}
-    >
-      <section className="mx-auto con section-2 relative">
-        {detailToggle && (
-          <GridDetail
-            logined={logined}
-            setLogined={setLogined}
-            user={user}
-            userid={userid}
-            onRemove={onRemove}
-            onLike={onLike}
-            windowY={windowY}
-            selectedImage={selectedImage}
-            setSelectedImage={setSelectedImage}
-            setDetailToggle={setDetailToggle}
-            onMenuToggle={onMenuToggle}
-            setMenuToggle={setMenuToggle}
-            menuToggle={menuToggle}
-            parsedDate={parsedDate}
-            deleteToggle={deleteToggle}
-            onDeleteToggle={onDeleteToggle}
-            setDeleteToggle={setDeleteToggle}
-            images={images}
-          />
-        )}
-        {/* {detailToggle && (
+  return (
+    <div>
+      {userinfo.userid === user.userid ? (
+        <div
+          onClick={() => {
+            if (detailToggle) {
+              // setDetailToggle(false);
+            }
+          }}
+        >
+          <section className="mx-auto con section-2 relative">
+            {/* {detailToggle && (
           <div className="">
             <div
               className="articleDetail"
@@ -290,106 +282,138 @@ const Grid = ({ logined, setLogined, user, userid, onRemove, onLike }) => {
             </div>
           </div>
         )} */}
-        <ul className="list-box grid grid-cols-3 gap-2 sm:gap-2 md:gap-3 lg:gap-4">
-          {images.map((image, index) => (
-            <li
-              key={index}
-              onClick={() => {
-                setSelectedImage(image);
+            <ul className="list-box grid grid-cols-3 gap-2 sm:gap-2 md:gap-3 lg:gap-4">
+              {images.map((image, index) => (
+                <li
+                  key={index}
+                  onClick={() => {
+                    setSelectedImage(image);
 
-                onDetailToggle();
-                // onDeleteToggle();
+                    onDetailToggle();
+
+                    // onDeleteToggle();
+                  }}
+                >
+                  <div>
+                    <img src={image.imgSrc} />
+                    <div>
+                      <FontAwesomeIcon icon={faHeart} className="icon" />
+                      <span>{image.imgLike}</span>
+                    </div>
+                    <div>
+                      <FontAwesomeIcon icon={faCommentDots} className="icon" />
+                      <span>{image.imgReply}</span>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+            <button
+              className="fixed bg-blue-200 topbtn"
+              style={{
+                width: "150px",
+                height: "40px",
+                left: "2%",
+                bottom: "2%",
+                borderRadius: "15px",
+                padding: "10px",
+                color: "gray",
+              }}
+              onClick={() => {
+                if (!window.scrollY) return;
+                window.scrollTo({
+                  top: 0,
+                  behavior: "smooth",
+                });
               }}
             >
-              <div>
-                <img src={image.imgSrc} />
-                <div>
-                  <FontAwesomeIcon icon={faHeart} className="icon" />
-                  <span>{image.imgLike}</span>
-                </div>
-                <div>
-                  <FontAwesomeIcon icon={faCommentDots} className="icon" />
-                  <span>{image.imgReply}</span>
-                </div>
-              </div>
-            </li>
-          ))}
-        </ul>
-        <button
-          className="fixed bg-blue-200 topbtn"
-          style={{
-            width: "150px",
-            height: "40px",
-            left: "2%",
-            bottom: "2%",
-            borderRadius: "15px",
-            padding: "10px",
-            color: "gray",
-          }}
-          onClick={() => {
-            if (!window.scrollY) return;
-            window.scrollTo({
-              top: 0,
-              behavior: "smooth",
-            });
-          }}
-        >
-          {" "}
-          위로 가기
-        </button>
-      </section>
-    </div>
-  ) : (
-    <div>
-      <section className="mx-auto con section-2 relative">
-        <ul className="list-box grid grid-cols-3 gap-2 sm:gap-2 md:gap-3 lg:gap-4">
-          {images.map((image, index) => (
-            <li
-              key={index}
-              onClick={() => {
-                setSelectedImage(image);
+              {" "}
+              위로 가기
+            </button>
+          </section>
+          <div>
+            <Routes>
+              <Route
+                path="/user/70"
+                element={
+                  <GridDetail
+                    logined={logined}
+                    setLogined={setLogined}
+                    user={user}
+                    userid={userid}
+                    onRemove={onRemove}
+                    onLike={onLike}
+                    windowY={windowY}
+                    selectedImage={selectedImage}
+                    setSelectedImage={setSelectedImage}
+                    setDetailToggle={setDetailToggle}
+                    onMenuToggle={onMenuToggle}
+                    setMenuToggle={setMenuToggle}
+                    menuToggle={menuToggle}
+                    parsedDate={parsedDate}
+                    deleteToggle={deleteToggle}
+                    onDeleteToggle={onDeleteToggle}
+                    setDeleteToggle={setDeleteToggle}
+                    images={images}
+                  />
+                }
+              />
+            </Routes>
+          </div>
+        </div>
+      ) : (
+        <div>
+          <section className="mx-auto con section-2 relative">
+            <ul className="list-box grid grid-cols-3 gap-2 sm:gap-2 md:gap-3 lg:gap-4">
+              {images.map((image, index) => (
+                <li
+                  key={index}
+                  onClick={() => {
+                    setSelectedImage(image);
 
-                onDetailToggle();
-                // onDeleteToggle();
+                    onDetailToggle();
+                    // onDeleteToggle();
+                  }}
+                >
+                  <div>
+                    <img src={image.imgSrc} />
+                    <div>
+                      <FontAwesomeIcon icon={faHeart} className="icon" />
+                      <span>{image.imgLike}</span>
+                    </div>
+                    <div>
+                      <FontAwesomeIcon icon={faCommentDots} className="icon" />
+                      <span>{image.imgReply}</span>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+            <button
+              className="fixed bg-blue-200 topbtn"
+              style={{
+                width: "150px",
+                height: "40px",
+                left: "2%",
+                bottom: "2%",
+                borderRadius: "15px",
+                padding: "10px",
+                color: "gray",
+              }}
+              onClick={() => {
+                if (!window.scrollY) return;
+                window.scrollTo({
+                  top: 0,
+                  behavior: "smooth",
+                });
               }}
             >
-              <div>
-                <img src={image.imgSrc} />
-                <div>
-                  <FontAwesomeIcon icon={faHeart} className="icon" />
-                  <span>{image.imgLike}</span>
-                </div>
-                <div>
-                  <FontAwesomeIcon icon={faCommentDots} className="icon" />
-                  <span>{image.imgReply}</span>
-                </div>
-              </div>
-            </li>
-          ))}
-        </ul>
-        <button
-          className="fixed bg-blue-200 topbtn"
-          style={{
-            width: "150px",
-            height: "40px",
-            left: "2%",
-            bottom: "2%",
-            borderRadius: "15px",
-            padding: "10px",
-            color: "gray",
-          }}
-          onClick={() => {
-            if (!window.scrollY) return;
-            window.scrollTo({
-              top: 0,
-              behavior: "smooth",
-            });
-          }}
-        >
-          {" "}
-          위로 가기
-        </button>
-      </section>
+              {" "}
+              위로 가기
+            </button>
+          </section>
+        </div>
+      )}
     </div>
   );
 };

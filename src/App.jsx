@@ -40,7 +40,7 @@ function App() {
   // const [name, setName] = useState("");
   const [images, setImages] = useState([]);
   const [addImageToggle, setAddImageToggle] = useState(false);
-  console.log("userid", userid);
+
   const onLoginToggle = () => {
     setLoginToggle(!loginToggle);
   };
@@ -179,7 +179,6 @@ function App() {
                   isFollowed={isFollowed}
                   setIsFollowed={setIsFollowed}
                   onLike={onLike}
-                  userid={userid}
                 />
               }
             />
@@ -190,20 +189,8 @@ function App() {
                 <Join joinMember={joinMember} onLoginToggle={onLoginToggle} />
               }
             />
-            <Route
-              path="/:userid/:id"
-              element={
-                <Grid
-                  logined={logined}
-                  setLogined={setLogined}
-                  user={user}
-                  userid={userid}
-                  onRemove={onRemove}
-                  onLike={onLike}
-                />
-              }
-            />
-            {/* <Route path="/:userid/id" element={<GridDetail />} /> */}
+            <Route path="/:userid/:id" element={<GridDetail />} />
+
             {/* 라우터가 유저id와 다를경우, 에러처리해주는 컴포넌트 생성해야함
              <Route
               path="*"
