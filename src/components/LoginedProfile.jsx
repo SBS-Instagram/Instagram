@@ -5,16 +5,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useRecoilBridgeAcrossReactRoots_UNSTABLE } from "recoil";
 import LoginedHead from "./LoginedHead";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 function LoginedProfile({
   logined,
   setLogined,
   user,
   setUser,
   userid,
-  onFollow,
+
   onRemove,
-  onFollowCheck,
+
   isFollowed,
   setIsFollowed,
 }) {
@@ -53,38 +53,64 @@ function LoginedProfile({
       }
     };
     getData();
-  }, []);
+  }, [user]);
+  // 팔로우,팔로워 기능
+  const onFollow = async (reqId, resId) => {
+    try {
+      const data = await axios.get(
+        `http://localhost:3002/instaFollow?reqId=${reqId}&resId=${resId}`,
+        {}
+      );
+      setIsFollowed(data.data);
+    } catch (e) {
+      setError(e);
+    }
+  };
+  const onFollowCheck = async (reqId, resId) => {
+    try {
+      const data = await axios.get(
+        `http://localhost:3002/isFollowed?reqId=${reqId}&resId=${resId}`,
+        {}
+      );
 
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        const data = await axios({
-          url: `http://localhost:3002/getMember/${userid}`,
-          method: "POST",
-        });
-        setUser(data.data);
-
-        await new Promise((resolve, reject) => {
-          setTimeout(() => {
-            resolve();
-          }, 3000);
-        });
-      } catch (e) {
-        setError(e);
+      if (data.data) {
+        setIsFollowed(true);
+      } else {
+        setIsFollowed(false);
       }
-    };
-    getData();
-  }, [isFollowed]);
+    } catch (e) {
+      setError(e);
+    }
+  };
+
+  // useEffect(() => {
+  //   const onFollowCheck = async () => {
+  //     try {
+  //       const data = await axios.get(
+  //         `http://localhost:3002/isFollowed?reqId=${userinfo.userid}&resId=${userid}`,
+  //         {}
+  //       );
+  //       if (data.data) {
+  //         setIsFollowed(true);
+  //       } else {
+  //         setIsFollowed(false);
+  //       }
+  //     } catch (e) {
+  //       setError(e);
+  //     }
+  //   };
+  //   onFollowCheck();
+  // }, [isFollowed]);
 
   //새로고침 시 (최초1회) 팔로우중인지 아닌지 파악하기위함.
   useEffect(() => {
     const getData = async () => {
       try {
         const data = await axios.get(
-          `http://localhost:3002/isFollowed?reqId=${userinfo.userid}&resId=${user.userid}`,
+          `http://localhost:3002/isFollowed?reqId=${userinfo.userid}&resId=${userid}`,
           {}
         );
-        if (data.data) {
+        if (data.data === true) {
           setIsFollowed(true);
         } else {
           setIsFollowed(false);
@@ -380,21 +406,21 @@ function LoginedProfile({
               <button
                 className="rounded-md border-gray-400 bg-white text-black hover:bg-white text-black hover:rounded-md hover:border-gray-400 btn btn-sm mt-2 mr-4 "
                 onClick={() => {
-                  onFollowCheck(userinfo.userid, user.userid);
-                  onFollow(userinfo.userid, user.userid);
+                  onFollowCheck(userinfo.userid, userid);
+                  onFollow(userinfo.userid, userid);
                 }}
               >
-                팔로우
+                팔로우 취소
               </button>
             ) : (
               <button
                 className="rounded-md border-gray-400 bg-white text-black hover:bg-white text-black hover:rounded-md hover:border-gray-400 btn btn-sm mt-2 mr-4 "
                 onClick={() => {
-                  onFollowCheck(userinfo.userid, user.userid);
-                  onFollow(userinfo.userid, user.userid);
+                  onFollowCheck(userinfo.userid, userid);
+                  onFollow(userinfo.userid, userid);
                 }}
               >
-                팔로우 취소
+                팔로우
               </button>
             )}
 

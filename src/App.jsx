@@ -102,18 +102,6 @@ function App() {
   // https://v5.reactrouter.com/web/example/url-params
   // router path param
 
-  // 팔로우,팔로워 기능
-  const onFollow = async (reqId, resId) => {
-    try {
-      const data = await axios.get(
-        `http://localhost:3002/instaFollow?reqId=${reqId}&resId=${resId}`,
-        {}
-      );
-    } catch (e) {
-      setError(e);
-    }
-  };
-
   // 팔로우 체크
   // 팔로우중이면 true , 아니면 false 반환
   const onFollowCheck = async (reqId, resId) => {
@@ -122,6 +110,7 @@ function App() {
         `http://localhost:3002/isFollowed?reqId=${reqId}&resId=${resId}`,
         {}
       );
+
       if (data.data) {
         setIsFollowed(true);
       } else {
@@ -187,7 +176,6 @@ function App() {
                   setImages={setImages}
                   images={images}
                   addImageToggle={addImageToggle}
-                  onFollow={onFollow}
                   onRemove={onRemove}
                   onFollowCheck={onFollowCheck}
                   isFollowed={isFollowed}
