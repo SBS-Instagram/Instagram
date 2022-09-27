@@ -69,7 +69,7 @@ const Grid = ({
       }
     };
     getData();
-  }, [images]); // => [images] 이미지 배열이 바뀌면, 리렌더링. 업로드후 바로 사진갱신됨
+  }, []); // => [images] 이미지 배열이 바뀌면, 리렌더링. 업로드후 바로 사진갱신됨
 
   if (error) {
     return <>에러: {error.message}</>;

@@ -159,15 +159,7 @@ function App() {
   //   replyid VARCHAR(50),
   //   reply VARCHAR(255)
   // );
-  const onReply = async (articleid, userid, reply) => {
-    try {
-      const data = await axios.post(
-        `http://localhost:3002/like?id=${id}&userid=${userid}&imgSrc=${imgSrc}`
-      );
-    } catch (e) {
-      setError(e);
-    }
-  };
+
   return (
     <div>
       {logined ? (

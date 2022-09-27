@@ -39,7 +39,8 @@ const GridDetail = ({
   const { id } = useParams();
   const navigate = useNavigate();
   const [replyValue, setReplyValue] = useState("");
-
+  const [replies, setReplies] = useState([]);
+  const [replyUser, setReplyUser] = useState([]);
   const onReplyChange = (e) => {
     setReplyValue(e.target.value);
   };
@@ -47,10 +48,21 @@ const GridDetail = ({
     navigate(-1);
   };
 
-  const onReplySubmit = () => {};
   useEffect(() => {
     AOS.init();
   });
+  const onReply = async (articleid, userid, reply) => {
+    try {
+      const data = await axios.post(
+        `http://localhost:3002/instaReply?id=${articleid}&userid=${userid}`,
+        { reply }
+      );
+      setReplies(data.data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   useEffect(() => {
     const getData = async () => {
       try {
@@ -74,13 +86,29 @@ const GridDetail = ({
           method: "GET",
         });
         setUser(data.data);
-        console.log(data.data);
       } catch (e) {
         console.log(e);
       }
     };
     getData();
   }, []);
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const data = await axios({
+          url: `http://localhost:3002/getReplies/${id}`,
+          method: "GET",
+        });
+
+        setReplies(data.data);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    getData();
+  }, []);
+
   useEffect(() => {
     const getData = async () => {
       try {
@@ -112,7 +140,7 @@ const GridDetail = ({
     getData();
   }, [img]);
 
-  return (undefined != userinfo.userid) === user.userid ? (
+  return userinfo.userid === user.userid ? (
     <div>
       <LoginedHead
         onLoginToggle={onLoginToggle}
@@ -151,16 +179,22 @@ const GridDetail = ({
           </div>
           <div className="replyBox flex">
             <Link to={-1}>
-              <FaWindowClose
-                style={{
-                  position: "absolute",
-                  right: "2",
-                  top: "2",
-                  fontSize: "1.5rem",
-                  color: "black",
-                  cursor: "pointer",
+              <button
+                onClick={() => {
+                  setMenuToggle(false);
                 }}
-              />
+              >
+                <FaWindowClose
+                  style={{
+                    position: "absolute",
+                    right: "2",
+                    top: "2",
+                    fontSize: "1.5rem",
+                    color: "black",
+                    cursor: "pointer",
+                  }}
+                />
+              </button>
             </Link>
             <div>
               <button
@@ -191,6 +225,7 @@ const GridDetail = ({
                     backgroundColor: "rgba(0, 0, 0, 0.05)",
                     width: "100px",
                     gap: "10px",
+                    zIndex: "999",
                   }}
                   data-aos="fade-left"
                 >
@@ -253,17 +288,69 @@ const GridDetail = ({
               >
                 <span>{img.body}</span>
               </div>
+              {/* 9.27 댓글테이블 수정 */}
+              {/* CREATE TABLE reply_table (
+id INT AUTO_INCREMENT PRIMARY KEY,
+articleid INT,
+replyid VARCHAR(50),
+replyusername VARCHAR(30),
+replyuserImgSrc VARCHAR(255),
+reply VARCHAR(255)
+); */}
               <div
                 style={{
-                  border: "1px red solid",
                   width: "400px",
-                  height: "300px",
-                  marginLeft: "-30px",
+                  height: "330px",
+                  marginLeft: "-50px",
                   marginTop: "10px",
                   overflow: "auto",
+                  position: "relative",
                 }}
               >
-                <span>댓글</span>
+                <ul>
+                  {replies.map((reply, id) => (
+                    <li key={id}>
+                      <div className="flex gap-1">
+                        <div className="w-12 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 img-Box ml-2 mt-2">
+                          <a href={`http://localhost:3000/${reply.replyid}`}>
+                            <img
+                              src={
+                                reply.replyuserImgSrc != undefined
+                                  ? reply.replyuserImgSrc
+                                  : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_8odrQguUEk4y0r47v-EpBtqpn-Iw3WiErA&usqp=CAU"
+                              }
+                              alt=""
+                            />
+                          </a>
+                        </div>
+                        <div>
+                          <div className="searchedName">
+                            <span>
+                              <a
+                                href={`http://localhost:3000/${reply.replyid}`}
+                              >
+                                {reply.replyusername}
+                              </a>
+                            </span>
+                          </div>
+                          <div className="searchedId">
+                            <a href={`http://localhost:3000/${reply.replyid}`}>
+                              <span>{reply.replyid}</span>
+                            </a>
+                          </div>
+                          <div
+                            style={{
+                              transform: "translate(40%,-120%)",
+                              width: "230px",
+                            }}
+                          >
+                            <span>{reply.reply}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
               </div>
               <div
                 style={{
@@ -319,8 +406,11 @@ const GridDetail = ({
                   }}
                 />
                 <button
-                  onSubmit={() => {
-                    onReplySubmit();
+                  onClick={() => {
+                    if (onReply(id, userinfo.userid, replyValue)) {
+                      window.alert("댓글 작성이 완료되었습니다.");
+                      setReplyValue("");
+                    }
                   }}
                 >
                   완료
@@ -343,8 +433,8 @@ const GridDetail = ({
                 className="btn btn-primary"
                 onClick={async () => {
                   onRemove(id);
+                  onMoveHomepage();
                   onDeleteToggle();
-
                   setMenuToggle(false);
                 }}
               >
@@ -410,7 +500,6 @@ const GridDetail = ({
                 <div>
                   <button
                     onClick={() => {
-                      onMenuToggle();
                       setDeleteToggle(false);
                     }}
                   >
@@ -468,15 +557,62 @@ const GridDetail = ({
                   </div>
                   <div
                     style={{
-                      border: "1px red solid",
                       width: "400px",
-                      height: "300px",
-                      marginLeft: "-30px",
+                      height: "330px",
+                      marginLeft: "-50px",
                       marginTop: "10px",
                       overflow: "auto",
+                      position: "relative",
                     }}
                   >
-                    <span>댓글</span>
+                    <ul>
+                      {replies.map((reply, id) => (
+                        <li key={id}>
+                          <div className="flex gap-1">
+                            <div className="w-12 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 img-Box ml-2 mt-2">
+                              <a
+                                href={`http://localhost:3000/${reply.replyid}`}
+                              >
+                                <img
+                                  src={
+                                    reply.replyuserImgSrc != undefined
+                                      ? reply.replyuserImgSrc
+                                      : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_8odrQguUEk4y0r47v-EpBtqpn-Iw3WiErA&usqp=CAU"
+                                  }
+                                  alt=""
+                                />
+                              </a>
+                            </div>
+                            <div>
+                              <div className="searchedName">
+                                <span>
+                                  <a
+                                    href={`http://localhost:3000/${reply.replyid}`}
+                                  >
+                                    {reply.replyusername}
+                                  </a>
+                                </span>
+                              </div>
+                              <div className="searchedId">
+                                <a
+                                  href={`http://localhost:3000/${reply.replyid}`}
+                                >
+                                  <span>{reply.replyid}</span>
+                                </a>
+                              </div>
+                              <div
+                                style={{
+                                  transform: "translate(35%,-120%)",
+                                  width: "230px",
+                                }}
+                              >
+                                <span>{reply.reply}</span>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
                   <div
                     style={{
@@ -488,17 +624,26 @@ const GridDetail = ({
                   ></div>
                   <button
                     onClick={() => {
-                      window.alert("로그인이 필요한 기능입니다.");
-                      onMoveHomepage();
+                      onLike(img.id, userinfo.userid, img.imgSrc);
                     }}
                   >
-                    <FontAwesomeIcon
-                      icon={faHeart}
-                      className="icon"
-                      style={{
-                        color: "pink",
-                      }}
-                    />
+                    {like ? (
+                      <FontAwesomeIcon
+                        icon={faHeart}
+                        className="icon"
+                        style={{
+                          color: "pink",
+                        }}
+                      />
+                    ) : (
+                      <FontAwesomeIcon
+                        icon={faHeart}
+                        className="icon"
+                        style={{
+                          color: "rgba(255,255,255,0.9)",
+                        }}
+                      />
+                    )}
                   </button>
                   <span
                     style={{
@@ -523,8 +668,11 @@ const GridDetail = ({
                       }}
                     />
                     <button
-                      onSubmit={() => {
-                        onReplySubmit();
+                      onClick={() => {
+                        if (onReply(id, userinfo.userid, replyValue)) {
+                          window.alert("댓글 작성이 완료되었습니다.");
+                          setReplyValue("");
+                        }
                       }}
                     >
                       완료
@@ -646,20 +794,62 @@ const GridDetail = ({
                   </div>
                   <div
                     style={{
-                      border: "1px red solid",
                       width: "400px",
-                      height: "300px",
-                      marginLeft: "-30px",
+                      height: "330px",
+                      marginLeft: "-50px",
                       marginTop: "10px",
                       overflow: "auto",
+                      position: "relative",
                     }}
                   >
-                    <span>댓글</span>
-                    {/* CREATE TABLE reply_table (
-                        id INT,
-                        replyid VARCHAR(50),
-                        reply VARCHAR(255)
-                      ); */}
+                    <ul>
+                      {replies.map((reply, id) => (
+                        <li key={id}>
+                          <div className="flex gap-1">
+                            <div className="w-12 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 img-Box ml-2 mt-2">
+                              <a
+                                href={`http://localhost:3000/${reply.replyid}`}
+                              >
+                                <img
+                                  src={
+                                    reply.replyuserImgSrc != undefined
+                                      ? reply.replyuserImgSrc
+                                      : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_8odrQguUEk4y0r47v-EpBtqpn-Iw3WiErA&usqp=CAU"
+                                  }
+                                  alt=""
+                                />
+                              </a>
+                            </div>
+                            <div>
+                              <div className="searchedName">
+                                <span>
+                                  <a
+                                    href={`http://localhost:3000/${reply.replyid}`}
+                                  >
+                                    {reply.replyusername}
+                                  </a>
+                                </span>
+                              </div>
+                              <div className="searchedId">
+                                <a
+                                  href={`http://localhost:3000/${reply.replyid}`}
+                                >
+                                  <span>{reply.replyid}</span>
+                                </a>
+                              </div>
+                              <div
+                                style={{
+                                  transform: "translate(40%,-120%)",
+                                  width: "230px",
+                                }}
+                              >
+                                <span>{reply.reply}</span>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
                   <div
                     style={{
