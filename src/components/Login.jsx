@@ -36,7 +36,7 @@ const Login = ({
     setPasswordValue(e.target.value || "");
   };
   return (
-    <div className="Login">
+    <div className="Login" style={{ zIndex: "999" }}>
       <img
         className="Logo"
         src="https://www.instagram.com/static/images/web/logged_out_wordmark.png/7a252de00b20.png"

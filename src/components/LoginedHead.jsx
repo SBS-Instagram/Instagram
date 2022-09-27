@@ -248,7 +248,7 @@ const LoginedHead = ({
       <div className="navbar bg-base-100 Topbar_logo">
         <div className="flex-1">
           <a
-            href="http://localhost:3000/"
+            href={`http://localhost:3000/${userinfo.userid}`}
             className="btn btn-ghost normal-case text-xl"
           >
             instagram

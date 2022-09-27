@@ -39,6 +39,7 @@ const GridDetail = ({
   const { id } = useParams();
   const navigate = useNavigate();
   const [replyValue, setReplyValue] = useState("");
+
   const onReplyChange = (e) => {
     setReplyValue(e.target.value);
   };
@@ -65,6 +66,21 @@ const GridDetail = ({
     getData();
   }, []);
 
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const data = await axios({
+          url: `http://localhost:3002/getUser/${id}`,
+          method: "GET",
+        });
+        setUser(data.data);
+        console.log(data.data);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    getData();
+  }, []);
   useEffect(() => {
     const getData = async () => {
       try {
@@ -96,7 +112,7 @@ const GridDetail = ({
     getData();
   }, [img]);
 
-  return userinfo.userid === user.userid ? (
+  return (undefined != userinfo.userid) === user.userid ? (
     <div>
       <LoginedHead
         onLoginToggle={onLoginToggle}
@@ -212,7 +228,7 @@ const GridDetail = ({
                   borderBottom: "2px gray solid",
                   marginTop: "35px",
                   marginLeft: "-65px",
-                  width: "483px",
+                  width: "470px",
                 }}
               ></div>
               <div
@@ -254,7 +270,7 @@ const GridDetail = ({
                   borderBottom: "2px gray solid",
                   marginTop: "35px",
                   marginLeft: "-65px",
-                  width: "483px",
+                  width: "470px",
                 }}
               ></div>
               <button
@@ -425,7 +441,7 @@ const GridDetail = ({
                       borderBottom: "2px gray solid",
                       marginTop: "35px",
                       marginLeft: "-65px",
-                      width: "483px",
+                      width: "470px",
                     }}
                   ></div>
                   <div
@@ -467,7 +483,7 @@ const GridDetail = ({
                       borderBottom: "2px gray solid",
                       marginTop: "35px",
                       marginLeft: "-65px",
-                      width: "483px",
+                      width: "470px",
                     }}
                   ></div>
                   <button
@@ -491,6 +507,29 @@ const GridDetail = ({
                   >
                     좋아요
                   </span>
+                  <div
+                    style={{
+                      marginLeft: "-20px",
+                      marginTop: "10px",
+                    }}
+                  >
+                    <input
+                      type="text"
+                      placeholder="댓글 달기.."
+                      onChange={onReplyChange}
+                      value={replyValue}
+                      style={{
+                        width: "350px",
+                      }}
+                    />
+                    <button
+                      onSubmit={() => {
+                        onReplySubmit();
+                      }}
+                    >
+                      완료
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -580,7 +619,7 @@ const GridDetail = ({
                       borderBottom: "2px gray solid",
                       marginTop: "35px",
                       marginLeft: "-65px",
-                      width: "483px",
+                      width: "470px",
                     }}
                   ></div>
                   <div
@@ -627,7 +666,7 @@ const GridDetail = ({
                       borderBottom: "2px gray solid",
                       marginTop: "35px",
                       marginLeft: "-65px",
-                      width: "483px",
+                      width: "470px",
                     }}
                   ></div>
                   <button
@@ -650,9 +689,29 @@ const GridDetail = ({
                   >
                     좋아요
                   </span>
+                  <div
+                    style={{
+                      marginLeft: "-20px",
+                      marginTop: "10px",
+                    }}
+                  >
+                    <input
+                      type="text"
+                      placeholder="로그인이 필요한 기능입니다"
+                      style={{
+                        width: "350px",
+                      }}
+                    />
+                    <button
+                      onClick={() => {
+                        window.alert("로그인이 필요한 기능입니다.");
+                      }}
+                    >
+                      완료
+                    </button>
+                  </div>
                 </div>
               </div>
-              <div></div>
             </div>
           </div>
         </div>

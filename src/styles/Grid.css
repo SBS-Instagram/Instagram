@@ -137,7 +137,8 @@ div > div:last-child > .icon {
   height: 130px;
 }
 .detailBox {
-  width: 1000px;
+  width: 900px;
+  margin-top: 50px;
 }
 @media (min-width: 1350px) {
   .detailBox {
@@ -155,7 +156,7 @@ div > div:last-child > .icon {
   }
 }
 .articleDetail {
-  width: 1000px;
+  width: 950px;
   height: 80vh;
   background-color: rgba(0, 0, 0, 0.6);
   position: absolute;
@@ -165,7 +166,7 @@ div > div:last-child > .icon {
   font-size: 1.2rem;
 }
 .articleDetail > .imgBox {
-  width: 450px;
+  width: 475px;
   height: 550px;
 }
 .articleDetail > .imgBox > img {
@@ -179,8 +180,9 @@ div > div:last-child > .icon {
   color: black;
   right: 0;
   top: 0;
+  left: 50%;
   background-color: rgba(255, 255, 255, 0.85);
-  width: 51.9%;
+  width: 50%;
   height: 100%;
 }
 .replyUserBox {

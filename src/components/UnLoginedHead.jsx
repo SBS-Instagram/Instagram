@@ -76,12 +76,7 @@ const UnLoginedHead = ({
                 >
                   검색 항목
                 </span>
-                <button
-                  onClick={() => {
-                    onSearchToggle();
-                  }}
-                  className="searchBoxButton"
-                >
+                <button onClick={() => {}} className="searchBoxButton">
                   <FaWindowClose
                     style={{
                       position: "absolute",
@@ -148,7 +143,7 @@ const UnLoginedHead = ({
               onLoginToggle();
             }}
           >
-            <a href="#">Login</a>
+            <a href="http://localhost:3000/">Login</a>
           </button>
           <div className="dropdown dropdown-end">
             <label tabIndex="0" className="btn btn-ghost btn-circle avatar">

@@ -152,7 +152,22 @@ function App() {
       setError(e);
     }
   };
-
+  //9.27 댓글테이블 수정(없으면 추가)
+  // CREATE TABLE reply_table (
+  //   id INT AUTO_INCREMENT PRIMARY KEY,
+  //   articleid INT,
+  //   replyid VARCHAR(50),
+  //   reply VARCHAR(255)
+  // );
+  const onReply = async (articleid, userid, reply) => {
+    try {
+      const data = await axios.post(
+        `http://localhost:3002/like?id=${id}&userid=${userid}&imgSrc=${imgSrc}`
+      );
+    } catch (e) {
+      setError(e);
+    }
+  };
   return (
     <div>
       {logined ? (
