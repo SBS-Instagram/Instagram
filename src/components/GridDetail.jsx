@@ -65,7 +65,9 @@ const GridDetail = ({
   });
   const onPrev = async () => {
     try {
-      const data = await axios.get(`http://localhost:3002/prevImage/${id}`);
+      const data = await axios.get(
+        `http://localhost:3002/prevImage?id=${id}&userid=${user.userid}`
+      );
 
       onPrevHomepage(data.data.id);
     } catch (e) {
@@ -74,7 +76,9 @@ const GridDetail = ({
   };
   const onNext = async () => {
     try {
-      const data = await axios.get(`http://localhost:3002/nextImage/${id}`);
+      const data = await axios.get(
+        `http://localhost:3002/nextImage?id=${id}&userid=${user.userid}`
+      );
 
       onNextHomepage(data.data.id);
     } catch (e) {
