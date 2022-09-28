@@ -1,7 +1,13 @@
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { FaWindowClose } from "react-icons/fa";
-import { faHeart, faBars } from "@fortawesome/free-solid-svg-icons";
+import {
+  faHeart,
+  faBars,
+  faArrowRight,
+  faArrowLeft,
+  faComments,
+} from "@fortawesome/free-solid-svg-icons";
 import { faCommentDots } from "@fortawesome/free-solid-svg-icons";
 import { useEffect } from "react";
 import axios from "axios";
@@ -159,6 +165,38 @@ const GridDetail = ({
       <div className="detailBox">
         <div className="articleDetail">
           <button onClick={() => {}}></button>
+          <div
+            style={{
+              position: "absolute",
+              top: "85%",
+              left: "2%",
+              zIndex: "999",
+              backgroundColor: "black",
+              borderRadius: "50%",
+              width: "30px",
+              textAlign: "center",
+            }}
+          >
+            <button>
+              <FontAwesomeIcon icon={faArrowLeft} />
+            </button>
+          </div>
+          <div
+            style={{
+              position: "absolute",
+              top: "85%",
+              right: "2%",
+              zIndex: "999",
+              backgroundColor: "black",
+              borderRadius: "50%",
+              width: "30px",
+              textAlign: "center",
+            }}
+          >
+            <button>
+              <FontAwesomeIcon icon={faArrowRight} />
+            </button>
+          </div>
 
           <div className="imgBox">
             <img src={img.imgSrc} alt="" />
@@ -392,8 +430,10 @@ reply VARCHAR(255)
               </span>
               <div
                 style={{
-                  marginLeft: "-20px",
-                  marginTop: "10px",
+                  marginLeft: "-40px",
+                  marginTop: "30px",
+                  position: "relative",
+                  width: "390px",
                 }}
               >
                 <input
@@ -405,16 +445,28 @@ reply VARCHAR(255)
                     width: "350px",
                   }}
                 />
-                <button
-                  onClick={() => {
-                    if (onReply(id, userinfo.userid, replyValue)) {
-                      window.alert("댓글 작성이 완료되었습니다.");
-                      setReplyValue("");
-                    }
+                <div
+                  style={{
+                    position: "absolute",
+                    right: "0%",
+                    top: "5%",
                   }}
                 >
-                  완료
-                </button>
+                  <button
+                    onClick={() => {
+                      if (replyValue == "") {
+                        window.alert("댓글 내용을 입력해 주세요");
+                        return;
+                      }
+                      if (onReply(id, userinfo.userid, replyValue)) {
+                        window.alert("댓글 작성이 완료되었습니다.");
+                        setReplyValue("");
+                      }
+                    }}
+                  >
+                    <FontAwesomeIcon icon={faComments} className="icon" />
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -466,7 +518,38 @@ reply VARCHAR(255)
           <div className="detailBox">
             <div className="articleDetail">
               <button onClick={() => {}}></button>
-
+              <div
+                style={{
+                  position: "absolute",
+                  top: "85%",
+                  left: "2%",
+                  zIndex: "999",
+                  backgroundColor: "black",
+                  borderRadius: "50%",
+                  width: "30px",
+                  textAlign: "center",
+                }}
+              >
+                <button>
+                  <FontAwesomeIcon icon={faArrowLeft} />
+                </button>
+              </div>
+              <div
+                style={{
+                  position: "absolute",
+                  top: "85%",
+                  right: "2%",
+                  zIndex: "999",
+                  backgroundColor: "black",
+                  borderRadius: "50%",
+                  width: "30px",
+                  textAlign: "center",
+                }}
+              >
+                <button>
+                  <FontAwesomeIcon icon={faArrowRight} />
+                </button>
+              </div>
               <div className="imgBox">
                 <img src={img.imgSrc} alt="" />
               </div>
@@ -654,8 +737,10 @@ reply VARCHAR(255)
                   </span>
                   <div
                     style={{
-                      marginLeft: "-20px",
-                      marginTop: "10px",
+                      marginLeft: "-40px",
+                      marginTop: "30px",
+                      position: "relative",
+                      width: "390px",
                     }}
                   >
                     <input
@@ -667,16 +752,28 @@ reply VARCHAR(255)
                         width: "350px",
                       }}
                     />
-                    <button
-                      onClick={() => {
-                        if (onReply(id, userinfo.userid, replyValue)) {
-                          window.alert("댓글 작성이 완료되었습니다.");
-                          setReplyValue("");
-                        }
+                    <div
+                      style={{
+                        position: "absolute",
+                        right: "0%",
+                        top: "5%",
                       }}
                     >
-                      완료
-                    </button>
+                      <button
+                        onClick={() => {
+                          if (replyValue == "") {
+                            window.alert("댓글 내용을 입력해 주세요");
+                            return;
+                          }
+                          if (onReply(id, userinfo.userid, replyValue)) {
+                            window.alert("댓글 작성이 완료되었습니다.");
+                            setReplyValue("");
+                          }
+                        }}
+                      >
+                        <FontAwesomeIcon icon={faComments} className="icon" />
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -702,7 +799,38 @@ reply VARCHAR(255)
           <div className="detailBox">
             <div className="articleDetail">
               <button onClick={() => {}}></button>
-
+              <div
+                style={{
+                  position: "absolute",
+                  top: "85%",
+                  left: "2%",
+                  zIndex: "999",
+                  backgroundColor: "black",
+                  borderRadius: "50%",
+                  width: "30px",
+                  textAlign: "center",
+                }}
+              >
+                <button>
+                  <FontAwesomeIcon icon={faArrowLeft} />
+                </button>
+              </div>
+              <div
+                style={{
+                  position: "absolute",
+                  top: "85%",
+                  right: "2%",
+                  zIndex: "999",
+                  backgroundColor: "black",
+                  borderRadius: "50%",
+                  width: "30px",
+                  textAlign: "center",
+                }}
+              >
+                <button>
+                  <FontAwesomeIcon icon={faArrowRight} />
+                </button>
+              </div>
               <div className="imgBox">
                 <img src={img.imgSrc} alt="" />
               </div>
@@ -881,8 +1009,10 @@ reply VARCHAR(255)
                   </span>
                   <div
                     style={{
-                      marginLeft: "-20px",
-                      marginTop: "10px",
+                      marginLeft: "-40px",
+                      marginTop: "30px",
+                      position: "relative",
+                      width: "390px",
                     }}
                   >
                     <input
@@ -892,13 +1022,21 @@ reply VARCHAR(255)
                         width: "350px",
                       }}
                     />
-                    <button
-                      onClick={() => {
-                        window.alert("로그인이 필요한 기능입니다.");
+                    <div
+                      style={{
+                        position: "absolute",
+                        right: "0%",
+                        top: "5%",
                       }}
                     >
-                      완료
-                    </button>
+                      <button
+                        onClick={() => {
+                          window.alert("로그인이 필요한 기능입니다.");
+                        }}
+                      >
+                        <FontAwesomeIcon icon={faComments} className="icon" />
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>

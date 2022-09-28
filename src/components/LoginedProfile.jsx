@@ -83,25 +83,6 @@ function LoginedProfile({
     }
   };
 
-  // useEffect(() => {
-  //   const onFollowCheck = async () => {
-  //     try {
-  //       const data = await axios.get(
-  //         `http://localhost:3002/isFollowed?reqId=${userinfo.userid}&resId=${userid}`,
-  //         {}
-  //       );
-  //       if (data.data) {
-  //         setIsFollowed(true);
-  //       } else {
-  //         setIsFollowed(false);
-  //       }
-  //     } catch (e) {
-  //       setError(e);
-  //     }
-  //   };
-  //   onFollowCheck();
-  // }, [isFollowed]);
-
   //새로고침 시 (최초1회) 팔로우중인지 아닌지 파악하기위함.
   useEffect(() => {
     const getData = async () => {

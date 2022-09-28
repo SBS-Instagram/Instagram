@@ -102,7 +102,7 @@ function UnLoginedProfile({ logined, setLogined, user, setUser, userid }) {
                     marginLeft: "10px",
                   }}
                 >
-                  0
+                  {user.followerNum}
                 </span>
               </a>
               <a href="" className="mr-20">
@@ -112,7 +112,7 @@ function UnLoginedProfile({ logined, setLogined, user, setUser, userid }) {
                     marginLeft: "10px",
                   }}
                 >
-                  0
+                  {user.followNum}
                 </span>
               </a>
             </div>
