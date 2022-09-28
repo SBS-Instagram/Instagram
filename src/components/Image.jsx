@@ -59,7 +59,7 @@ const Image = ({
       });
 
     try {
-      const data = await axios.get(`http://localhost:3002/getImages/${userid}`);
+      const data = await axios.get(`http://localhost:3002/getImage/${userid}`);
 
       setImages(data.data);
       onAddImageToggle();

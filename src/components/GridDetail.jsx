@@ -50,6 +50,12 @@ const GridDetail = ({
   const onReplyChange = (e) => {
     setReplyValue(e.target.value);
   };
+  const onNextHomepage = (num) => {
+    navigate(`/${user.userid}/${num}`);
+  };
+  const onPrevHomepage = (num) => {
+    navigate(`/${user.userid}/${num}`);
+  };
   const onMoveHomepage = () => {
     navigate(-1);
   };
@@ -57,6 +63,24 @@ const GridDetail = ({
   useEffect(() => {
     AOS.init();
   });
+  const onPrev = async () => {
+    try {
+      const data = await axios.get(`http://localhost:3002/prevImage/${id}`);
+
+      onPrevHomepage(data.data.id);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  const onNext = async () => {
+    try {
+      const data = await axios.get(`http://localhost:3002/nextImage/${id}`);
+
+      onNextHomepage(data.data.id);
+    } catch (e) {
+      console.log(e);
+    }
+  };
   const onReply = async (articleid, userid, reply) => {
     try {
       const data = await axios.post(
@@ -177,7 +201,11 @@ const GridDetail = ({
               textAlign: "center",
             }}
           >
-            <button>
+            <button
+              onClick={() => {
+                onPrev();
+              }}
+            >
               <FontAwesomeIcon icon={faArrowLeft} />
             </button>
           </div>
@@ -193,7 +221,11 @@ const GridDetail = ({
               textAlign: "center",
             }}
           >
-            <button>
+            <button
+              onClick={() => {
+                onNext();
+              }}
+            >
               <FontAwesomeIcon icon={faArrowRight} />
             </button>
           </div>
