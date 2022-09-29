@@ -71,6 +71,7 @@ const GridDetail = ({
       if (data.data == false) {
         window.alert("마지막 게시글입니다.");
       } else {
+        setReplyValue("");
         onPrevHomepage(data.data.id);
       }
     } catch (e) {
@@ -85,6 +86,7 @@ const GridDetail = ({
       if (data.data == false) {
         window.alert("마지막 게시글입니다.");
       } else {
+        setReplyValue("");
         onNextHomepage(data.data.id);
       }
     } catch (e) {
@@ -133,6 +135,25 @@ const GridDetail = ({
     getData();
   }, []);
 
+  // useEffect(() => {
+  //   const getData = async () => {
+  //     try {
+  //       const data = await axios({
+  //         url: `http://localhost:3002/getReplies/${id}`,
+  //         method: "GET",
+  //       });
+  //       if (data.data == false) {
+  //         setReplies([]);
+  //       } else {
+  //         setReplies(data.data);
+  //       }
+  //     } catch (e) {
+  //       console.log(e);
+  //     }
+  //   };
+  //   getData();
+  // }, []);
+
   useEffect(() => {
     const getData = async () => {
       try {
@@ -140,14 +161,17 @@ const GridDetail = ({
           url: `http://localhost:3002/getReplies/${id}`,
           method: "GET",
         });
-
-        setReplies(data.data);
+        if (data.data == false) {
+          setReplies([]);
+        } else {
+          setReplies(data.data);
+        }
       } catch (e) {
         console.log(e);
       }
     };
     getData();
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     const getData = async () => {

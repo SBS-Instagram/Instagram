@@ -42,7 +42,7 @@ function App() {
   const [addImageToggle, setAddImageToggle] = useState(false);
 
   useEffect(() => {
-    if (user.id === undefined) {
+    if (user.userid == undefined) {
       setLogined(false);
     }
   }, []);
