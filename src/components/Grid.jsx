@@ -32,10 +32,10 @@ const Grid = ({
   const windowY = window.scrollY;
   const [parsedDate, setParsedDate] = useState([]);
   const navigate = useNavigate();
+  const id = selectedImage.id || "";
+
   const onMoveHompage = () => {
-    if (selectedImage.id != undefined) {
-      navigate(`/${user.userid}/${selectedImage.id}`);
-    }
+    navigate(`/${user.userid}/${id}`);
   };
 
   // 로그인 후 user가 렌더링되면 사진들 불러오기
@@ -97,6 +97,7 @@ const Grid = ({
                   key={index}
                   onClick={() => {
                     setSelectedImage(image);
+
                     onMoveHompage();
                     // onDeleteToggle();
                   }}

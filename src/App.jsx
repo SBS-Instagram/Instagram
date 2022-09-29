@@ -40,6 +40,12 @@ function App() {
   const [menuToggle, setMenuToggle] = useState(false);
   const [images, setImages] = useState([]);
   const [addImageToggle, setAddImageToggle] = useState(false);
+
+  useEffect(() => {
+    if (user.id === undefined) {
+      setLogined(false);
+    }
+  }, []);
   const onMenuToggle = () => {
     setMenuToggle(!menuToggle);
   };

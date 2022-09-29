@@ -68,8 +68,11 @@ const GridDetail = ({
       const data = await axios.get(
         `http://localhost:3002/prevImage?id=${id}&userid=${user.userid}`
       );
-
-      onPrevHomepage(data.data.id);
+      if (data.data == false) {
+        window.alert("마지막 게시글입니다.");
+      } else {
+        onPrevHomepage(data.data.id);
+      }
     } catch (e) {
       console.log(e);
     }
@@ -79,8 +82,11 @@ const GridDetail = ({
       const data = await axios.get(
         `http://localhost:3002/nextImage?id=${id}&userid=${user.userid}`
       );
-
-      onNextHomepage(data.data.id);
+      if (data.data == false) {
+        window.alert("마지막 게시글입니다.");
+      } else {
+        onNextHomepage(data.data.id);
+      }
     } catch (e) {
       console.log(e);
     }
