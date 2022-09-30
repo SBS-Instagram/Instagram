@@ -234,37 +234,56 @@ function LoginedProfile({
 
           <div className="h-1/5">
             <div className=" h-16 whitespace-nowrap">
-              <a href="" className="mr-20">
+              <button
+                className="mr-20"
+                style={{
+                  fontWeight: "bolder",
+                }}
+              >
                 게시물
                 <span
                   style={{
                     marginLeft: "10px",
+                    fontWeight: "bolder",
                   }}
                 >
                   {user.article}
                 </span>
-              </a>
+              </button>
 
-              <a href="" className="mr-20">
+              <button
+                className="mr-20"
+                style={{
+                  fontWeight: "bolder",
+                }}
+              >
                 팔로워
                 <span
                   style={{
                     marginLeft: "10px",
+                    fontWeight: "bolder",
                   }}
                 >
                   {user.followerNum}
                 </span>
-              </a>
-              <a href="" className="mr-20">
+              </button>
+              <button
+                className="mr-20"
+                style={{
+                  fontWeight: "bolder",
+                }}
+              >
                 팔로우
                 <span
                   style={{
                     marginLeft: "10px",
+
+                    fontWeight: "bolder",
                   }}
                 >
                   {user.followNum}
                 </span>
-              </a>
+              </button>
             </div>
           </div>
           <div className="h-2/5">
@@ -423,26 +442,38 @@ function LoginedProfile({
                 </span>
               </a>
 
-              <a href="" className="mr-20">
+              <button
+                className="mr-20"
+                style={{
+                  fontWeight: "bolder",
+                }}
+              >
                 팔로워
                 <span
                   style={{
                     marginLeft: "10px",
+                    fontWeight: "bolder",
                   }}
                 >
                   {user.followerNum}
                 </span>
-              </a>
-              <a href="" className="mr-20">
+              </button>
+              <button
+                className="mr-20"
+                style={{
+                  fontWeight: "bolder",
+                }}
+              >
                 팔로우
                 <span
                   style={{
                     marginLeft: "10px",
+                    fontWeight: "bolder",
                   }}
                 >
                   {user.followNum}
                 </span>
-              </a>
+              </button>
             </div>
           </div>
           <div className="h-2/5">

@@ -5,8 +5,9 @@ import UnLoginedHome from "./routes/UnLoginedHome";
 // 기존 Home 에서 로그인 / 비로그인구별함. 3,4번째줄.
 import Join from "./routes/Join";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-
+import NotFound from "./components/NotFound";
 import Grid from "./components/Grid";
+
 import Image from "./components/Image";
 import axios from "axios";
 import Login from "./components/Login";
@@ -20,6 +21,7 @@ import { useRecoilState } from "recoil";
 import { authenticatedState } from "./recoil/auth";
 import GridDetail from "./components/GridDetail";
 import { useNavigate, useParams } from "react-router-dom";
+import GridEdit from "./components/GridEdit";
 
 // 로그인유지법 https://velog.io/@hongwr/2022.03.24
 // 9.13 ALTER TABLE insta ADD COLUMN article INT DEFAULT 0;
@@ -99,8 +101,11 @@ function App() {
         url: `http://localhost:3002/instaSearch/${searchValue}`,
         method: "GET",
       });
-
-      setSearchedList(data.data);
+      if (data.data) {
+        setSearchedList(data.data);
+      } else {
+        setSearchedList([]);
+      }
     } catch (e) {
       setError(e);
     }
@@ -158,10 +163,8 @@ function App() {
   return (
     <div>
       {logined ? (
-        // 로그인 되었을때의 프론트 상황이어야 함.
         <Router>
           <Routes>
-            {/* <Route path="/" element= /> */}
             <Route
               path="/:userid"
               element={
@@ -223,17 +226,12 @@ function App() {
                 />
               }
             />
-
-            {/* 라우터가 유저id와 다를경우, 에러처리해주는 컴포넌트 생성해야함
-             <Route
-              path="*"
-              element = {<NotFound />} 
-              /> */}
+            <Route path="/:userid:/:id/edit" element={<GridEdit />} />
+            {/* 잘못된 접근 제한 라우트  */}
+            <Route path="/*" element={<NotFound />} />
           </Routes>
-          {/*  로그인 된 프론트 상황 여기까지. */}
         </Router>
       ) : (
-        // 로그인이 되지 않았을 때의 프론트여야함.
         <Router>
           <Routes>
             <Route
@@ -298,7 +296,6 @@ function App() {
               }
             />
           </Routes>
-          {/*  로그인 안 된 프론트 상황 여기까지. */}
         </Router>
       )}
     </div>

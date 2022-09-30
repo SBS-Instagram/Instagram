@@ -121,7 +121,7 @@ const LoginedHead = ({
                     }}
                   />
                 </button>
-                {searchedList != "" ? (
+                {searchedList != "" && searchValue != "" ? (
                   <div className="searchedBox flex mt-2 ml-1">
                     {searchedList.map((searched, id) => (
                       <li key={id}>
@@ -382,7 +382,10 @@ const LoginedHead = ({
               className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52"
             >
               <li>
-                <a href={`${userinfo.userid}`} className="justify-between">
+                <a
+                  href={`http://localhost:3000/${userinfo.userid}`}
+                  className="justify-between"
+                >
                   프로필
                   <span className="badge">New</span>
                 </a>

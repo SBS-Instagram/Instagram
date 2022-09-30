@@ -59,6 +59,9 @@ const GridDetail = ({
   const onMoveHomepage = () => {
     navigate(-1);
   };
+  const onEditHomepage = () => {
+    navigate(`/${user.userid}/${id}/edit`);
+  };
 
   useEffect(() => {
     AOS.init();
@@ -333,7 +336,13 @@ const GridDetail = ({
                   }}
                   data-aos="fade-left"
                 >
-                  <button>수정</button>
+                  <button
+                    onClick={() => {
+                      onEditHomepage();
+                    }}
+                  >
+                    수정
+                  </button>
                   <button
                     onClick={() => {
                       onDeleteToggle();
@@ -596,7 +605,7 @@ reply VARCHAR(255)
                   textAlign: "center",
                 }}
               >
-                <button>
+                <button onClick={() => onPrev()}>
                   <FontAwesomeIcon icon={faArrowLeft} />
                 </button>
               </div>
@@ -612,7 +621,11 @@ reply VARCHAR(255)
                   textAlign: "center",
                 }}
               >
-                <button>
+                <button
+                  onClick={() => {
+                    onNext();
+                  }}
+                >
                   <FontAwesomeIcon icon={faArrowRight} />
                 </button>
               </div>
@@ -877,7 +890,11 @@ reply VARCHAR(255)
                   textAlign: "center",
                 }}
               >
-                <button>
+                <button
+                  onClick={() => {
+                    onPrev();
+                  }}
+                >
                   <FontAwesomeIcon icon={faArrowLeft} />
                 </button>
               </div>
@@ -893,7 +910,11 @@ reply VARCHAR(255)
                   textAlign: "center",
                 }}
               >
-                <button>
+                <button
+                  onClick={() => {
+                    onNext();
+                  }}
+                >
                   <FontAwesomeIcon icon={faArrowRight} />
                 </button>
               </div>
