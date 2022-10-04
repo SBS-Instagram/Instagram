@@ -226,7 +226,7 @@ function App() {
                 />
               }
             />
-            <Route path="/:userid:/:id/edit" element={<GridEdit />} />
+
             {/* 잘못된 접근 제한 라우트  */}
             <Route path="/*" element={<NotFound />} />
           </Routes>

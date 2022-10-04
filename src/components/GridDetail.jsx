@@ -11,12 +11,19 @@ import {
 import { faCommentDots } from "@fortawesome/free-solid-svg-icons";
 import { useEffect } from "react";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import {
+  useNavigate,
+  useParams,
+  BrowserRouter as Router,
+  Routes,
+  Route,
+} from "react-router-dom";
 import { Link } from "react-router-dom";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import LoginedHead from "./LoginedHead";
 import UnLoginedHead from "./UnLoginedHead";
+import GridEdit from "./GridEdit";
 const GridDetail = ({
   user,
   onLike,
@@ -47,6 +54,10 @@ const GridDetail = ({
   const [replyValue, setReplyValue] = useState("");
   const [replies, setReplies] = useState([]);
   const [replyUser, setReplyUser] = useState([]);
+  const [editToggle, setEditToggle] = useState(false);
+  const onEditChange = (e) => {
+    setEditToggle(!editToggle);
+  };
   const onReplyChange = (e) => {
     setReplyValue(e.target.value);
   };
@@ -58,9 +69,6 @@ const GridDetail = ({
   };
   const onMoveHomepage = () => {
     navigate(-1);
-  };
-  const onEditHomepage = () => {
-    navigate(`/${user.userid}/${id}/edit`);
   };
 
   useEffect(() => {
@@ -223,9 +231,9 @@ const GridDetail = ({
         setSearchedList={setSearchedList}
         userid={id}
       />
+      {editToggle && <GridEdit setEditToggle={setEditToggle} />}
       <div className="detailBox">
         <div className="articleDetail">
-          <button onClick={() => {}}></button>
           <div
             style={{
               position: "absolute",
@@ -274,10 +282,6 @@ const GridDetail = ({
             <div style={{ marginLeft: "10px" }}>
               <FontAwesomeIcon icon={faHeart} className="icon" />
               <span> 좋아요 {img.imgLike}</span>
-              {/* 좋아요 체크해서 흰하트,검은하트 출력해야함 */}
-              {/* 좋아요 버튼 눌렀을떄 바로 좋아요수가 올라야하는데 */}
-              {/* 토글상황에서 바로 리렌더링이 되는지 불확실 */}
-              {/* 안된다면 이미지클릭시 라우터활용해서 다른홈페이지이동 고려해야함 */}
             </div>
             <div className="ml-4">
               <FontAwesomeIcon icon={faCommentDots} className="icon" />
@@ -338,7 +342,7 @@ const GridDetail = ({
                 >
                   <button
                     onClick={() => {
-                      onEditHomepage();
+                      onEditChange();
                     }}
                   >
                     수정
@@ -636,10 +640,6 @@ reply VARCHAR(255)
                 <div style={{ marginLeft: "10px" }}>
                   <FontAwesomeIcon icon={faHeart} className="icon" />
                   <span> 좋아요 {img.imgLike}</span>
-                  {/* 좋아요 체크해서 흰하트,검은하트 출력해야함 */}
-                  {/* 좋아요 버튼 눌렀을떄 바로 좋아요수가 올라야하는데 */}
-                  {/* 토글상황에서 바로 리렌더링이 되는지 불확실 */}
-                  {/* 안된다면 이미지클릭시 라우터활용해서 다른홈페이지이동 고려해야함 */}
                 </div>
                 <div className="ml-4">
                   <FontAwesomeIcon icon={faCommentDots} className="icon" />
@@ -925,10 +925,6 @@ reply VARCHAR(255)
                 <div style={{ marginLeft: "10px" }}>
                   <FontAwesomeIcon icon={faHeart} className="icon" />
                   <span> 좋아요 {img.imgLike}</span>
-                  {/* 좋아요 체크해서 흰하트,검은하트 출력해야함 */}
-                  {/* 좋아요 버튼 눌렀을떄 바로 좋아요수가 올라야하는데 */}
-                  {/* 토글상황에서 바로 리렌더링이 되는지 불확실 */}
-                  {/* 안된다면 이미지클릭시 라우터활용해서 다른홈페이지이동 고려해야함 */}
                 </div>
                 <div className="ml-4">
                   <FontAwesomeIcon icon={faCommentDots} className="icon" />
