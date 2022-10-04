@@ -231,7 +231,7 @@ const GridDetail = ({
         setSearchedList={setSearchedList}
         userid={id}
       />
-      {editToggle && <GridEdit setEditToggle={setEditToggle} />}
+      {editToggle && <GridEdit setEditToggle={setEditToggle} userid={id} />}
       <div className="detailBox">
         <div className="articleDetail">
           <div
