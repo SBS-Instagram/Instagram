@@ -163,6 +163,7 @@ function App() {
   //   reply VARCHAR(255)
   // );
 
+  // 메시지 https://youngbean96.tistory.com/10
   return (
     <div>
       {logined ? (
