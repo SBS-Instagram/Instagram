@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { FaWindowClose } from "react-icons/fa";
 import axios from "axios";
-const GridEdit = ({ setEditToggle, userid }) => {
+const GridEdit = ({ setEditToggle, userid, user, img }) => {
   const [editImg, setEditImg] = useState("");
   useEffect(() => {
     const getData = async () => {
@@ -45,6 +45,7 @@ const GridEdit = ({ setEditToggle, userid }) => {
     if (content == null || content == "") {
       return;
     }
+    setContent(img.Src);
     const formData = new FormData();
     formData.append("img", content);
     formData.append("text", textValue);
@@ -58,7 +59,6 @@ const GridEdit = ({ setEditToggle, userid }) => {
       method: "POST",
       data: formData,
     })
-      //textValue
       .then((res) => {
         const { fileName } = res.data;
         setUploadedImg({ fileName });
@@ -102,6 +102,71 @@ const GridEdit = ({ setEditToggle, userid }) => {
           >
             <img src={editImg.imgSrc} alt="" />
           </button>
+        </div>
+        <div
+          style={{
+            backgroundColor: "white",
+            width: "450px",
+            height: "450px",
+            margin: "0 auto",
+            transform: "translate(52%,-77.5%)",
+          }}
+        >
+          <div className="w-12 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 img-Box ml-2">
+            <a href="#">
+              <img src={user.imgSrc} alt="" />
+            </a>
+          </div>
+          <div
+            style={{
+              marginLeft: "70px",
+              marginTop: "-30px",
+            }}
+          >
+            <span
+              style={{
+                fontWeight: "bold",
+              }}
+            >
+              {user.userid}
+            </span>
+          </div>
+          <div
+            style={{
+              borderBottom: "2px gray solid",
+              marginTop: "35px",
+
+              width: "450px",
+            }}
+          ></div>
+          <div
+            style={{
+              width: "84px",
+              height: "30px",
+              marginLeft: "30px",
+              overflow: "hidden",
+              whiteSpace: "nowrap",
+              marginTop: "10px",
+            }}
+          >
+            <span>{img.regDate}</span>
+          </div>
+          <div
+            style={{
+              width: "400px",
+              height: "150px",
+              marginLeft: "30px",
+              marginTop: "10px",
+            }}
+          >
+            <button
+              onClick={() => {
+                onEditToggle();
+              }}
+            >
+              <span>{img.body}</span>
+            </button>
+          </div>
         </div>
         {editChangeToggle && (
           <div className="relative mx-auto imgcon">

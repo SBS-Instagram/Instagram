@@ -231,7 +231,14 @@ const GridDetail = ({
         setSearchedList={setSearchedList}
         userid={id}
       />
-      {editToggle && <GridEdit setEditToggle={setEditToggle} userid={id} />}
+      {editToggle && (
+        <GridEdit
+          setEditToggle={setEditToggle}
+          userid={id}
+          user={user}
+          img={img}
+        />
+      )}
       <div className="detailBox">
         <div className="articleDetail">
           <div
@@ -365,13 +372,13 @@ const GridDetail = ({
               )}
             </div>
             <div className="w-12 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 img-Box ml-2 mt-2">
-              <a href={user.userid}>
+              <a href={`http://localhost:3000/${user.userid}`}>
                 <img src={user.imgSrc} alt="" />
               </a>
             </div>
             <div className="replyUserBox mt-4">
               <div>
-                <a href={user.userid}>
+                <a href={`http://localhost:3000/${user.userid}`}>
                   <span>{user.userid}</span>
                 </a>
               </div>
