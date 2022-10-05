@@ -7,7 +7,6 @@ import Join from "./routes/Join";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import NotFound from "./components/NotFound";
 import Grid from "./components/Grid";
-
 import Image from "./components/Image";
 import axios from "axios";
 import Login from "./components/Login";
@@ -81,7 +80,11 @@ function App() {
         userid: idValue,
         password: passwordValue,
       });
-
+      // console.log(data.data.authenticated);
+      // if (data.data.authenticated == false) {
+      //   window.alert("일치하는 회원이 없습니다.");
+      //   return;
+      // }
       sessionStorage.setItem("user", JSON.stringify(data.data.user));
       setLogined(data.data.authenticated);
       onLoginToggle();

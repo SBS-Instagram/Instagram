@@ -43,9 +43,20 @@ const GridEdit = ({ setEditToggle, userid, user, img }) => {
     e.preventDefault();
 
     if (content == null || content == "") {
+      const userid = JSON.parse(sessionStorage.getItem("user")).userid;
+
+      await axios
+        .post(`http://localhost:3002/updateText/${userid}`, {
+          body: textValue,
+        })
+        .then(() => {
+          window.alert("수정이 완료되었습니다.");
+          setEditChangeToggle(false);
+        });
+
       return;
     }
-    setContent(img.Src);
+
     const formData = new FormData();
     formData.append("img", content);
     formData.append("text", textValue);
@@ -55,13 +66,15 @@ const GridEdit = ({ setEditToggle, userid, user, img }) => {
 
     axios({
       // url 새로 업데이트쿼리로 짜야함.
-      url: `http://localhost:3002/upload/${userid}`,
+      url: `http://localhost:3002/updatePhoto/${userid}`,
       method: "POST",
       data: formData,
     })
       .then((res) => {
         const { fileName } = res.data;
         setUploadedImg({ fileName });
+        window.alert("수정이 완료되었습니다.");
+        setEditChangeToggle(false);
       })
       .catch((err) => {
         console.error(err);
