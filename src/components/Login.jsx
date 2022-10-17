@@ -24,13 +24,16 @@ const Login = ({
   user,
 }) => {
   const [idValue, setIdValue] = useState("");
+  const [id, setId] = useState("");
   const [passwordValue, setPasswordValue] = useState("");
   const navigate = useNavigate();
+
   const onMoveHompage = () => {
-    navigate(`/${idValue}`);
+    navigate(`/${id}`);
   };
   const onIdChange = (e) => {
     setIdValue(e.target.value || "");
+    setId(e.target.value);
   };
   const onPasswordChange = (e) => {
     setPasswordValue(e.target.value || "");

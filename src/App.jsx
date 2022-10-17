@@ -79,16 +79,9 @@ function App() {
         userid: idValue,
         password: passwordValue,
       });
-      // console.log(data.data.authenticated);
-      // if (data.data.authenticated == false) {
-      //   window.alert("일치하는 회원이 없습니다.");
-      //   return;
-      // }
       sessionStorage.setItem("user", JSON.stringify(data.data.user));
       setLogined(data.data.authenticated);
       onLoginToggle();
-      // setUser(data.data.user);
-
       setUser(data.data.user);
     } catch (e) {
       setError(e);
@@ -163,11 +156,16 @@ function App() {
   // );
 
   // 메시지 https://youngbean96.tistory.com/10
+  // 위치추적 geolocation
   return (
     <div>
       {logined ? (
         <Router>
           <Routes>
+            {/* <Route 
+              path="/"
+              element={<Home />}
+            /> */}
             <Route
               path="/"
               element={
@@ -331,7 +329,7 @@ export default App;
 // 3.git remote set-url origin https://github.com/byunghoonyoon/Instagram
 // 위 3번으로 인해 원격저장소가 제 git으로 지정됩니다.
 // 4.다시 2번 실행후, git remote set-url origin https://github.com/byunghoonyoon/Instagram 잘나오는지 확인
-// 5.git config --global user.name"byunghoonyoon" -> Github Id에 Github 이름쓰세요
+// 5.git config --global user.name "byunghoonyoon" -> Github Id에 Github 이름쓰세요
 // 6.git config --global user.email "qudgns0218@gmail.com" -> Github 로그인하는 이메일 쓰세요
 // 무시하세요 https://github.com/SBS-Instagram/Instagram
 // 7-1. Windows라면 git config --global core.autocrlf true
