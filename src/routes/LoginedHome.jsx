@@ -13,6 +13,7 @@ import Layout from "../layouts/Layout";
 import Footer from "../layouts/Footer";
 
 import { useNavigate, useParams } from "react-router-dom";
+
 const LoginedHome = ({
   onLoginToggle,
   setLoginToggle,
@@ -58,7 +59,6 @@ const LoginedHome = ({
         onAddImageToggle={onAddImageToggle}
         searchedList={searchedList}
         setSearchedList={setSearchedList}
-        userid={userid}
       />
 
       {addImageToggle && (

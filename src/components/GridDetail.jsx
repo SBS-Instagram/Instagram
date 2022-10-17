@@ -296,7 +296,7 @@ const GridDetail = ({
             </div>
           </div>
           <div className="replyBox flex">
-            <Link to={-1}>
+            <a href={`http://localhost:3000/${user.userid}`}>
               <button
                 onClick={() => {
                   setMenuToggle(false);
@@ -313,7 +313,7 @@ const GridDetail = ({
                   }}
                 />
               </button>
-            </Link>
+            </a>
             <div>
               <button
                 onClick={() => {

@@ -20,8 +20,7 @@ import { useRecoilState } from "recoil";
 import { authenticatedState } from "./recoil/auth";
 import GridDetail from "./components/GridDetail";
 import { useNavigate, useParams } from "react-router-dom";
-import GridEdit from "./components/GridEdit";
-
+import Main from "./components/Main";
 // 로그인유지법 https://velog.io/@hongwr/2022.03.24
 // 9.13 ALTER TABLE insta ADD COLUMN article INT DEFAULT 0;
 // insta 테이블쿼리 게시물갯수 컬럼추가
@@ -170,6 +169,24 @@ function App() {
         <Router>
           <Routes>
             <Route
+              path="/"
+              element={
+                <Main
+                  onLoginToggle={onLoginToggle}
+                  setLoginToggle={setLoginToggle}
+                  logined={logined}
+                  setLogined={setLogined}
+                  user={user}
+                  setUser={setUser}
+                  onSearch={onSearch}
+                  setAddImageToggle={setAddImageToggle}
+                  onAddImageToggle={onAddImageToggle}
+                  searchedList={searchedList}
+                  setSearchedList={setSearchedList}
+                />
+              }
+            />
+            <Route
               path="/:userid"
               element={
                 <LoginedHome
@@ -232,7 +249,7 @@ function App() {
             />
 
             {/* 잘못된 접근 제한 라우트  */}
-            <Route path="/*" element={<NotFound />} />
+            {/* <Route path="/*" element={<NotFound />} /> */}
           </Routes>
         </Router>
       ) : (
