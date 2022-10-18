@@ -181,6 +181,7 @@ function App() {
                   onAddImageToggle={onAddImageToggle}
                   searchedList={searchedList}
                   setSearchedList={setSearchedList}
+                  onLike={onLike}
                 />
               }
             />

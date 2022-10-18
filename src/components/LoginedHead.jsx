@@ -26,7 +26,7 @@ const LoginedHead = ({
   setSearchedList,
 }) => {
   const [searchValue, setSearchValue] = useState("");
-  const [imgSrc, setImgSrc] = useState(user.imgSrc);
+  const [imgSrc, setImgSrc] = useState(user.userimgSrc);
   const [searchToggle, setSearchToggle] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -130,8 +130,8 @@ const LoginedHead = ({
                             <a href="#">
                               <img
                                 src={
-                                  searched.imgSrc != null
-                                    ? searched.imgSrc
+                                  searched.userimgSrc != null
+                                    ? searched.userimgSrc
                                     : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_8odrQguUEk4y0r47v-EpBtqpn-Iw3WiErA&usqp=CAU"
                                 }
                               />
@@ -199,9 +199,9 @@ const LoginedHead = ({
               <div className="w-10 rounded-full">
                 <img
                   src={
-                    user.imgSrc == undefined
+                    user.userimgSrc == undefined
                       ? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_8odrQguUEk4y0r47v-EpBtqpn-Iw3WiErA&usqp=CAU"
-                      : user.imgSrc
+                      : user.userimgSrc
                   }
                   alt=""
                   onChange={onImageChange}
@@ -307,8 +307,8 @@ const LoginedHead = ({
                             <a href="#">
                               <img
                                 src={
-                                  searched.imgSrc != null
-                                    ? searched.imgSrc
+                                  searched.userimgSrc != null
+                                    ? searched.userimgSrc
                                     : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_8odrQguUEk4y0r47v-EpBtqpn-Iw3WiErA&usqp=CAU"
                                 }
                               />
@@ -368,9 +368,9 @@ const LoginedHead = ({
               <div className="w-10 rounded-full">
                 <img
                   src={
-                    userinfo.imgSrc == undefined
+                    userinfo.userimgSrc == undefined
                       ? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_8odrQguUEk4y0r47v-EpBtqpn-Iw3WiErA&usqp=CAU"
-                      : userinfo.imgSrc
+                      : userinfo.userimgSrc
                   }
                   alt=""
                   onChange={onImageChange}

@@ -91,7 +91,12 @@ const Grid = ({
       {userinfo.userid === user.userid ? (
         <div onClick={() => {}}>
           <section className="mx-auto con section-2 relative">
-            <ul className="list-box grid grid-cols-3 gap-2 sm:gap-2 md:gap-3 lg:gap-4">
+            <ul
+              className="list-box grid grid-cols-3 gap-2 sm:gap-2 md:gap-3 lg:gap-4 mx-auto"
+              style={{
+                width: "1000px",
+              }}
+            >
               {images.map((image, index) => (
                 <li
                   key={index}

@@ -11,7 +11,7 @@ function UnLoginedProfile({ logined, setLogined, user, setUser, userid }) {
   const [imageToggle, setImageToggle] = useState(false);
   const [profileImageToggle, setProfileImageToggle] = useState(false);
   const [error, setError] = useState(null);
-  const [imgSrc, setImgSrc] = useState(user.imgSrc);
+  const [imgSrc, setImgSrc] = useState(user.userimgSrc);
   const [uploadedImg, setUploadedImg] = useState({
     fileName: "",
     fillPath: "",
@@ -54,9 +54,9 @@ function UnLoginedProfile({ logined, setLogined, user, setUser, userid }) {
                 <a href="#">
                   <img
                     src={
-                      user.imgSrc == undefined
+                      user.userimgSrc == undefined
                         ? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_8odrQguUEk4y0r47v-EpBtqpn-Iw3WiErA&usqp=CAU"
-                        : user.imgSrc
+                        : user.userimgSrc
                     }
                     alt=""
                   />
@@ -141,7 +141,7 @@ function UnLoginedProfile({ logined, setLogined, user, setUser, userid }) {
 
                   sessionStorage.setItem("user", JSON.stringify(data.data));
                   setUser(data.data);
-                  setImgSrc(data.data.imgSrc);
+                  setImgSrc(data.data.userimgSrc);
                 } catch (e) {
                   setError(e);
                 }

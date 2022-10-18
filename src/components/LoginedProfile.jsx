@@ -23,7 +23,7 @@ function LoginedProfile({
   const [profileImageToggle, setProfileImageToggle] = useState(false);
 
   const [error, setError] = useState(null);
-  const [imgSrc, setImgSrc] = useState(user.imgSrc);
+  const [imgSrc, setImgSrc] = useState(user.userimgSrc);
   const [uploadedImg, setUploadedImg] = useState({
     fileName: "",
     fillPath: "",
@@ -124,7 +124,7 @@ function LoginedProfile({
     return new Promise((resolve) => {
       reader.onload = () => {
         setImgSrc(reader.result);
-        user.imgSrc = reader.result;
+        user.userimgSrc = reader.result;
         resolve();
       };
     });
@@ -203,9 +203,9 @@ function LoginedProfile({
                 <a href="#">
                   <img
                     src={
-                      user.imgSrc == undefined
+                      user.userimgSrc == undefined
                         ? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_8odrQguUEk4y0r47v-EpBtqpn-Iw3WiErA&usqp=CAU"
-                        : user.imgSrc
+                        : user.userimgSrc
                     }
                     alt=""
                     onChange={onImageChange}
@@ -313,7 +313,7 @@ function LoginedProfile({
 
                   sessionStorage.setItem("user", JSON.stringify(data.data));
                   setUser(data.data);
-                  setImgSrc(data.data.imgSrc);
+                  setImgSrc(data.data.userimgSrc);
                 } catch (e) {
                   setError(e);
                 }
@@ -382,9 +382,9 @@ function LoginedProfile({
                 <a href="#">
                   <img
                     src={
-                      user.imgSrc == undefined
+                      user.userimgSrc == undefined
                         ? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_8odrQguUEk4y0r47v-EpBtqpn-Iw3WiErA&usqp=CAU"
-                        : user.imgSrc
+                        : user.userimgSrc
                     }
                     alt=""
                     onChange={onImageChange}
@@ -503,7 +503,7 @@ function LoginedProfile({
 
                   sessionStorage.setItem("user", JSON.stringify(data.data));
                   setUser(data.data);
-                  setImgSrc(data.data.imgSrc);
+                  setImgSrc(data.data.userimgSrc);
                 } catch (e) {
                   setError(e);
                 }

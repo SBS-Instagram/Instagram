@@ -373,7 +373,7 @@ const GridDetail = ({
             </div>
             <div className="w-12 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 img-Box ml-2 mt-2">
               <a href={`http://localhost:3000/${user.userid}`}>
-                <img src={user.imgSrc} alt="" />
+                <img src={user.userimgSrc} alt="" />
               </a>
             </div>
             <div className="replyUserBox mt-4">
@@ -685,7 +685,7 @@ reply VARCHAR(255)
                 </div>
                 <div className="w-12 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 img-Box ml-2 mt-2">
                   <a href={`http://localhost:3000/${user.userid}`}>
-                    <img src={user.imgSrc} alt="" />
+                    <img src={user.userimgSrc} alt="" />
                   </a>
                 </div>
                 <div className="replyUserBox mt-4">
@@ -971,7 +971,7 @@ reply VARCHAR(255)
                 </div>
                 <div className="w-12 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 img-Box ml-2 mt-2">
                   <a href={`http://localhost:3000/${user.userid}`}>
-                    <img src={user.imgSrc} alt="" />
+                    <img src={user.userimgSrc} alt="" />
                   </a>
                 </div>
                 <div className="replyUserBox mt-4">
