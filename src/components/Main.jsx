@@ -26,7 +26,6 @@ const Main = ({
           method: "GET",
         });
 
-        console.log(data.data);
         setUsers(data.data);
       } catch (e) {
         console.log(e);
@@ -76,11 +75,34 @@ const Main = ({
           marginTop: "2rem",
         }}
       >
-        <div>
-          <ul>
+        <div
+          style={{
+            height: "100%",
+          }}
+        >
+          <ul
+            className="flex flex-row gap-5 justify-center items-center"
+            style={{
+              height: "100%",
+            }}
+          >
             {users.map((user, index) => (
               <li key={index}>
-                <div className="w-40 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 img-box"></div>
+                <div style={{}}>
+                  <div
+                    className="w-12 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 img-box"
+                    style={{}}
+                  >
+                    {user.imgSrc != null ? (
+                      user.imgSrc
+                    ) : (
+                      <img
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_8odrQguUEk4y0r47v-EpBtqpn-Iw3WiErA&usqp=CAU"
+                        alt=""
+                      />
+                    )}
+                  </div>
+                </div>
               </li>
             ))}
           </ul>
