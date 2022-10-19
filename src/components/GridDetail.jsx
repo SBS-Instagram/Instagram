@@ -104,17 +104,6 @@ const GridDetail = ({
       console.log(e);
     }
   };
-  const onReply = async (articleid, userid, reply) => {
-    try {
-      const data = await axios.post(
-        `http://localhost:3002/instaReply?id=${articleid}&userid=${userid}`,
-        { reply }
-      );
-      setReplies(data.data);
-    } catch (e) {
-      console.log(e);
-    }
-  };
 
   useEffect(() => {
     const getData = async () => {
@@ -145,7 +134,17 @@ const GridDetail = ({
     };
     getData();
   }, []);
-
+  const onReply = async (articleid, userid, reply) => {
+    try {
+      const data = await axios.post(
+        `http://localhost:3002/instaReply?id=${articleid}&userid=${userid}`,
+        { reply }
+      );
+      setReplies(data.data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
   // useEffect(() => {
   //   const getData = async () => {
   //     try {

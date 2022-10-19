@@ -147,6 +147,7 @@ function App() {
       setError(e);
     }
   };
+
   //9.27 댓글테이블 수정(없으면 추가)
   // CREATE TABLE reply_table (
   //   id INT AUTO_INCREMENT PRIMARY KEY,

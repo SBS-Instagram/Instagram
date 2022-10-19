@@ -70,10 +70,7 @@ const LoginedHead = ({
     >
       <div className="navbar bg-base-100 Topbar_logo">
         <div className="flex-1">
-          <a
-            href={`http://localhost:3000/${userinfo.userid}`}
-            className="btn btn-ghost normal-case text-xl"
-          >
+          <a href="/" className="btn btn-ghost normal-case text-xl">
             instagram
           </a>
         </div>
@@ -168,7 +165,9 @@ const LoginedHead = ({
             )}
           </div>
           <button>
-            <FaHome style={{ fontSize: "25px" }} />
+            <a href="/">
+              <FaHome style={{ fontSize: "25px" }} />
+            </a>
           </button>
           <button>
             <FaRegComment style={{ fontSize: "25px" }} />
@@ -199,9 +198,9 @@ const LoginedHead = ({
               <div className="w-10 rounded-full">
                 <img
                   src={
-                    user.userimgSrc == undefined
+                    userinfo.imgSrc == undefined
                       ? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_8odrQguUEk4y0r47v-EpBtqpn-Iw3WiErA&usqp=CAU"
-                      : user.userimgSrc
+                      : userinfo.imgSrc
                   }
                   alt=""
                   onChange={onImageChange}
@@ -247,10 +246,7 @@ const LoginedHead = ({
     >
       <div className="navbar bg-base-100 Topbar_logo">
         <div className="flex-1">
-          <a
-            href={`http://localhost:3000/${userinfo.userid}`}
-            className="btn btn-ghost normal-case text-xl"
-          >
+          <a href="/" className="btn btn-ghost normal-case text-xl">
             instagram
           </a>
         </div>
@@ -368,9 +364,9 @@ const LoginedHead = ({
               <div className="w-10 rounded-full">
                 <img
                   src={
-                    userinfo.userimgSrc == undefined
+                    userinfo.imgSrc == undefined
                       ? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_8odrQguUEk4y0r47v-EpBtqpn-Iw3WiErA&usqp=CAU"
-                      : userinfo.userimgSrc
+                      : userinfo.imgSrc
                   }
                   alt=""
                   onChange={onImageChange}
