@@ -6,6 +6,8 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useRecoilBridgeAcrossReactRoots_UNSTABLE } from "recoil";
 import LoginedHead from "./LoginedHead";
 import { useNavigate, useParams } from "react-router-dom";
+import { GrFormClose } from "react-icons/gr";
+import { FiDivideSquare, FiMoreHorizontal } from "react-icons/fi";
 function LoginedProfile({
   logined,
   setLogined,
@@ -29,9 +31,14 @@ function LoginedProfile({
     fillPath: "",
   });
   const userinfo = JSON.parse(sessionStorage.getItem("user")) || "";
+  const [usename, setUseName] = useState(userinfo.usename || "");
+  const [introduce, setIntroduce] = useState(userinfo.introduce || "");
   const navigate = useNavigate();
   const onMoveHompage = () => {
     navigate(`/${user.userid}`);
+  };
+  const onMoveHomepage = () => {
+    navigate(-1);
   };
   useEffect(() => {
     const getData = async () => {
@@ -102,7 +109,12 @@ function LoginedProfile({
     };
     getData();
   }, []);
-
+  const onChangeUsename = (e) => {
+    setUseName(e.target.value);
+  };
+  const onChangeIntroduce = (e) => {
+    setIntroduce(e.target.value);
+  };
   const onProfileToggle = () => {
     setProfileImageToggle(!profileImageToggle);
   };
@@ -153,7 +165,21 @@ function LoginedProfile({
         console.error(err);
       });
   };
-
+  const onUpdate = async (userid, usename, introduce) => {
+    try {
+      const data = await axios({
+        url: `http://localhost:3002/updateProfile/${userid}`,
+        method: "PATCH",
+        data: {
+          usename,
+          introduce,
+        },
+      });
+      setUser(data.data); //업데이트 된 프로필 불러옴
+    } catch (e) {
+      setError(e);
+    }
+  };
   // 9.18 팔로우, 팔로워의 각 숫자를 나타내기 위한 followNum followerNum
   // ALTER TABLE insta ADD COLUMN followNum int default 0;
   // ALTER TABLE insta ADD COLUMN followerNum int default 0;
@@ -233,17 +259,126 @@ function LoginedProfile({
               {/* {JSON.parse(sessionStorage.getItem("user"))}님 */}
               {user.username}님
             </div>
-            <button className="rounded-md border-gray-400 bg-white text-black hover:bg-white text-black hover:rounded-md hover:border-gray-400 btn btn-sm mt-2 mr-4">
-              메시지 보내기
-            </button>
-            <button className="rounded-md border-gray-400 bg-white text-black hover:bg-white text-black hover:rounded-md hover:border-gray-400 btn btn-sm mt-2 mr-4">
-              팔로우
-            </button>
-            <button className="mr-auto flex justify mt-4">
-              <i className="fi fi-bs-menu-dots"></i>
-            </button>
+            <div>
+              <a href="#update">
+                <FiMoreHorizontal />
+              </a>
+              <div className="modal" id="update">
+                <div className="hero flex items-center justify-center min-h-screen absolute top-0">
+                  {profileImageToggle && (
+                    <div className="card card-compact w-96 bg-base-100 shadow-xl">
+                      {/* <figure>
+                        <img
+                          src="https://placeimg.com/400/225/arch"
+                          alt="Shoes"
+                        />
+                      </figure> */}
+                      <div className="card-body">
+                        <form
+                          onSubmit={onSubmit}
+                          style={{
+                            display: "inline-block",
+                            lineHeight: "2rem",
+                          }}
+                        >
+                          <div id="uploadDiv ">
+                            <input
+                              id="fileAdd"
+                              type="file"
+                              onChange={onChange}
+                              style={{
+                                cursor: "pointer",
+                              }}
+                            />
+                          </div>
+                        </form>
+                        <div className="card-actions justify-end ">
+                          <input
+                            type="submit"
+                            value="Upload"
+                            className="btn"
+                            onClick={onSubmit}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                  <div className="hero-content flex-row">
+                    <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
+                      <div className="card-body">
+                        <div className="form-control">
+                          <button
+                            type="submit"
+                            onClick={() => {
+                              onProfileToggle();
+                            }}
+                            className="btn btn-ghost"
+                          >
+                            프로필 사진 바꾸기
+                          </button>
+                        </div>
+                        <div className="form-control">
+                          <span className="label-text">이름</span>
+                          <input
+                            style={{
+                              lineHeight: "5rem",
+                            }}
+                            placeholder="이름을 입력해주세요."
+                            className="input input-bordered"
+                            onChange={onChangeUsename}
+                            value={usename || ""}
+                          />
+                        </div>
+                        <div className="form-control">
+                          <span className="label-text">소개</span>
+                          <input
+                            style={{
+                              lineHeight: "5rem",
+                            }}
+                            type="text"
+                            placeholder="자신을 소개해보세요"
+                            className="input input-bordered"
+                            onChange={onChangeIntroduce}
+                            value={introduce || ""}
+                          />
+                        </div>
+                        <div className="form-control mt-5">
+                          <button
+                            className="btn btn-primary bg-indigo-600"
+                            onClick={() => {
+                              onUpdate(userid, usename, introduce);
+                              onMoveHomepage();
+                            }}
+                          >
+                            프로필 수정
+                          </button>
+                        </div>
+                        <button
+                          onClick={() => {
+                            onMoveHomepage();
+                            setIntroduce(user.introduce);
+                            setUseName(user.usename);
+                            setProfileImageToggle(false);
+                          }}
+                        >
+                          <GrFormClose
+                            style={{
+                              position: "absolute",
+                              right: "0",
+                              top: "-1",
+                              fontSize: "1.5rem",
+                              color: "black",
+                              cursor: "pointer",
+                            }}
+                          />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-
           <div className="h-1/5">
             <div className=" h-16 whitespace-nowrap">
               <button
@@ -299,11 +434,8 @@ function LoginedProfile({
             </div>
           </div>
           <div className="h-2/5">
-            <div className=" font-bold m-0 py-1">풀스택 A조</div>
-            <div className=" py-1">instagram</div>
-            <div className="font-bold text-blue-900 mt-1">
-              <a href="https://github.com/hyelim3">github.com/hyelim3</a>
-            </div>
+            <div className=" font-bold m-0 py-1">{user.usename}</div>
+            <div className=" py-1">{user.introduce}</div>
           </div>
         </div>
       </div>
@@ -501,11 +633,8 @@ function LoginedProfile({
             </div>
           </div>
           <div className="h-2/5">
-            <div className=" font-bold m-0 py-1">풀스택 A조</div>
-            <div className=" py-1">instagram</div>
-            <div className="font-bold text-blue-900 mt-1">
-              <a href="https://github.com/hyelim3">github.com/hyelim3</a>
-            </div>
+            <div className=" font-bold m-0 py-1">{user.usename}</div>
+            <div className=" py-1">{user.introduce}</div>
           </div>
         </div>
       </div>

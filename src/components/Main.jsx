@@ -5,7 +5,8 @@ import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCommentDots } from "@fortawesome/free-solid-svg-icons";
 import { faHeart, faComments } from "@fortawesome/free-solid-svg-icons";
-import { FiSmile } from "react-icons/fi";
+import { FiSmile, FiBookmark } from "react-icons/fi";
+import { BsFillBookmarkFill } from "react-icons/bs";
 const Main = ({
   onLoginToggle,
   setLoginToggle,
@@ -79,6 +80,22 @@ const Main = ({
     };
     getDatas();
   }, [articles]);
+
+  const onSave = async (userid, articleid) => {
+    try {
+      const data = await axios({
+        url: `http://localhost:3002/articleSave?userid=${userid}&articleid=${articleid}`,
+        method: "GET",
+      });
+      if (data.data) {
+        window.alert("게시글이 저장되었습니다.");
+      } else {
+        window.alert("게시글 저장이 취소되었습니다.");
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   return (
     <div>
@@ -232,12 +249,11 @@ const Main = ({
                   />
                 </a>
               </div>
-              <div className="flex flex-raw mt-3 ml-1">
+              <div className="flex flex-raw mt-3 ml-1 relative">
                 <button
                   onClick={() => {
                     onLike(article.id, userinfo.userid, userinfo.userimgSrc);
                   }}
-                  style={{}}
                 >
                   {article.likeid == userinfo.userid && article.liked == "1" ? (
                     <FontAwesomeIcon
@@ -265,10 +281,49 @@ const Main = ({
                   <span> 좋아요 {article.imgLike}</span>
                 </div>
 
-                <div className="ml-4">
+                <div className="ml-4 ">
                   <FontAwesomeIcon icon={faCommentDots} className="icon" />
                   <span> 댓글 {article.imgReply}</span>
                 </div>
+                {article.saved == 1 ? (
+                  <button
+                    onClick={() => {
+                      onSave(userinfo.userid, article.articleid);
+                    }}
+                    style={{
+                      display: "inline-block",
+                    }}
+                  >
+                    <BsFillBookmarkFill
+                      style={{
+                        display: "inline-block",
+                        position: "absolute",
+                        right: "3.5%",
+                        top: "7%",
+                        fontSize: "1.1rem",
+                      }}
+                    />
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => {
+                      onSave(userinfo.userid, article.articleid);
+                    }}
+                    style={{
+                      display: "inline-block",
+                    }}
+                  >
+                    <FiBookmark
+                      style={{
+                        display: "inline-block",
+                        position: "absolute",
+                        right: "3%",
+                        top: "2%",
+                        fontSize: "1.4rem",
+                      }}
+                    />
+                  </button>
+                )}
               </div>
               <div
                 style={{
