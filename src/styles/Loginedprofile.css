@@ -76,6 +76,7 @@
   display: none;
   transition: linear 0.4s;
 }
+
 .img-box .addImage:hover > a::after {
   display: block;
 }

@@ -198,9 +198,9 @@ const LoginedHead = ({
               <div className="w-10 rounded-full">
                 <img
                   src={
-                    userinfo.imgSrc == undefined
+                    userinfo.userimgSrc == undefined
                       ? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_8odrQguUEk4y0r47v-EpBtqpn-Iw3WiErA&usqp=CAU"
-                      : userinfo.imgSrc
+                      : userinfo.userimgSrc
                   }
                   alt=""
                   onChange={onImageChange}
@@ -364,12 +364,13 @@ const LoginedHead = ({
               <div className="w-10 rounded-full">
                 <img
                   src={
-                    userinfo.imgSrc == undefined
+                    userinfo.userimgSrc == undefined
                       ? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_8odrQguUEk4y0r47v-EpBtqpn-Iw3WiErA&usqp=CAU"
-                      : userinfo.imgSrc
+                      : userinfo.userimgSrc
                   }
                   alt=""
                   onChange={onImageChange}
+                  style={{}}
                 />
               </div>
             </label>

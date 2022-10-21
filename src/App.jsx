@@ -141,7 +141,7 @@ function App() {
   const onLike = async (id, userid, imgSrc) => {
     try {
       const data = await axios.post(
-        `http://localhost:3002/like?id=${id}&userid=${userid}&imgSrc=${imgSrc}`
+        `http://localhost:3002/like?id=${id}&userid=${userid}&userimgSrc=${imgSrc}`
       );
     } catch (e) {
       setError(e);

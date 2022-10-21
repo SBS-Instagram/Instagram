@@ -200,7 +200,13 @@ function LoginedProfile({
                   onImageToggle();
                 }}
               >
-                <a href="#">
+                <a
+                  href="#"
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                  }}
+                >
                   <img
                     src={
                       user.userimgSrc == undefined
@@ -209,6 +215,12 @@ function LoginedProfile({
                     }
                     alt=""
                     onChange={onImageChange}
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "fill",
+                      display: "block",
+                    }}
                   />
                 </a>
               </button>
@@ -379,7 +391,13 @@ function LoginedProfile({
           <div className="avatar">
             <div className="w-40 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 img-box">
               <button className="">
-                <a href="#">
+                <a
+                  href="#"
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                  }}
+                >
                   <img
                     src={
                       user.userimgSrc == undefined
@@ -388,6 +406,12 @@ function LoginedProfile({
                     }
                     alt=""
                     onChange={onImageChange}
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "fill",
+                      display: "block",
+                    }}
                   />
                 </a>
               </button>

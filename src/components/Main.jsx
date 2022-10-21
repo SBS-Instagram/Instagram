@@ -5,7 +5,7 @@ import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCommentDots } from "@fortawesome/free-solid-svg-icons";
 import { faHeart, faComments } from "@fortawesome/free-solid-svg-icons";
-
+import { FiSmile } from "react-icons/fi";
 const Main = ({
   onLoginToggle,
   setLoginToggle,
@@ -25,7 +25,6 @@ const Main = ({
   const [articles, setArticles] = useState([]);
   const userinfo = JSON.parse(sessionStorage.getItem("user")) || "";
   const [empty, setEmpty] = useState(false);
-  const [like, setLike] = useState(false);
   const [replies, setReplies] = useState([]);
 
   useEffect(() => {
@@ -59,24 +58,27 @@ const Main = ({
       }
     };
     getData();
-
-    // const getData1 = async () => {
-    //   try {
-    //     const data = await axios({
-    //       url: `http://localhost:3002/isLiked?userid=${userinfo.userid}&id=${article.id}`,
-    //       method: "GET",
-    //     });
-    //     setLike(data.data);
-    //   } catch (e) {
-    //     console.log(e);
-    //   }
-    // };
-    // getData1();
   }, []);
 
-  const onLikeToggle = () => {
-    setLike(!like);
-  };
+  useEffect(() => {
+    const getDatas = async () => {
+      try {
+        const data = await axios({
+          url: `http://localhost:3002/getFollowArticle/${userinfo.userid}`,
+          method: "GET",
+        });
+
+        if (data.data != false) {
+          setArticles(data.data);
+        } else {
+          setEmpty(true);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    getDatas();
+  }, [articles]);
 
   return (
     <div>
@@ -233,12 +235,11 @@ const Main = ({
               <div className="flex flex-raw mt-3 ml-1">
                 <button
                   onClick={() => {
-                    onLike(article.id, userinfo.userid, article.userimgSrc);
-                    onLikeToggle();
+                    onLike(article.id, userinfo.userid, userinfo.userimgSrc);
                   }}
                   style={{}}
                 >
-                  {like ? (
+                  {article.likeid == userinfo.userid && article.liked == "1" ? (
                     <FontAwesomeIcon
                       icon={faHeart}
                       className="icon"
@@ -282,11 +283,20 @@ const Main = ({
                 style={{
                   paddingLeft: "10px",
                   paddingTop: "10px",
-                  height: "90px",
+                  height: "80px",
                   display: "inline-block",
                 }}
               >
                 {article.body}
+              </div>
+              <div
+                style={{
+                  paddingLeft: "10px",
+                  paddingBottom: "10px",
+                  color: "rgb(189, 189, 189)",
+                }}
+              >
+                댓글 {article.imgReply} 개
               </div>
               <div
                 style={{
@@ -296,28 +306,28 @@ const Main = ({
                 }}
               ></div>
               <div
-                className="flex flex-row gap-3 items-center pt-4 pl-2"
-                style={{ position: "relative" }}
+                className="flex items-center pl-2"
+                style={{
+                  height: "40px",
+                }}
               >
-                <a href={`/${article.replyid}`}>
-                  <div>{article.replyid}</div>
-                </a>
-                <div>{article.reply}</div>
                 <a
                   href={`/${article.userid}/${article.articleid}`}
                   style={{
-                    position: "absolute",
-                    right: "10%",
+                    left: "2%",
+                    fontSize: "1rem",
+                    color: "rgb(189, 189, 189)",
                   }}
                 >
-                  ...
-                  <span
+                  <FiSmile
                     style={{
-                      fontSize: "0.7rem",
+                      display: "inline-block",
+                      fontSize: "1.3rem",
+                      marginRight: "5px",
+                      color: "black",
                     }}
-                  >
-                    더보기
-                  </span>
+                  />
+                  댓글 달기...
                 </a>
               </div>
             </div>
