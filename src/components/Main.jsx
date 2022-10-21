@@ -35,9 +35,9 @@ const Main = ({
           url: `http://localhost:3002/getFollowArticle/${userinfo.userid}`,
           method: "GET",
         });
-        console.log(data.data);
+
         if (data.data != false) {
-          setArticles(data.data);
+          setArticles(data.data.reverse());
         } else {
           setEmpty(true);
         }
@@ -70,7 +70,7 @@ const Main = ({
         });
 
         if (data.data != false) {
-          setArticles(data.data);
+          setArticles(data.data.reverse());
         } else {
           setEmpty(true);
         }
@@ -140,7 +140,7 @@ const Main = ({
                 <div style={{}}>
                   <div
                     className="w-12 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 img-box"
-                    style={{}}
+                    style={{ height: "50px" }}
                   >
                     <a href={`/${user.userid}`}>
                       {user.userimgSrc != null ? (
@@ -148,6 +148,10 @@ const Main = ({
                           src={user.userimgSrc}
                           style={{
                             borderRadius: "50%",
+                            width: "100%",
+                            height: "100%",
+                            display: "block",
+                            objectFit: "fill",
                           }}
                         />
                       ) : (
@@ -156,6 +160,10 @@ const Main = ({
                           alt=""
                           style={{
                             borderRadius: "50%",
+                            width: "100%",
+                            height: "100%",
+                            display: "block",
+                            objectFit: "fill",
                           }}
                         />
                       )}

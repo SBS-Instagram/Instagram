@@ -29,7 +29,7 @@ const Login = ({
   const navigate = useNavigate();
 
   const onMoveHompage = () => {
-    navigate(`/${id}`);
+    navigate(`/`);
   };
   const onIdChange = (e) => {
     setIdValue(e.target.value || "");
