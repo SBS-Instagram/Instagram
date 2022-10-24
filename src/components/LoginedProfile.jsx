@@ -40,6 +40,7 @@ function LoginedProfile({
   const onMoveHomepage = () => {
     navigate(-1);
   };
+
   useEffect(() => {
     const getData = async () => {
       try {
