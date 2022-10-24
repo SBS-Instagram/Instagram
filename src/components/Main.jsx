@@ -25,9 +25,10 @@ const Main = ({
   const [users, setUsers] = useState([]);
   const [articles, setArticles] = useState([]);
   const userinfo = JSON.parse(sessionStorage.getItem("user")) || "";
-  const [empty, setEmpty] = useState(false);
+  const [emptyMember, setEmptyMember] = useState(false);
+  const [emptyArticle, setEmptyArticle] = useState(false);
   const [replies, setReplies] = useState([]);
-
+  const [allUsers, setAllUsers] = useState([]);
   useEffect(() => {
     const getDatas = async () => {
       try {
@@ -39,7 +40,7 @@ const Main = ({
         if (data.data != false) {
           setArticles(data.data.reverse());
         } else {
-          setEmpty(true);
+          setEmptyArticle(true);
         }
       } catch (e) {
         console.log(e);
@@ -53,7 +54,11 @@ const Main = ({
           url: `http://localhost:3002/getFollowMember/${userinfo.userid}`,
           method: "GET",
         });
-        setUsers(data.data);
+        if (data.data != false) {
+          setUsers(data.data);
+        } else {
+          setEmptyMember(true);
+        }
       } catch (e) {
         console.log(e);
       }
@@ -72,7 +77,7 @@ const Main = ({
         if (data.data != false) {
           setArticles(data.data.reverse());
         } else {
-          setEmpty(true);
+          setEmptyArticle(true);
         }
       } catch (e) {
         console.log(e);
@@ -81,6 +86,20 @@ const Main = ({
     getDatas();
   }, [articles]);
 
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const data = await axios({
+          url: `http://localhost:3002/getAllMember/${userinfo.userid}`,
+          method: "GET",
+        });
+        setAllUsers(data.data);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    getData();
+  }, []);
   const onSave = async (userid, articleid) => {
     try {
       const data = await axios({
@@ -96,62 +115,124 @@ const Main = ({
       console.log(e);
     }
   };
-
-  return (
-    <div>
-      <LoginedHead
-        onLoginToggle={onLoginToggle}
-        setLoginToggle={setLoginToggle}
-        logined={logined}
-        setLogined={setLogined}
-        user={user}
-        setUser={setUser}
-        onSearch={onSearch}
-        setAddImageToggle={setAddImageToggle}
-        onAddImageToggle={onAddImageToggle}
-        searchedList={searchedList}
-        setSearchedList={setSearchedList}
-      />
-      <div
-        style={{
-          width: "600px",
-          height: "90px",
-          margin: "0 auto",
-          outline: "1px rgb(209, 209, 209) solid",
-          borderRadius: "15px",
-          marginTop: "2rem",
-        }}
-      >
+  if (!emptyArticle && !emptyMember) {
+    return (
+      <div>
+        <LoginedHead
+          onLoginToggle={onLoginToggle}
+          setLoginToggle={setLoginToggle}
+          logined={logined}
+          setLogined={setLogined}
+          user={user}
+          setUser={setUser}
+          onSearch={onSearch}
+          setAddImageToggle={setAddImageToggle}
+          onAddImageToggle={onAddImageToggle}
+          searchedList={searchedList}
+          setSearchedList={setSearchedList}
+        />
         <div
           style={{
-            height: "100%",
+            width: "600px",
+            height: "90px",
+            margin: "0 auto",
+            outline: "1px rgb(209, 209, 209) solid",
+            borderRadius: "15px",
+            marginTop: "2rem",
           }}
         >
-          <ul
-            className="flex flex-row gap-6 justify-center items-center pt-2"
+          <div
             style={{
               height: "100%",
-              maxWidth: "800px",
-              overflow: "hidden",
             }}
           >
-            {users.map((user, index) => (
-              <li key={index}>
-                <div style={{}}>
+            <ul
+              className="flex flex-row gap-6 justify-center items-center pt-2"
+              style={{
+                height: "100%",
+                maxWidth: "800px",
+                overflow: "hidden",
+              }}
+            >
+              {users.map((user, index) => (
+                <li key={index}>
+                  <div style={{}}>
+                    <div
+                      className="w-12 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 img-box"
+                      style={{ height: "50px" }}
+                    >
+                      <a href={`/${user.userid}`}>
+                        {user.userimgSrc != null ? (
+                          <img
+                            src={user.userimgSrc}
+                            style={{
+                              borderRadius: "50%",
+                              width: "100%",
+                              height: "100%",
+                              display: "block",
+                              objectFit: "fill",
+                            }}
+                          />
+                        ) : (
+                          <img
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_8odrQguUEk4y0r47v-EpBtqpn-Iw3WiErA&usqp=CAU"
+                            alt=""
+                            style={{
+                              borderRadius: "50%",
+                              width: "100%",
+                              height: "100%",
+                              display: "block",
+                              objectFit: "fill",
+                            }}
+                          />
+                        )}
+                      </a>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        paddingTop: "3px",
+                      }}
+                    >
+                      <a href={`/${user.userid}`}>{user.username}</a>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+        <ul>
+          {articles.map((article, index) => (
+            <li key={index}>
+              <div
+                style={{
+                  width: "500px",
+                  height: "720px",
+                  margin: "0 auto",
+                  outline: "1px rgb(209, 209, 209) solid",
+                  borderRadius: "15px",
+                  marginTop: "2rem",
+                }}
+              >
+                <div className="pl-3 pt-3 relative pb-3">
                   <div
                     className="w-12 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 img-box"
-                    style={{ height: "50px" }}
+                    style={{
+                      height: "50px",
+                    }}
                   >
-                    <a href={`/${user.userid}`}>
-                      {user.userimgSrc != null ? (
+                    <a href={`/${article.userid}`}>
+                      {article.userimgSrc != null ? (
                         <img
-                          src={user.userimgSrc}
+                          src={article.userimgSrc}
                           style={{
                             borderRadius: "50%",
                             width: "100%",
-                            height: "100%",
-                            display: "block",
+                            height: "99%",
                             objectFit: "fill",
+                            display: "block",
                           }}
                         />
                       ) : (
@@ -160,10 +241,6 @@ const Main = ({
                           alt=""
                           style={{
                             borderRadius: "50%",
-                            width: "100%",
-                            height: "100%",
-                            display: "block",
-                            objectFit: "fill",
                           }}
                         />
                       )}
@@ -171,234 +248,483 @@ const Main = ({
                   </div>
                   <div
                     style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      paddingTop: "3px",
+                      left: "15%",
+                      top: "35%",
+                      position: "absolute",
                     }}
                   >
-                    <a href={`/${user.userid}`}>{user.username}</a>
+                    <a href={`/${article.userid}`}>{article.username}</a>
                   </div>
                 </div>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-      <ul>
-        {articles.map((article, index) => (
-          <li key={index}>
-            <div
-              style={{
-                width: "500px",
-                height: "720px",
-                margin: "0 auto",
-                outline: "1px rgb(209, 209, 209) solid",
-                borderRadius: "15px",
-                marginTop: "2rem",
-              }}
-            >
-              <div className="pl-3 pt-3 relative pb-3">
                 <div
-                  className="w-12 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 img-box"
                   style={{
-                    height: "50px",
+                    width: "100%",
+                    height: "450px",
+                    margin: "0 auto",
                   }}
                 >
-                  <a href={`/${article.userid}`}>
-                    {article.userimgSrc != null ? (
-                      <img
-                        src={article.userimgSrc}
+                  <a href={`/${article.userid}/${article.id}`}>
+                    <img
+                      src={article.imgSrc}
+                      alt=""
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "fill",
+                        display: "block",
+                      }}
+                    />
+                  </a>
+                </div>
+                <div className="flex flex-raw mt-3 ml-1 relative">
+                  <button
+                    onClick={() => {
+                      onLike(article.id, userinfo.userid, userinfo.userimgSrc);
+                    }}
+                  >
+                    {article.likeid == userinfo.userid &&
+                    article.liked == "1" ? (
+                      <FontAwesomeIcon
+                        icon={faHeart}
+                        className="icon"
                         style={{
-                          borderRadius: "50%",
-                          width: "100%",
-                          height: "99%",
-                          objectFit: "fill",
-                          display: "block",
+                          color: "pink",
                         }}
                       />
                     ) : (
-                      <img
-                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_8odrQguUEk4y0r47v-EpBtqpn-Iw3WiErA&usqp=CAU"
-                        alt=""
+                      <FontAwesomeIcon
+                        icon={faHeart}
+                        className="icon"
                         style={{
-                          borderRadius: "50%",
+                          color: "gray",
                         }}
                       />
                     )}
-                  </a>
-                </div>
-                <div
-                  style={{
-                    left: "15%",
-                    top: "35%",
-                    position: "absolute",
-                  }}
-                >
-                  <a href={`/${article.userid}`}>{article.username}</a>
-                </div>
-              </div>
-              <div
-                style={{
-                  width: "100%",
-                  height: "450px",
-                  margin: "0 auto",
-                }}
-              >
-                <a href={`/${article.userid}/${article.id}`}>
-                  <img
-                    src={article.imgSrc}
-                    alt=""
+                  </button>
+                  <div
                     style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "fill",
-                      display: "block",
+                      paddingLeft: "5px",
                     }}
-                  />
-                </a>
-              </div>
-              <div className="flex flex-raw mt-3 ml-1 relative">
-                <button
-                  onClick={() => {
-                    onLike(article.id, userinfo.userid, userinfo.userimgSrc);
-                  }}
-                >
-                  {article.likeid == userinfo.userid && article.liked == "1" ? (
-                    <FontAwesomeIcon
-                      icon={faHeart}
-                      className="icon"
-                      style={{
-                        color: "pink",
-                      }}
-                    />
-                  ) : (
-                    <FontAwesomeIcon
-                      icon={faHeart}
-                      className="icon"
-                      style={{
-                        color: "gray",
-                      }}
-                    />
-                  )}
-                </button>
-                <div
-                  style={{
-                    paddingLeft: "5px",
-                  }}
-                >
-                  <span> 좋아요 {article.imgLike}</span>
-                </div>
+                  >
+                    <span> 좋아요 {article.imgLike}</span>
+                  </div>
 
-                <div className="ml-4 ">
-                  <FontAwesomeIcon icon={faCommentDots} className="icon" />
-                  <span> 댓글 {article.imgReply}</span>
+                  <div className="ml-4 ">
+                    <FontAwesomeIcon icon={faCommentDots} className="icon" />
+                    <span> 댓글 {article.imgReply}</span>
+                  </div>
+                  {article.saved == 1 ? (
+                    <button
+                      onClick={() => {
+                        onSave(userinfo.userid, article.articleid);
+                      }}
+                      style={{
+                        display: "inline-block",
+                      }}
+                    >
+                      <BsFillBookmarkFill
+                        style={{
+                          display: "inline-block",
+                          position: "absolute",
+                          right: "3.5%",
+                          top: "7%",
+                          fontSize: "1.1rem",
+                        }}
+                      />
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => {
+                        onSave(userinfo.userid, article.articleid);
+                      }}
+                      style={{
+                        display: "inline-block",
+                      }}
+                    >
+                      <FiBookmark
+                        style={{
+                          display: "inline-block",
+                          position: "absolute",
+                          right: "3%",
+                          top: "2%",
+                          fontSize: "1.4rem",
+                        }}
+                      />
+                    </button>
+                  )}
                 </div>
-                {article.saved == 1 ? (
-                  <button
-                    onClick={() => {
-                      onSave(userinfo.userid, article.articleid);
-                    }}
-                    style={{
-                      display: "inline-block",
-                    }}
-                  >
-                    <BsFillBookmarkFill
-                      style={{
-                        display: "inline-block",
-                        position: "absolute",
-                        right: "3.5%",
-                        top: "7%",
-                        fontSize: "1.1rem",
-                      }}
-                    />
-                  </button>
-                ) : (
-                  <button
-                    onClick={() => {
-                      onSave(userinfo.userid, article.articleid);
-                    }}
-                    style={{
-                      display: "inline-block",
-                    }}
-                  >
-                    <FiBookmark
-                      style={{
-                        display: "inline-block",
-                        position: "absolute",
-                        right: "3%",
-                        top: "2%",
-                        fontSize: "1.4rem",
-                      }}
-                    />
-                  </button>
-                )}
-              </div>
-              <div
-                style={{
-                  display: "inline-block",
-                  paddingLeft: "7px",
-                  fontWeight: "bolder",
-                }}
-              >
-                <a href={`/${article.userid}`}>{article.userid}</a>
-              </div>
-              <div
-                style={{
-                  paddingLeft: "10px",
-                  paddingTop: "10px",
-                  height: "80px",
-                  display: "inline-block",
-                }}
-              >
-                {article.body}
-              </div>
-              <div
-                style={{
-                  paddingLeft: "10px",
-                  paddingBottom: "10px",
-                  color: "rgb(189, 189, 189)",
-                }}
-              >
-                댓글 {article.imgReply} 개
-              </div>
-              <div
-                style={{
-                  width: "100%",
-                  borderBottom: ".5px solid rgb(209, 209, 209)",
-                  paddingTop: "2px",
-                }}
-              ></div>
-              <div
-                className="flex items-center pl-2"
-                style={{
-                  height: "40px",
-                }}
-              >
-                <a
-                  href={`/${article.userid}/${article.articleid}`}
+                <div
                   style={{
-                    left: "2%",
-                    fontSize: "1rem",
+                    display: "inline-block",
+                    paddingLeft: "7px",
+                    fontWeight: "bolder",
+                  }}
+                >
+                  <a href={`/${article.userid}`}>{article.userid}</a>
+                </div>
+                <div
+                  style={{
+                    paddingLeft: "10px",
+                    paddingTop: "10px",
+                    height: "80px",
+                    display: "inline-block",
+                  }}
+                >
+                  {article.body}
+                </div>
+                <div
+                  style={{
+                    paddingLeft: "10px",
+                    paddingBottom: "10px",
                     color: "rgb(189, 189, 189)",
                   }}
                 >
-                  <FiSmile
+                  댓글 {article.imgReply} 개
+                </div>
+                <div
+                  style={{
+                    width: "100%",
+                    borderBottom: ".5px solid rgb(209, 209, 209)",
+                    paddingTop: "2px",
+                  }}
+                ></div>
+                <div
+                  className="flex items-center pl-2"
+                  style={{
+                    height: "40px",
+                  }}
+                >
+                  <a
+                    href={`/${article.userid}/${article.articleid}`}
                     style={{
-                      display: "inline-block",
-                      fontSize: "1.3rem",
-                      marginRight: "5px",
-                      color: "black",
+                      left: "2%",
+                      fontSize: "1rem",
+                      color: "rgb(189, 189, 189)",
                     }}
-                  />
-                  댓글 달기...
-                </a>
+                  >
+                    <FiSmile
+                      style={{
+                        display: "inline-block",
+                        fontSize: "1.3rem",
+                        marginRight: "5px",
+                        color: "black",
+                      }}
+                    />
+                    댓글 달기...
+                  </a>
+                </div>
               </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  } else if (emptyMember) {
+    return (
+      <div>
+        <LoginedHead
+          onLoginToggle={onLoginToggle}
+          setLoginToggle={setLoginToggle}
+          logined={logined}
+          setLogined={setLogined}
+          user={user}
+          setUser={setUser}
+          onSearch={onSearch}
+          setAddImageToggle={setAddImageToggle}
+          onAddImageToggle={onAddImageToggle}
+          searchedList={searchedList}
+          setSearchedList={setSearchedList}
+        />
+        <div
+          style={{
+            margin: "10px auto",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            outline: "1px rgb(209, 209, 209) solid",
+            width: "300px",
+            height: "50px",
+            borderRadius: "10px",
+            fontSize: "1.1rem",
+          }}
+        >
+          <span>이런 친구는 어떠세요?</span>
+        </div>
+        <div
+          style={{
+            width: "600px",
+            height: "90px",
+            margin: "0 auto",
+            outline: "1px rgb(209, 209, 209) solid",
+            borderRadius: "15px",
+            marginTop: "2rem",
+          }}
+        >
+          <div
+            style={{
+              height: "100%",
+            }}
+          >
+            <ul
+              className="flex flex-row gap-6 justify-center items-center pt-2"
+              style={{
+                height: "100%",
+                maxWidth: "800px",
+                overflow: "hidden",
+              }}
+            >
+              {allUsers.map((user, index) => (
+                <li key={index}>
+                  <div style={{}}>
+                    <div
+                      className="w-12 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 img-box"
+                      style={{ height: "50px" }}
+                    >
+                      <a href={`/${user.userid}`}>
+                        {user.userimgSrc != null ? (
+                          <img
+                            src={user.userimgSrc}
+                            style={{
+                              borderRadius: "50%",
+                              width: "100%",
+                              height: "100%",
+                              display: "block",
+                              objectFit: "fill",
+                            }}
+                          />
+                        ) : (
+                          <img
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_8odrQguUEk4y0r47v-EpBtqpn-Iw3WiErA&usqp=CAU"
+                            alt=""
+                            style={{
+                              borderRadius: "50%",
+                              width: "100%",
+                              height: "100%",
+                              display: "block",
+                              objectFit: "fill",
+                            }}
+                          />
+                        )}
+                      </a>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        paddingTop: "3px",
+                      }}
+                    >
+                      <a href={`/${user.userid}`}>{user.username}</a>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    );
+  } else if (emptyArticle) {
+    return (
+      <div>
+        <LoginedHead
+          onLoginToggle={onLoginToggle}
+          setLoginToggle={setLoginToggle}
+          logined={logined}
+          setLogined={setLogined}
+          user={user}
+          setUser={setUser}
+          onSearch={onSearch}
+          setAddImageToggle={setAddImageToggle}
+          onAddImageToggle={onAddImageToggle}
+          searchedList={searchedList}
+          setSearchedList={setSearchedList}
+        />
+        <div
+          style={{
+            width: "600px",
+            height: "90px",
+            margin: "0 auto",
+            outline: "1px rgb(209, 209, 209) solid",
+            borderRadius: "15px",
+            marginTop: "2rem",
+          }}
+        >
+          <div
+            style={{
+              height: "100%",
+            }}
+          >
+            <ul
+              className="flex flex-row gap-6 justify-center items-center pt-2"
+              style={{
+                height: "100%",
+                maxWidth: "800px",
+                overflow: "hidden",
+              }}
+            >
+              {users.map((user, index) => (
+                <li key={index}>
+                  <div style={{}}>
+                    <div
+                      className="w-12 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 img-box"
+                      style={{ height: "50px" }}
+                    >
+                      <a href={`/${user.userid}`}>
+                        {user.userimgSrc != null ? (
+                          <img
+                            src={user.userimgSrc}
+                            style={{
+                              borderRadius: "50%",
+                              width: "100%",
+                              height: "100%",
+                              display: "block",
+                              objectFit: "fill",
+                            }}
+                          />
+                        ) : (
+                          <img
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_8odrQguUEk4y0r47v-EpBtqpn-Iw3WiErA&usqp=CAU"
+                            alt=""
+                            style={{
+                              borderRadius: "50%",
+                              width: "100%",
+                              height: "100%",
+                              display: "block",
+                              objectFit: "fill",
+                            }}
+                          />
+                        )}
+                      </a>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        paddingTop: "3px",
+                      }}
+                    >
+                      <a href={`/${user.userid}`}>{user.username}</a>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+        <div
+          style={{
+            width: "600px",
+            height: "500px",
+            margin: "0 auto",
+            outline: "1px rgb(209, 209, 209) solid",
+            borderRadius: "15px",
+            marginTop: "2rem",
+          }}
+        >
+          <div
+            style={{
+              width: "100%",
+              textAlign: "center",
+              paddingTop: "10px",
+              paddingBottom: "100px",
+              color: "rgb(179, 179, 179)",
+              fontSize: "1.2rem",
+            }}
+          >
+            <span>친구와 함께 추억을 공유할 게시글을 작성해주세요!</span>
+          </div>
+          <div
+            style={{
+              margin: "10px auto",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              outline: "1px rgb(209, 209, 209) solid",
+              width: "300px",
+              height: "50px",
+              borderRadius: "10px",
+              fontSize: "1.1rem",
+            }}
+          >
+            <span>이런 친구는 어떠세요?</span>
+          </div>
+          <div
+            style={{
+              width: "500px",
+              height: "90px",
+              margin: "0 auto",
+              outline: "1px rgb(209, 209, 209) solid",
+              borderRadius: "15px",
+              marginTop: "2rem",
+            }}
+          >
+            <div
+              style={{
+                height: "100%",
+              }}
+            >
+              <ul
+                className="flex flex-row gap-6 justify-center items-center pt-2"
+                style={{
+                  height: "100%",
+                  maxWidth: "800px",
+                  overflow: "hidden",
+                }}
+              >
+                {allUsers.map((user, index) => (
+                  <li key={index}>
+                    <div style={{}}>
+                      <div
+                        className="w-12 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 img-box"
+                        style={{ height: "50px" }}
+                      >
+                        <a href={`/${user.userid}`}>
+                          {user.userimgSrc != null ? (
+                            <img
+                              src={user.userimgSrc}
+                              style={{
+                                borderRadius: "50%",
+                                width: "100%",
+                                height: "100%",
+                                display: "block",
+                                objectFit: "fill",
+                              }}
+                            />
+                          ) : (
+                            <img
+                              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_8odrQguUEk4y0r47v-EpBtqpn-Iw3WiErA&usqp=CAU"
+                              alt=""
+                              style={{
+                                borderRadius: "50%",
+                                width: "100%",
+                                height: "100%",
+                                display: "block",
+                                objectFit: "fill",
+                              }}
+                            />
+                          )}
+                        </a>
+                      </div>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "center",
+                          paddingTop: "3px",
+                        }}
+                      >
+                        <a href={`/${user.userid}`}>{user.username}</a>
+                      </div>
+                    </div>
+                  </li>
+                ))}
+              </ul>
             </div>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
+          </div>
+        </div>
+      </div>
+    );
+  }
 };
 
 export default Main;
